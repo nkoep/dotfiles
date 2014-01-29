@@ -1,0 +1,3 @@
+(use readline irregex)
+(current-input-port (make-gnu-readline-port "csi> "))
+

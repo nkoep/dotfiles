@@ -1,0 +1,8 @@
+#!/bin/sh
+
+for d in $(tree --noreport -id); do
+    if [[ ! $d = "." ]]; then
+        stow $d
+    fi
+done
+

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<openbox_menu xmlns="http://openbox.org/3.4/menu">
+  <menu id="logout-menu" label="sod off">
+    <item label="lock screen">
+      <action name="Execute">
+          <command>~/Dropbox/bla/.bin/shutdown.sh lock</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="reboot">
+      <action name="Execute">
+          <command>~/Dropbox/bla/.bin/shutdown.sh reboot</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="shutdown">
+      <action name="Execute">
+          <command>~/Dropbox/bla/.bin/shutdown.sh shutdown</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="timed shutdown">
+      <action name="Execute">
+          <command>~/Dropbox/bla/.bin/shutdown.sh tshutdown</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+  </menu>
+
+  <menu id="apps-menu" label="apps">
+    <item label="sysmon">
+      <action name="Execute">
+        <command>gnome-system-monitor</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="diskutil">
+      <action name="Execute">
+        <command>baobab</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="sublime">
+      <action name="Execute">
+          <command>subl</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="k9copy">
+      <action name="Execute">
+        <command>k9copy</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="deluge">
+      <action name="Execute">
+        <command>deluge</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="xchat">
+      <action name="Execute">
+        <command>xchat</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="firefox">
+      <action name="Execute">
+        <command>firefox</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+  </menu>
+
+  <menu id="ob-menu" label="openbox">
+    <item label="obconf">
+      <action name="Execute">
+        <command>obconf</command>
+        <startupnotify><enabled>yes</enabled></startupnotify>
+      </action>
+    </item>
+    <item label="reload">
+      <action name="Reconfigure"/>
+    </item>
+  </menu>
+
+  <menu id="root-menu" label="Openbox">
+    <separator label="_BLA"/>
+    <separator/>
+    <item label="terminal">
+      <action name="Execute">
+        <command>xfce4-terminal</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="run...">
+      <action name="Execute">
+        <command>gmrun</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <separator/>
+    <item label="chrome">
+      <action name="Execute">
+        <command>chromium</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <item label="nemo">
+      <action name="Execute">
+        <command>nemo</command>
+        <startupnotify>
+          <enabled>yes</enabled>
+        </startupnotify>
+      </action>
+    </item>
+    <separator/>
+    <menu id="apps-menu"/>
+    <menu id="ob-menu"/>
+    <menu id="logout-menu"/>
+
+  </menu>
+</openbox_menu>
+

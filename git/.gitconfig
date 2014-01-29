@@ -1,0 +1,12 @@
+[user]
+	name = Niklas Koep
+	email = niklas.koep@gmail.com
+[core]
+	editor = vim
+[alias]
+    st = status
+	st2 = status -sb
+	co = checkout
+	br = branch
+	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+	taglist = log --tags --simplify-by-decoration --pretty=\"format:%ai %d\"

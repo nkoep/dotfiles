@@ -1,0 +1,11 @@
+import sys
+import os
+
+if sys.version_info.major == 3:
+    globals_ = globals()
+    for module in "GObject GLib Gio Gtk Gst".split():
+        try:
+            globals_[module] = __import__("gi.repository.%s" % module, (), ())
+        except ImportError:
+            pass
+
