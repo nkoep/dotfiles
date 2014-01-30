@@ -40,7 +40,9 @@ minimum_size 300 255
 # Increase textbuffer size so the output of mpris.sh isn't cut off.
 text_buffer_size 1024
 
+lua_load ~/.conky/mpris.lua
+
 TEXT
-${image /home/nik/.conky/bg_albumart.png}
-${execp /home/nik/.conky/mpris.sh}
+${image ~/.conky/bg_albumart.png}
+${lua_parse mpris}
 
