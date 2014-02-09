@@ -17,7 +17,7 @@ conky -c /home/nik/.conky/conkyrc &
 conky -c /home/nik/.conky/conkyrc_albumart &
 
 volumeicon &
-(sleep 10s && dropbox start -i) &
+thunderbird &
 /home/nik/Dropbox/bla/.bin/settings &
 (sleep 5s && xchat) &
 
