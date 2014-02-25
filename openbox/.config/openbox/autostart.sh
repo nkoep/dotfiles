@@ -9,7 +9,7 @@ xrandr --auto --output DVI-0 --left-of DVI-1 &
 WP=nightshade31920x1080_xx.jpg
 feh --bg-scale /home/nik/Dropbox/Bilder/wallpaper/$WP &
 
-# Start the panel process.
+# Start the panel.
 tint2 -c /home/nik/.themes/blasuite/tintrc &
 
 # Start conky scripts.

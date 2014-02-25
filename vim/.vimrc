@@ -16,11 +16,11 @@ augroup HighlightTODO
 augroup END
 
 syntax on
+filetype plugin indent on
 set showmode
 set nowrap
 set backspace=indent,eol,start " allow backspacing across lines in insert mode
 set scrolloff=4 " keep four lines off the edges of the screen when scrolling
-"set whichwrap+=<,>,h,l,[,] " Let movement operators wrap around on line endings
 set gdefault " Use /g as default substitution behaviour in regexS
 set termencoding=utf-8
 set encoding=utf-8
