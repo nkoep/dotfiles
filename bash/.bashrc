@@ -42,6 +42,7 @@ alias pmqi="pacman -Qi"
 alias pmqo="pacman -Qo"
 alias pmql="pacman -Ql"
 alias pmrs="sudo pacman -Rs"
+alias pmpl="pacman -Qqe"
 alias pcc="paccache -d -k2 -vvv"
 alias valgrind="valgrind --leak-check=full"
 
