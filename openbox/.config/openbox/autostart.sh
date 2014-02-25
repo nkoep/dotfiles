@@ -9,15 +9,14 @@ xrandr --auto --output DVI-0 --left-of DVI-1 &
 WP=nightshade31920x1080_xx.jpg
 feh --bg-scale /home/nik/Dropbox/Bilder/wallpaper/$WP &
 
-# Start the panel.
-tint2 -c /home/nik/.themes/blasuite/tintrc &
-
 # Start conky scripts.
 conky -c /home/nik/.conky/conkyrc &
 conky -c /home/nik/.conky/conkyrc_albumart &
 
+# Start any remaining applications.
+tint2 &
 volumeicon &
-thunderbird &
 /home/nik/Dropbox/bla/.bin/settings &
-(sleep 5s && xchat) &
+thunderbird &
+xchat &
 
