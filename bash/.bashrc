@@ -1,6 +1,11 @@
 # Check for an interactive session
 [ -z "$PS1" ] && return
 
+# terminfo
+if [[ -e /usr/share/terminfo/x/xterm-256color ]]; then
+    export TERM="xterm-256color"
+fi
+
 # Color codes
 RESET="\[\033[0m\]"
 BLACK="\[\033[0;30m\]"
@@ -8,11 +13,6 @@ GRAY="\[\033[1;30m\]"
 
 # Prompt
 PS1="$BLACK[$GRAY\w$BLACK] » $RESET"
-
-# terminfo
-if [[ -e /usr/share/terminfo/x/xterm-256color ]]; then
-    export TERM="xterm-256color"
-fi
 
 # Environment variables
 export PATH=$HOME/Dropbox/bla/.bin:$HOME/.cabal/bin:$PATH
@@ -24,6 +24,7 @@ export LESS="-R "
 export BROWSER=chromium
 export EDITOR=vim
 export PYTHONSTARTUP="$HOME/.pystartup"
+export TEXMFHOME="$HOME/.texmf"
 
 # Aliases
 alias less="less -R"
