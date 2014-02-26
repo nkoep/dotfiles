@@ -11,4 +11,5 @@
 	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	taglist = log --tags --simplify-by-decoration --pretty=\"format:%ai %d\"
 [include]
-	path = .gitconfig.mail
+	path = ~/Dropbox/bla/gitconfig.mail
+
