@@ -45,5 +45,7 @@ alias pmql="pacman -Ql"
 alias pmrs="sudo pacman -Rs"
 alias pmpl="pacman -Qqe"
 alias pcc="paccache -d -k2 -vvv"
+alias python="python -q"
 alias valgrind="valgrind --leak-check=full"
+alias octmod="stat -c %a"
 
