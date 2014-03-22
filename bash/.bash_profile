@@ -4,7 +4,6 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-eval $(ssh-agent)
-ssh-add -l >/dev/null ||
-alias ssh="ssh-add -l >/dev/null || ssh-add && unalias ssh; ssh"
+eval $(gnome-keyring-daemon --start)
+export SSH_AUTH_SOCK
 

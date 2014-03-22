@@ -8,5 +8,4 @@ fi
 
 setxkbmap -option ctrl:nocaps
 exec openbox-session
-#exec gnome-session-cinnamon
 
