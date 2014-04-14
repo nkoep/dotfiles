@@ -53,14 +53,6 @@
         </startupnotify>
       </action>
     </item>
-    <item label="sublime">
-      <action name="Execute">
-          <command>subl</command>
-        <startupnotify>
-          <enabled>yes</enabled>
-        </startupnotify>
-      </action>
-    </item>
     <item label="k9copy">
       <action name="Execute">
         <command>k9copy</command>
