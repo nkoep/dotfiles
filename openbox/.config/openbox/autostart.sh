@@ -18,5 +18,5 @@ tint2 &
 volumeicon &
 /home/nik/Dropbox/bla/.bin/settings &
 thunderbird &
-xchat &
+hexchat &
 
