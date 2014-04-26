@@ -31,7 +31,7 @@ draw_graph_borders yes
 
 # Geometry
 gap_x 1600
-gap_y 30
+gap_y 40
 pad_percents 0
 border_inner_margin 0
 border_outer_margin 0
