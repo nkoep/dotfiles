@@ -15,6 +15,7 @@ conky -c /home/nik/.conky/conkyrc_albumart &
 
 # Start any remaining applications.
 tint2 &
+pulseaudio --start &
 volumeicon &
 /home/nik/Dropbox/bla/.bin/settings &
 thunderbird &
