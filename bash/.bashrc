@@ -27,6 +27,7 @@ export PYTHONSTARTUP="$HOME/.pystartup"
 export TEXMFHOME="$HOME/.texmf"
 
 # Aliases
+alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
 alias less="less -R"
 alias ls="ls -h --color=always --group-directories-first"
 alias l="ls -lF"
