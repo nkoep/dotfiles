@@ -79,7 +79,7 @@ nmap mk :w<CR>:make!<CR><CR>
 
 " Project specific settings
 function! LoadCustomConfig()
-    " Check for .vim.custom in the directory containing the newly opened file
+    " Check for .vim.custom in the current directory.
     let l:config = getcwd() . '/.vim.custom'
     if filereadable(l:config)
         exe 'source' l:config
