@@ -7,15 +7,17 @@ set noswapfile
 
 " {{{ General settings }}}
 set nobackup
-autocmd BufWritePre * :%s/\s\+$//e " trail save
-" Add keywords TODO and FIXME to the current highlight group
-augroup HighlightTODO
+" Remove trailing whitespace on save
+augroup trail_save
     autocmd!
-    autocmd WinEnter,VimEnter * :silent!
-        call matchadd('Todo', 'TODO\|FIXME', -1)
+    autocmd BufWritePre * :%s/\s\+$//e
 augroup END
+" Add keywords TODO and FIXME to the current highlight group
+autocmd! WinEnter,VimEnter *
+    :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
 
 syntax on
+set splitright " open new vertically split buffers on the right
 filetype plugin indent on
 set showmode
 set nowrap
@@ -68,11 +70,20 @@ vnoremap / /\v
 " Use leader (defaults to \) space to clear search results
 nnoremap <leader><space> :noh<cr>
 " Remap tab in normal and visual mode to jump between enclosing parens
-nmap <tab> %
-vmap <tab> %
+map <tab> %
 " Speed up scrolling of the viewport by moving two instead of one line
 nmap <C-e> 2<C-e>
 nmap<C-y> 2<C-y>
 " Make shortcuts
 nmap mk :w<CR>:make!<CR><CR>
+
+" Project specific settings
+function! LoadCustomConfig()
+    " Check for .vim.custom in the directory containing the newly opened file
+    let l:config = getcwd() . '/.vim.custom'
+    if filereadable(l:config)
+        exe 'source' l:config
+    endif
+endfunction
+autocmd! BufReadPost,BufNewFile * call LoadCustomConfig()
 
