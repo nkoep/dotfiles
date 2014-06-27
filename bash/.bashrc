@@ -52,3 +52,12 @@ alias valgrind="valgrind --leak-check=full"
 alias octmod="stat -c %a"
 alias revparse="git rev-parse --short HEAD"
 
+# Functions
+function cdup() {
+    if ! [[ $1 =~ [0-9]+ && $1 -gt 0 ]]; then
+        echo "argument must be a positive integer"
+    else
+        cd $(printf "../%.0s" $(seq 1 $1))
+    fi
+}
+
