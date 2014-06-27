@@ -3,6 +3,7 @@
 	email = niklas.koep@gmail.com
 [core]
 	editor = vim
+	excludesfile = ~/.gitexcludes
 [alias]
     st = status
 	st2 = status -sb
