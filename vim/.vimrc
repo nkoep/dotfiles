@@ -6,6 +6,7 @@ set nocompatible
 set noswapfile
 
 " {{{ General settings }}}
+set fileformat=unix
 set nobackup
 " Remove trailing whitespace on save
 augroup trail_save
