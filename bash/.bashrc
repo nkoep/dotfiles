@@ -50,7 +50,7 @@ alias pcc="paccache -d -k2 -vvv"
 alias python="python -q"
 alias valgrind="valgrind --leak-check=full"
 alias octmod="stat -c %a"
-alias revparse="git rev-parse --short HEAD"
+alias revparse="git rev-parse --short"
 
 # Functions
 function cdup() {
