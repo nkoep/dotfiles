@@ -57,6 +57,8 @@ set guicursor+=a:blinkon0
 " {{{ Colorscheme }}}
 set t_Co=256
 colorscheme Monokai
+hi Search cterm=NONE gui=NONE
+hi Search ctermfg=White ctermbg=Green guifg=White guibg=Green
 
 " {{{ Keybindings }}}
 set pastetoggle=<F2>
