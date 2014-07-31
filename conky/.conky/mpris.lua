@@ -9,8 +9,8 @@ local GLib = lgi.GLib
 local TEMPLATE = [[
 %s
 ${font pftempestafivecondensed:size=6}${color1}
-${voffset 170}${offset 42}%s
-${voffset 5}${offset 50}${color2}%s]]
+${voffset 155}${offset 42}%s
+${voffset 6}${offset 50}${color2}%s]]
 
 local bus = Gio.DBusProxy.new_for_bus_sync(
     Gio.BusType.SESSION,

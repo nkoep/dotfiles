@@ -7,9 +7,7 @@ color2 f9f9f9
 
 # Font settings
 use_xft yes
-xftfont Terminus:size=9
 override_utf8_locale yes
-uppercase no
 
 # Update interval in seconds
 update_interval 0.5
