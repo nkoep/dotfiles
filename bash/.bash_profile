@@ -4,6 +4,8 @@
 
 [[ -f ~/.bashrc ]] && . ~/.bashrc
 
-eval $(gnome-keyring-daemon --start)
-export SSH_AUTH_SOCK
+if [[ -e $(which gnome-keyring) ]]; then
+    eval $(gnome-keyring-daemon --start)
+    export SSH_AUTH_SOCK
+fi
 
