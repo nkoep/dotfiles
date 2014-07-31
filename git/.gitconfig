@@ -5,7 +5,7 @@
 	editor = vim
 	excludesfile = ~/.gitexcludes
 [alias]
-    st = status
+	st = status
 	st2 = status -sb
 	co = checkout
 	br = branch
