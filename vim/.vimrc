@@ -40,6 +40,7 @@ let g:tex_fast= ""
 " {{{ Indentation and tab rules }}}
 set tabstop=4
 set shiftwidth=4
+autocmd! FileType html,css,scss set tabstop=2 shiftwidth=2
 set expandtab
 
 " {{{ GUI }}}
@@ -84,9 +85,9 @@ nmap mk :w<CR>:make!<CR><CR>
 " Project specific settings
 function! LoadCustomConfig()
     " Check for .vim.custom in the current directory.
-    let l:config = getcwd() . '/.vim.custom'
+    let l:config = ".vim.custom"
     if filereadable(l:config)
-        exe 'source' l:config
+        exe "source" l:config
     endif
 endfunction
 autocmd! BufReadPost,BufNewFile * call LoadCustomConfig()
