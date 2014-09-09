@@ -33,9 +33,9 @@ set laststatus=2 " always show a status bar
 set cmdheight=2 " make status bar span across two rows
 set history=1000 " increase size of command and search history buffer
 set undolevels=1000 " increase size of undo buffer
-let tex_no_error=1 " turn off error highlighting in tex as it highlights
+let tex_no_error = 1 " turn off error highlighting in tex as it highlights
                    " underscores in non-math contexts
-let g:tex_fast= ""
+let g:tex_fast = ""
 
 " {{{ Indentation and tab rules }}}
 set tabstop=4
@@ -79,8 +79,12 @@ map <tab> %
 " Speed up scrolling of the viewport by moving two instead of one line
 nmap <C-e> 2<C-e>
 nmap<C-y> 2<C-y>
-" Make shortcuts
+" `make' shortcuts
 nmap mk :w<CR>:make!<CR><CR>
+" Use ctrl-{j,k} to navigate the completion menu, and enter to confirm.
+inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
+inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 
 " Project specific settings
 function! LoadCustomConfig()
