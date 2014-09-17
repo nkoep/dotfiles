@@ -59,6 +59,7 @@ set guicursor+=a:blinkon0
 " {{{ Colorscheme }}}
 set t_Co=256
 colorscheme Monokai
+set hlsearch
 hi Search cterm=NONE gui=NONE
 hi Search ctermfg=White ctermbg=Green guifg=White guibg=Green
 
