@@ -26,6 +26,7 @@ export EDITOR=vim
 export PYTHONSTARTUP="$HOME/.pystartup"
 export TEXMFHOME="$HOME/.texmf"
 export MOSEKLM_LICENSE_FILE="$HOME/Dropbox/bla/mosek.lic"
+export VIDEO_FORMAT=PAL
 
 # Aliases
 alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
