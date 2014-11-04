@@ -3,21 +3,14 @@
 numlockx on &
 xset s off &
 xset -dpms &
-xrandr --auto --output DVI-0 --left-of DVI-1 &
 
 # Set the wallpaper.
-WP=nightshade31920x1080_xx.jpg
-feh --bg-scale /home/nik/Dropbox/Bilder/wallpaper/$WP &
-
-# Start conky scripts.
-conky -c /home/nik/.conky/conkyrc &
-conky -c /home/nik/.conky/conkyrc_albumart &
+WP=bluegradient.jpg
+feh --bg-scale $HOME/Dropbox/Bilder/wallpaper/$WP &
 
 # Start any remaining applications.
+/usr/lib/cinnamon-settings-daemon/cinnamon-settings-daemon &
 tint2 &
-pulseaudio --start &
 volumeicon &
-/home/nik/Dropbox/bla/.bin/settings &
 thunderbird &
-hexchat &
 

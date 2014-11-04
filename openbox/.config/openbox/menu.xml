@@ -53,22 +53,6 @@
         </startupnotify>
       </action>
     </item>
-    <item label="k9copy">
-      <action name="Execute">
-        <command>k9copy</command>
-        <startupnotify>
-          <enabled>yes</enabled>
-        </startupnotify>
-      </action>
-    </item>
-    <item label="deluge">
-      <action name="Execute">
-        <command>deluge</command>
-        <startupnotify>
-          <enabled>yes</enabled>
-        </startupnotify>
-      </action>
-    </item>
     <item label="xchat">
       <action name="Execute">
         <command>xchat</command>
@@ -119,7 +103,7 @@
       </action>
     </item>
     <separator/>
-    <item label="chrome">
+    <item label="chromium">
       <action name="Execute">
         <command>chromium</command>
         <startupnotify>
