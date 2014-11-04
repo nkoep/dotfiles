@@ -276,7 +276,7 @@
       </action>
     </keybind>
     <!-- Keybindings for running applications -->
-    <keybind key="Alt-F2">
+    <keybind key="A-F2">
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
@@ -284,12 +284,20 @@
         <command>gmrun</command>
       </action>
     </keybind>
-    <keybind key="Alt-F3">
+    <keybind key="A-F3">
       <action name="Execute">
         <startupnotify>
           <enabled>true</enabled>
         </startupnotify>
         <command>xfce4-terminal</command>
+      </action>
+    </keybind>
+    <keybind key="A-N">
+      <action name="Execute">
+        <startupnotify>
+          <enabled>true</enabled>
+        </startupnotify>
+        <command>nemo</command>
       </action>
     </keybind>
   </keyboard>
