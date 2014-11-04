@@ -171,13 +171,13 @@
     <keybind key="A-F">
         <action name="ToggleMaximizeFull"/>
     </keybind>
-    <keybind key="C-A-Left">
+    <keybind key="C-A-H">
       <action name="DesktopLeft">
         <dialog>no</dialog>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-Right">
+    <keybind key="C-A-L">
       <action name="DesktopRight">
         <dialog>no</dialog>
         <wrap>no</wrap>
@@ -195,13 +195,13 @@
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-S-Left">
+    <keybind key="C-A-S-H">
       <action name="SendToDesktopLeft">
         <dialog>no</dialog>
         <wrap>no</wrap>
       </action>
     </keybind>
-    <keybind key="C-A-S-Right">
+    <keybind key="C-A-S-L">
       <action name="SendToDesktopRight">
         <dialog>no</dialog>
         <wrap>no</wrap>
