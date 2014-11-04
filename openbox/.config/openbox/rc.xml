@@ -143,8 +143,8 @@
      Many programs reserve space automatically, but you can use this in other
      cases. -->
   <margins>
-    <top>0</top>
-    <bottom>20</bottom>
+    <top>15</top>
+    <bottom>24</bottom>
     <left>0</left>
     <right>0</right>
   </margins>
@@ -168,6 +168,9 @@
   </dock>
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
+    <keybind key="A-F">
+        <action name="ToggleMaximizeFull"/>
+    </keybind>
     <keybind key="C-A-Left">
       <action name="DesktopLeft">
         <dialog>no</dialog>
