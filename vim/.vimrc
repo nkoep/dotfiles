@@ -44,7 +44,7 @@ autocmd! FileType html,css,scss set tabstop=2 shiftwidth=2
 set expandtab
 
 " {{{ GUI }}}
-set guifont=Monospace\ 8
+set guifont=Monospace\ 9
 set guioptions-=T " disable toolbar
 set guioptions-=r " disable right-hand scroll bar
 set guioptions-=m " disable menu bar
@@ -58,17 +58,21 @@ set guicursor+=a:blinkon0
 
 " {{{ Colorscheme }}}
 set t_Co=256
-colorscheme Monokai
+if has("gui_running")
+    colorscheme darktango
+else
+    colorscheme morning
+endif
 set hlsearch
 hi Search cterm=NONE gui=NONE
-hi Search ctermfg=White ctermbg=Green guifg=White guibg=Green
+hi Search ctermfg=Black ctermbg=Yellow guifg=Black guibg=Yellow
 
 " {{{ Keybindings }}}
 set pastetoggle=<F2>
-" shift+tab for command mode
+" Bindings to indent via shift+tab in command mode
 nmap <S-Tab> <<
-" shift+tab for insert mode
 " FIXME: this is broken
+" Bindings to indent via shift+tab in insert mode
 imap <S-Tab> <Esc> <<i
 " Turn off Vim's regex handling
 nnoremap / /\v
@@ -79,13 +83,15 @@ nnoremap <leader><space> :noh<cr>
 map <tab> %
 " Speed up scrolling of the viewport by moving two instead of one line
 nmap <C-e> 2<C-e>
-nmap<C-y> 2<C-y>
+nmap <C-y> 2<C-y>
 " `make' shortcuts
 nmap mk :w<CR>:make!<CR><CR>
 " Use ctrl-{j,k} to navigate the completion menu, and enter to confirm.
 inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
+" NERDTree
+nnoremap <leader>t :NERDTree<CR>
 
 " Project specific settings
 function! LoadCustomConfig()
