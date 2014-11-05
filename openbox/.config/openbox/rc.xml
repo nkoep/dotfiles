@@ -231,9 +231,9 @@
       </action>
     </keybind>
     <keybind key="A-L">
-      <action name="LockScreen">
+      <action name="Execute">
         <name>Lock screen</name>
-        <command>cinnamon-screensaver-command --lock</command>
+        <command>cinnamon-screensaver-command -l -m nah</command>
       </action>
     </keybind>
   </keyboard>
