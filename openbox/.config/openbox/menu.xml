@@ -1,34 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <openbox_menu xmlns="http://openbox.org/3.4/menu">
   <menu id="logout-menu" label="sod off">
     <item label="lock screen">
       <action name="Execute">
-          <command>~/Dropbox/bla/.bin/shutdown.sh lock</command>
-        <startupnotify>
-          <enabled>yes</enabled>
-        </startupnotify>
+        <command>cinnamon-screensaver-command --lock</command>
       </action>
     </item>
     <item label="reboot">
       <action name="Execute">
-          <command>~/Dropbox/bla/.bin/shutdown.sh reboot</command>
-        <startupnotify>
-          <enabled>yes</enabled>
-        </startupnotify>
+        <command>systemctl reboot</command>
       </action>
     </item>
     <item label="shutdown">
       <action name="Execute">
-          <command>~/Dropbox/bla/.bin/shutdown.sh shutdown</command>
-        <startupnotify>
-          <enabled>yes</enabled>
-        </startupnotify>
+        <command>systemctl poweroff</command>
       </action>
     </item>
     <item label="timed shutdown">
       <action name="Execute">
-          <command>~/Dropbox/bla/.bin/shutdown.sh tshutdown</command>
+          <command>~/Dropbox/bla/.bin/shutdown.sh</command>
         <startupnotify>
           <enabled>yes</enabled>
         </startupnotify>
@@ -123,7 +113,6 @@
     <menu id="apps-menu"/>
     <menu id="ob-menu"/>
     <menu id="logout-menu"/>
-
   </menu>
 </openbox_menu>
 
