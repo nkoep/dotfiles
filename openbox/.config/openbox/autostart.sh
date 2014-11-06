@@ -14,4 +14,5 @@ nm-applet &
 tint2 &
 volumeicon &
 thunderbird &
+i3status | xmobar
 
