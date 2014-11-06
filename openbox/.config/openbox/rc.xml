@@ -184,10 +184,10 @@
     </keybind>
 
     <!-- Keybindings for windows -->
-    <keybind key="A-D">
+    <keybind key="A-L">
       <action name="ToggleShowDesktop"/>
     </keybind>
-    <keybind key="A-F">
+    <keybind key="A-M">
         <action name="ToggleMaximizeFull"/>
     </keybind>
     <keybind key="A-F4">
@@ -200,7 +200,7 @@
     </keybind>
 
     <!-- Keybindings for running applications -->
-    <keybind key="A-M">
+    <keybind key="A-D">
       <action name="Execute">
         <name>dmenu</name>
         <command>dmenu_run</command>
@@ -230,7 +230,7 @@
         <command>nemo</command>
       </action>
     </keybind>
-    <keybind key="A-L">
+    <keybind key="C-A-L">
       <action name="Execute">
         <name>Lock screen</name>
         <command>cinnamon-screensaver-command -l -m nah</command>
