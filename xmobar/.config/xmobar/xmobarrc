@@ -1,0 +1,20 @@
+Config { font = "xft:Sans:pixelsize=10"
+       , bgColor = "#262729"
+       , fgColor = "grey"
+       -- , position = TopW L 100
+       , position = Static { xpos = 0, ypos = 0, width = 1920, height = 30 }
+       , lowerOnStart = True
+       , commands = [ Run UnsafeStdinReader
+                    , Run Battery [] 10
+                    , Run DynNetwork ["-t", "<fc=#a51f1c>net</fc> ↓<rx> kb/s ↑<tx> kb/s"] 30
+                    , Run MultiCpu ["-t", "<fc=#a51f1c>cpu</fc> <total0>%"] 30
+                    , Run Memory ["-t","<fc=#a51f1c>mem</fc> <usedratio>%"] 30
+                    -- XXX: Requires xmobar to be built with alsa support.
+                    -- , Run Volume "default" "Master" ["-t", "<volume>% <status>"] 10
+                    , Run Date "%A<fc=#a51f1c>,</fc> %B %d<fc=#a51f1c>,</fc> %H<fc=#a51f1c>:</fc>%M" "date" 10
+                    ]
+       , sepChar = "%"
+       , alignSep = "}{"
+       , template = "%UnsafeStdinReader%}%date%{%multicpu%  %memory%  %battery%  %dynnetwork%"
+       }
+
