@@ -193,6 +193,22 @@
     <keybind key="A-F4">
       <action name="Close"/>
     </keybind>
+    <keybind key="A-S-L">
+      <action name="MoveResizeTo">
+        <x>50%</x>
+        <y>0</y>
+        <width>50%</width>
+        <height>100%</height>
+      </action>
+    </keybind>
+    <keybind key="A-S-H">
+      <action name="MoveResizeTo">
+        <x>0</x>
+        <y>0</y>
+        <width>50%</width>
+        <height>100%</height>
+      </action>
+    </keybind>
 
     <!-- Keybindings for window switching -->
     <keybind key="A-Tab">
@@ -230,7 +246,7 @@
         <command>nemo</command>
       </action>
     </keybind>
-    <keybind key="C-A-L">
+    <keybind key="A-F5">
       <action name="Execute">
         <name>Lock screen</name>
         <command>cinnamon-screensaver-command -l -m nah</command>
