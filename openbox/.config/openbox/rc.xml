@@ -388,7 +388,7 @@
   </menu>
 
   <applications>
-    <application class="*">
+    <application type="normal">
       <position force="no">
         <x>center</x>
         <y>center</y>
