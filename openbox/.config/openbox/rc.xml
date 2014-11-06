@@ -4,7 +4,6 @@
     <strength>0</strength>
     <screen_edge_strength>0</screen_edge_strength>
   </resistance>
-
   <focus>
     <focusNew>yes</focusNew>
     <!-- always try to focus new windows when they appear. other rules do
@@ -23,7 +22,6 @@
     <!-- when followMouse is enabled, and a window is given focus by moving the
          mouse into it, also raise the window -->
   </focus>
-
   <placement>
     <policy>Smart</policy>
     <!-- 'Smart' or 'UnderMouse' -->
@@ -39,7 +37,6 @@
        following: 'Mouse' - where the mouse is, or
                   'Active' - where the active window is -->
   </placement>
-
   <theme>
     <name>blasuite</name>
     <titleLayout>LC</titleLayout>
@@ -96,7 +93,6 @@
       <slant>Normal</slant>
     </font>
   </theme>
-
   <desktops>
     <!-- this stuff is only used at startup, pagers allow you to change them
          during a session
@@ -116,7 +112,6 @@
     <!-- The number of milliseconds to show the popup for when switching
          desktops.  Set this to 0 to disable the popup. -->
   </desktops>
-
   <resize>
     <drawContents>yes</drawContents>
     <popupShow>Always</popupShow>
@@ -137,14 +132,12 @@
        they are maximized, or when they are initially placed.
        Many programs reserve space automatically, but you can use this in other
        cases. -->
-
   <margins>
-    <top>15</top>
+    <top>30</top>
     <bottom>24</bottom>
     <left>0</left>
     <right>0</right>
   </margins>
-
   <keyboard>
     <chainQuitKey>C-g</chainQuitKey>
     <!-- Keybindings for desktops/workspaces -->
@@ -182,13 +175,12 @@
         <desktop>2</desktop>
       </action>
     </keybind>
-
     <!-- Keybindings for windows -->
     <keybind key="A-L">
       <action name="ToggleShowDesktop"/>
     </keybind>
     <keybind key="A-M">
-        <action name="ToggleMaximizeFull"/>
+      <action name="ToggleMaximizeFull"/>
     </keybind>
     <keybind key="A-F4">
       <action name="Close"/>
@@ -209,12 +201,10 @@
         <height>100%</height>
       </action>
     </keybind>
-
     <!-- Keybindings for window switching -->
     <keybind key="A-Tab">
       <action name="NextWindow"/>
     </keybind>
-
     <!-- Keybindings for running applications -->
     <keybind key="A-D">
       <action name="Execute">
@@ -253,7 +243,6 @@
       </action>
     </keybind>
   </keyboard>
-
   <mouse>
     <dragThreshold>0</dragThreshold>
     <!-- number of pixels the mouse must move before a drag begins -->
@@ -295,7 +284,6 @@
         <action name="SendToDesktopNext"/>
       </mousebind>
     </context>
-
     <context name="Titlebar">
       <mousebind button="Left" action="Press">
         <action name="Focus"/>
@@ -328,7 +316,6 @@
         </action>
       </mousebind>
     </context>
-
     <context name="Client">
       <mousebind button="Left" action="Press">
         <action name="Focus"/>
@@ -343,7 +330,6 @@
         <action name="Raise"/>
       </mousebind>
     </context>
-
     <context name="Close">
       <mousebind button="Left" action="Press">
         <action name="Focus"/>
@@ -354,7 +340,6 @@
         <action name="Close"/>
       </mousebind>
     </context>
-
     <context name="Desktop">
       <mousebind button="A-Up" action="Click">
         <action name="DesktopPrevious"/>
@@ -371,7 +356,6 @@
         <action name="Raise"/>
       </mousebind>
     </context>
-
     <context name="Root">
       <mousebind button="Middle" action="Press">
         <action name="ShowMenu">
@@ -385,7 +369,6 @@
       </mousebind>
     </context>
   </mouse>
-
   <menu>
     <file>menu.xml</file>
     <hideDelay>200</hideDelay>
@@ -402,7 +385,6 @@
          if this is a negative value, then the delay is infinite and the
          submenu will not be hidden until a different submenu is opened -->
   </menu>
-
   <applications>
     <application type="normal">
       <position force="no">
@@ -411,5 +393,15 @@
       </position>
     </application>
   </applications>
+  <dock>
+    <position>TopLeft</position>
+    <floatingX>0</floatingX>
+    <floatingY>0</floatingY>
+    <stacking>Above</stacking>
+    <direction>Vertical</direction>
+    <noStrut>no</noStrut>
+    <autoHide>no</autoHide>
+    <hideDelay>300</hideDelay>
+    <showDelay>300</showDelay>
+  </dock>
 </openbox_config>
-
