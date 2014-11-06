@@ -11,7 +11,7 @@ Config { font = "xft:Sans:pixelsize=10"
                     , Run Memory ["-t","<fc=#a51f1c>mem</fc> <usedratio>%"] 30
                     -- XXX: Requires xmobar to be built with alsa support.
                     -- , Run Volume "default" "Master" ["-t", "<volume>% <status>"] 10
-                    , Run Date "%A<fc=#a51f1c>,</fc> %B %d<fc=#a51f1c>,</fc> %H<fc=#a51f1c>:</fc>%M" "date" 10
+                    , Run Date "%A <fc=#a51f1c>-</fc> %B %d <fc=#a51f1c>-</fc> %H<fc=#a51f1c>:</fc>%M" "date" 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"
