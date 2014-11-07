@@ -392,6 +392,11 @@
         <y>center</y>
       </position>
     </application>
+
+    <!-- match all windows, and remove their decorations -->
+    <application class="*">
+      <decor>no</decor>
+    </application>
   </applications>
   <dock>
     <position>TopLeft</position>
