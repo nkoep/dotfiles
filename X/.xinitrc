@@ -6,7 +6,45 @@ if [ -d /etc/X11/xinit/xinitrc.d ]; then
     unset f
 fi
 
+# Disable caps lock key.
 setxkbmap -option ctrl:nocaps
-exec openbox-session
-# exec cinnamon-session
+
+# Disable caps lock.
+numlockx on &
+
+# Turn off the screensaver.
+xset s off &
+xset -dpms &
+
+# Set the wallpaper.
+WP=bluegradient.jpg
+feh --bg-scale $HOME/Dropbox/Bilder/wallpaper/$WP &
+
+# TODO: Start the screensaver.
+# xscreensaver -no-splash &
+
+# Set the cursor for xmonad.
+xsetroot -cursor_name left_ptr
+
+# Start pulseaudio.
+start-pulseaudio-x11
+
+# TODO: Start the system tray.
+# trayer --edge top --align right --SetDockType true --SetPartialStrut true \
+#      --expand true --width 10 --transparent true --tint 0x191970 --height 12 &
+
+# Start tray applications.
+nm-applet &
+volumeicon &
+settings &
+
+# Configure the screen layout.
+xrandr --output DisplayPort-0 --off --output DVI-1 --mode 1920x1080 \
+    --pos 1920x0 --rotate normal --output DVI-0 --mode 1920x1080 \
+    --pos 0x0 --rotate normal --output HDMI-0 --off
+
+# Start xmonad.
+exec xmonad
+
+# exec openbox-session
 
