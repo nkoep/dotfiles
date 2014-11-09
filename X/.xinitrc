@@ -29,9 +29,12 @@ xsetroot -cursor_name left_ptr
 # Start pulseaudio.
 start-pulseaudio-x11
 
-# TODO: Start the system tray.
-# trayer --edge top --align right --SetDockType true --SetPartialStrut true \
-#      --expand true --width 10 --transparent true --tint 0x191970 --height 12 &
+# Start the bottom xmobar instance.
+xmobar ~/.config/xmobar/xmobarrc_bottom &
+
+# Start the system tray.
+trayer --width 10 --height 30 --align right --transparent true --alpha 0 \
+    --tint 0x262729 &
 
 # Start tray applications.
 nm-applet &
@@ -39,9 +42,10 @@ volumeicon &
 settings &
 
 # Configure the screen layout.
-xrandr --output DisplayPort-0 --off --output DVI-1 --mode 1920x1080 \
-    --pos 1920x0 --rotate normal --output DVI-0 --mode 1920x1080 \
-    --pos 0x0 --rotate normal --output HDMI-0 --off
+xrandr --auto
+# xrandr --output DisplayPort-0 --off --output DVI-1 --mode 1920x1080 \
+#     --pos 1920x0 --rotate normal --output DVI-0 --mode 1920x1080 \
+#     --pos 0x0 --rotate normal --output HDMI-0 --off
 
 # Start xmonad.
 exec xmonad
