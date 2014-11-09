@@ -6,7 +6,6 @@ Config
     , lowerOnStart = True
     , commands =
         [ Run UnsafeStdinReader
-        , Run Mpris2 "blaplay" ["-t", "<fc=#a51f1c>blaplay</fc> <artist> <fc=#a51f1c>-</fc> <title>"] 30
         , Run BatteryP ["BAT0", "BAT1"]
             [ "-t"
             , "<fc=#a51f1c>bat</fc> <left>%<acstatus>"
@@ -26,6 +25,6 @@ Config
         ]
     , sepChar = "%"
     , alignSep = "}{"
-    , template = "  %UnsafeStdinReader%  %mpris2%}%date%{%multicpu%  %memory%  %battery%  %dynnetwork%  %default:Master%  "
+    , template = "  %UnsafeStdinReader%  }%date%{%multicpu%  %memory%  %battery%  %dynnetwork%  %default:Master%  "
     }
 
