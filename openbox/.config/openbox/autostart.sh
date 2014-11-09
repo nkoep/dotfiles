@@ -10,8 +10,8 @@ feh --bg-scale $HOME/Dropbox/Bilder/wallpaper/$WP &
 
 # Start any remaining applications.
 /usr/lib/cinnamon-settings-daemon/cinnamon-settings-daemon &
-nm-applet &
 tint2 &
+nm-applet &
 volumeicon &
 thunderbird &
 xmobar &

@@ -59,6 +59,7 @@ set guicursor+=a:blinkon0
 " {{{ Colorscheme }}}
 set t_Co=256
 if has("gui_running")
+    " colorscheme Mustang
     colorscheme darktango
 else
     colorscheme morning
