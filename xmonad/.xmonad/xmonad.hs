@@ -28,14 +28,14 @@ terminal' = "xfce4-terminal"
 borderWidth' = 1
 -- TODO: Define variables for these so we don't have to hard-code workspace
 --       names below.
-workspaces' = ["bla", "mail", "media", "irc", "misc"]
+workspaces' = ["bla", "web", "mail", "media", "irc", "misc"]
 windowSpacing = 5
 
 -- Layouts
 layouts = tiled ||| mtiled ||| full
-    where goldenRatio       = (2 / (1+(toRational(sqrt(5)::Double))))
+    where goldenRatio       = (1+(toRational(sqrt(5)::Double))) / 2
           renameLayout name = renamed [Replace name]
-          tiled             = renameLayout "T" $ Tall 1 (1/100) goldenRatio
+          tiled             = renameLayout "T" $ Tall 1 (1/100) (1/goldenRatio)
           mtiled            = renameLayout "MT" $ Mirror tiled
           full              = renameLayout "F" $ Full
 
