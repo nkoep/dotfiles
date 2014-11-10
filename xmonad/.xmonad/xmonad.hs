@@ -48,6 +48,7 @@ manageHooks = composeAll
     , className =? "Gmrun" --> doCenterFloat
     , className =? "Vlc" --> doCenterFloat -- TODO: Push to `media` WS.
     , className =? "ioquake3" --> doCenterFloat -- TODO: Push to `misc` WS.
+    , className =? "Volumeicon" --> doCenterFloat
       -- Windows with default workspaces
     , className =? "Thunderbird" --> doShift "mail"
     , className =? "Blaplay" --> viewShift "media"
