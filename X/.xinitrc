@@ -23,9 +23,6 @@ feh --bg-scale $HOME/Dropbox/Bilder/wallpaper/$WP &
 # TODO: Start the screensaver.
 # xscreensaver -no-splash &
 
-# Set the cursor for xmonad.
-xsetroot -cursor_name left_ptr
-
 # Start pulseaudio.
 start-pulseaudio-x11
 
@@ -49,6 +46,4 @@ xrandr --auto
 
 # Start xmonad.
 exec xmonad
-
-# exec openbox-session
 

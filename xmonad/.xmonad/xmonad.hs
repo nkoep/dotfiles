@@ -14,6 +14,7 @@ import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.Spacing
 import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Run (spawnPipe)
+import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Actions.CycleWS
 import XMonad.StackSet (greedyView, shift)
 
@@ -121,6 +122,7 @@ config' handle = defaultConfig
     , workspaces = workspaces'
     , borderWidth = borderWidth'
     , logHook = dynamicLogWithPP $ prettyPrinter handle
+    , startupHook = setDefaultCursor xC_left_ptr
     , focusFollowsMouse = False
     , clickJustFocuses = False
     } `additionalKeys` keybindings
