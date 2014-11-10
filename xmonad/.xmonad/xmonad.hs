@@ -61,11 +61,14 @@ prettyPrinter handle = defaultPP
     , ppVisible = wrap "[" "]" . prependWSIndex
     , ppHidden = prependWSIndex
     , ppHiddenNoWindows = prependWSIndex
+    , ppTitle = shorten 50
     -- FIXME: Remove the "SmartSpacing 5" string added when using the
     --        smartSpacing layout modifier.
     -- , ppLayout = const "bla"
     , ppOutput = hPutStrLn handle
     }
+    -- TODO: Add <action> strings to the name so xmobar can invoke xdotool to
+    --       switch workspaces on label click.
     where prependWSIndex workspaceId =
             case (workspaceId `elemIndex` workspaces') of
                 Just idx -> show (idx+1) ++ ":" ++ workspaceId
