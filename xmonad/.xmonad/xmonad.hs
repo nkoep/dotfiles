@@ -60,21 +60,22 @@ prettyPrinter handle = defaultPP
     { ppCurrent = xmobarColor colorHighlight "" . prependWSIndex
     , ppVisible = wrap "[" "]" . prependWSIndex
     , ppHidden = prependWSIndex
-    , ppHiddenNoWindows = prependWSIndex
+    , ppHiddenNoWindows = (++ "*") . prependWSIndex
     , ppTitle = shorten 50
     -- FIXME: Remove the "SmartSpacing 5" string added when using the
     --        smartSpacing layout modifier.
-    -- , ppLayout = const "bla"
+    , ppLayout = id
     , ppOutput = hPutStrLn handle
     }
     -- TODO: Add <action> strings to the name so xmobar can invoke xdotool to
     --       switch workspaces on label click.
+    -- TODO: Add a star (*) to workspaces that have windows.
     where prependWSIndex workspaceId =
             case (workspaceId `elemIndex` workspaces') of
                 Just idx -> show (idx+1) ++ ":" ++ workspaceId
                 Nothing  -> workspaceId
 
--- dmenu customizations
+-- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
     [ "-b"
     , "-fn"
@@ -94,7 +95,7 @@ keybindings =
     [ ((modMask', xK_p), safeSpawn "dmenu_run" dmenuOptions)
     , ((modMask', xK_n), spawn "nemo")
     , ((smMask, xK_f), gotoMenuArgs dmenuOptions)
-    , ((modMask', xK_f), spawn "slock")
+    , ((modMask', xK_F5), spawn "slock")
     , ((cmMask, xK_h), prevWS)
     , ((cmMask, xK_l), nextWS)
     , ((scmMask, xK_h), shiftToPrev)
