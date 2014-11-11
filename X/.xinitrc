@@ -20,9 +20,6 @@ xset -dpms &
 WP=bluegradient.jpg
 feh --bg-scale $HOME/Dropbox/Bilder/wallpaper/$WP &
 
-# TODO: Start the screensaver.
-# xscreensaver -no-splash &
-
 # Start pulseaudio.
 start-pulseaudio-x11
 
