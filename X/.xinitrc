@@ -1,4 +1,5 @@
 #!/bin/sh
+
 if [ -d /etc/X11/xinit/xinitrc.d ]; then
     for f in /etc/X11/xinit/xinitrc.d/*; do
         [ -x "$f" ] && . "$f"
@@ -24,7 +25,7 @@ feh --bg-scale $HOME/Dropbox/Bilder/wallpaper/$WP &
 start-pulseaudio-x11
 
 # Start the bottom xmobar instance.
-xmobar ~/.config/xmobar/xmobarrc_bottom &
+xmobar &
 
 # Start the system tray.
 trayer --width 10 --height 30 --align right --transparent true --alpha 0 \
