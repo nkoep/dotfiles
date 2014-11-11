@@ -139,6 +139,6 @@ config' handle = defaultConfig
 -- xmobar configuration
 main :: IO ()
 main = do
-    handle <- spawnPipe "~/.cabal/bin/xmobar"
+    handle <- spawnPipe "~/.cabal/bin/xmobar ~/.config/xmobar/xmobarrc_top"
     xmonad $ config' handle
 
