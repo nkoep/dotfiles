@@ -57,23 +57,24 @@ manageHooks = composeAll
 
 -- Pretty-printer for xmobar
 prettyPrinter handle = defaultPP
-    { ppCurrent = xmobarColor colorHighlight "" . prependWSIndex
-    , ppVisible = wrap "[" "]" . prependWSIndex
-    , ppHidden = prependWSIndex
-    , ppHiddenNoWindows = (++ "*") . prependWSIndex
+    { ppCurrent = xmobarColor colorHighlight "" . formatWSString
+    , ppVisible = wrap "[" "]" . formatWSString
+    , ppHidden = formatWSString
+    , ppHiddenNoWindows = (++ "*") . formatWSString
     , ppTitle = shorten 50
     -- FIXME: Remove the "SmartSpacing 5" string added when using the
     --        smartSpacing layout modifier.
     , ppLayout = id
     , ppOutput = hPutStrLn handle
     }
-    -- TODO: Add <action> strings to the name so xmobar can invoke xdotool to
-    --       switch workspaces on label click.
     -- TODO: Add a star (*) to workspaces that have windows.
-    where prependWSIndex workspaceId =
+    where formatWSString workspaceId =
             case (workspaceId `elemIndex` workspaces') of
-                Just idx -> show (idx+1) ++ ":" ++ workspaceId
+                Just idx -> let idx' = show (idx+1)
+                            in addAction idx' $ idx' ++ ":" ++ workspaceId
                 Nothing  -> workspaceId
+          addAction idx =
+            wrap ("<action=`xdotool key alt+" ++ idx ++ "`>") "</action>"
 
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
