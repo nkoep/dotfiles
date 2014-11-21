@@ -17,6 +17,8 @@ import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Actions.CycleWS
 import XMonad.Actions.WindowBringer (gotoMenuArgs)
+-- This module is part of the xmonad-extras package.
+import XMonad.Actions.Volume (raiseVolume, lowerVolume)
 import XMonad.StackSet (greedyView, shift)
 
 -- Color definitions
@@ -105,11 +107,16 @@ keybindings =
     -- TODO: Add bindings for `prevScreen` and `nextScreen`.
     -- TODO: Add bindings for media keys, e.g., XF86MonBrightnessUp ->
     --       xbacklight +10 (use `parseKey`).
+    , ((0, xK_F11), raiseVolume' stepSize)
+    , ((0, xK_F12), lowerVolume' stepSize)
     ]
     where modMask' = mod1Mask
           smMask   = shiftMask .|. modMask'
           cmMask   = controlMask .|. modMask'
           scmMask  = shiftMask .|. cmMask
+          raiseVolume' x = raiseVolume x >> return ()
+          lowerVolume' x = lowerVolume x >> return ()
+          stepSize = 2
 
 config' handle = defaultConfig
     { normalBorderColor = colorFg
