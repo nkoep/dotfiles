@@ -30,9 +30,6 @@ start-pulseaudio-x11
 # Start the system tray.
 trayer-restart
 
-# Start tray applications.
-nm-applet &
-volumeicon &
 ~/Dropbox/bla/.bin/settings &
 
 # Start xmonad.
