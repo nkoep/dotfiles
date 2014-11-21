@@ -32,6 +32,7 @@ alias pmqs="pacman -Qs"
 alias pmqi="pacman -Qi"
 alias pmqo="pacman -Qo"
 alias pmql="pacman -Ql"
+alias pmr="sudo pacman -R"
 alias pmrs="sudo pacman -Rs"
 alias pmpl="pacman -Qqe"
 alias pcc="paccache -d -k2 -vvv"
@@ -41,6 +42,8 @@ alias octmod="stat -c %a"
 alias revparse="git rev-parse --short"
 alias encoding="file -b --mime-encoding"
 alias yearn="journalctl" # Do you ever yearn?
+alias lan="wicd-cli -z"
+alias wifi="wicd-cli -y"
 
 # Functions
 function cdup() {
