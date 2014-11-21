@@ -53,6 +53,7 @@ manageHooks = composeAll
       -- Windows with default workspaces
     , className =? "Thunderbird" --> doShift "mail"
     , className =? "Blaplay" --> viewShift "media"
+    , className =? "Hexchat" --> viewShift "irc"
     ]
     where viewShift = doF . liftM2 (.) greedyView shift
 
