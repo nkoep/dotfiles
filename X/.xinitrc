@@ -28,8 +28,7 @@ start-pulseaudio-x11
 ~/.cabal/bin/xmobar &
 
 # Start the system tray.
-trayer --width 10 --height 30 --align right --transparent true --alpha 0 \
-    --tint 0x262729 &
+trayer-restart
 
 # Start tray applications.
 nm-applet &
