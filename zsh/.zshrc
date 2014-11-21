@@ -42,6 +42,8 @@ alias octmod="stat -c %a"
 alias revparse="git rev-parse --short"
 alias encoding="file -b --mime-encoding"
 alias yearn="journalctl" # Do you ever yearn?
+alias lan="wicd-cli -z"
+alias wifi="wicd-cli -y"
 
 # Functions
 function cdup() {
