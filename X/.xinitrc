@@ -33,5 +33,5 @@ trayer-restart
 ~/Dropbox/bla/.bin/settings &
 
 # Start xmonad.
-exec xmonad
+exec ~/.cabal/bin/xmonad
 
