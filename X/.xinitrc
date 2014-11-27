@@ -30,5 +30,5 @@ start-pulseaudio-x11
 ~/Dropbox/bla/.bin/settings &
 
 # Start xmonad.
-exec xmonad
+exec ~/.cabal/bin/xmonad
 

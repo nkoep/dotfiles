@@ -7,11 +7,15 @@ import XMonad
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers (isFullscreen, doCenterFloat, doFullFloat)
+import qualified XMonad.Hooks.EwmhDesktops as E
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Layout.NoBorders (smartBorders)
-import XMonad.Layout.Fullscreen
+import XMonad.Layout.Fullscreen ( fullscreenFull
+                                , fullscreenEventHook
+                                , fullscreenManageHook
+                                )
 import XMonad.Layout.Gaps (gaps)
-import XMonad.Layout.Spacing
+import XMonad.Layout.Spacing (spacing)
 import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Util.Cursor (setDefaultCursor)
@@ -19,7 +23,7 @@ import XMonad.Actions.CycleWS
 import XMonad.Actions.WindowBringer (gotoMenuArgs)
 -- This module is part of the xmonad-extras package.
 import XMonad.Actions.Volume (raiseVolume, lowerVolume)
-import XMonad.StackSet (greedyView, shift)
+import qualified XMonad.StackSet as W
 
 -- Color definitions
 colorHighlight = "#a51f1c"
@@ -35,6 +39,8 @@ workspaces' = ["bla", "web", "mail", "media", "irc", "misc"]
 windowSpacing = 5
 
 -- Layouts
+-- TODO: Use XMonad.Layout.PerWorkspace.onWorkspace to use full layout per
+--       default on the mail workspace.
 layouts = tiled ||| mtiled ||| full
     where goldenRatio       = (1+(toRational(sqrt(5)::Double))) / 2
           renameLayout name = renamed [Replace name]
@@ -48,15 +54,15 @@ manageHooks = composeAll
       className =? "Gimp" --> doFloat
       -- Center-floated windows
     , className =? "Gmrun" --> doCenterFloat
-    , className =? "Vlc" --> doCenterFloat -- TODO: Push to `media` WS.
-    , className =? "ioquake3" --> doCenterFloat -- TODO: Push to `misc` WS.
+    , className =? "ioquake3" --> doCenterFloat
     , className =? "Volumeicon" --> doCenterFloat
     , className =? "Settings" --> doCenterFloat
       -- Windows with default workspaces
     , className =? "Thunderbird" --> doShift "mail"
     , className =? "Blaplay" --> viewShift "media"
+    , isFullscreen --> doFullFloat
     ]
-    where viewShift = doF . liftM2 (.) greedyView shift
+    where viewShift = doF . liftM2 (.) W.greedyView W.shift
 
 -- Pretty-printer for xmobar
 prettyPrinter handle = defaultPP
@@ -109,6 +115,7 @@ keybindings =
     --       xbacklight +10 (use `parseKey`).
     , ((0, xK_F11), raiseVolume' stepSize)
     , ((0, xK_F12), lowerVolume' stepSize)
+    , ((modMask', xK_q), safeSpawn "xmonad" ["--replace"])
     ]
     where modMask' = mod1Mask
           smMask   = shiftMask .|. modMask'
@@ -122,25 +129,27 @@ startupHook' = do
     setDefaultCursor xC_left_ptr
     spawn "~/Dropbox/bla/.bin/configure-session"
 
-config' handle = defaultConfig
+config' handle = E.ewmh defaultConfig
     { normalBorderColor = colorFg
     , focusedBorderColor = colorHighlight
     , terminal = terminal'
     , layoutHook
-        -- FIXME: gaps and smartSpacing handle space differently.
-        = gaps (zip [U, D] $ repeat (2 * windowSpacing))
-        $ smartSpacing windowSpacing
-        $ avoidStruts . fullscreenFull . smartBorders
+        = avoidStruts
+        $ gaps (zip [U, D, R, L] $ repeat windowSpacing)
+        $ spacing windowSpacing
+        $ smartBorders
         $ layouts
     , manageHook
         =   manageDocks
         <+> manageHooks
         <+> fullscreenManageHook
-        -- XXX: This still doesn't fully cut it. For example, VLC doesn't leave
-        --      fullscreen immediately after a double-click.
-        <+> (isFullscreen --> doFullFloat)
-        <+> manageHook defaultConfig
-    , handleEventHook = fullscreenEventHook
+    , handleEventHook
+        =   docksEventHook
+        -- TODO: Test if we can drop fullscreenEventHook in favor of the EWMH
+        --       variant. Without the latter, we can convince VLC to go into
+        --       fullscreen but not smplayer.
+        <+> fullscreenEventHook
+        <+> E.fullscreenEventHook
     , workspaces = workspaces'
     , borderWidth = borderWidth'
     , logHook = dynamicLogWithPP $ prettyPrinter handle
