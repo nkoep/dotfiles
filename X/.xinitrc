@@ -27,9 +27,6 @@ start-pulseaudio-x11
 # Start the bottom xmobar instance.
 ~/.cabal/bin/xmobar &
 
-# Start the system tray.
-trayer-restart
-
 ~/Dropbox/bla/.bin/settings &
 
 # Start xmonad.
