@@ -7,11 +7,15 @@ import XMonad
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageHelpers (isFullscreen, doCenterFloat, doFullFloat)
+import qualified XMonad.Hooks.EwmhDesktops as E
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Layout.NoBorders (smartBorders)
-import XMonad.Layout.Fullscreen
+import XMonad.Layout.Fullscreen ( fullscreenFull
+                                , fullscreenEventHook
+                                , fullscreenManageHook
+                                )
 import XMonad.Layout.Gaps (gaps)
-import XMonad.Layout.Spacing
+import XMonad.Layout.Spacing (smartSpacing)
 import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Util.Cursor (setDefaultCursor)
@@ -56,6 +60,7 @@ manageHooks = composeAll
       -- Windows with default workspaces
     , className =? "Thunderbird" --> doShift "mail"
     , className =? "Blaplay" --> viewShift "media"
+    , isFullscreen --> doFullFloat
     ]
     where viewShift = doF . liftM2 (.) W.greedyView W.shift
 
@@ -110,6 +115,7 @@ keybindings =
     --       xbacklight +10 (use `parseKey`).
     , ((0, xK_F11), raiseVolume' stepSize)
     , ((0, xK_F12), lowerVolume' stepSize)
+    , ((modMask', xK_q), safeSpawn "xmonad" ["--replace"])
     ]
     where modMask' = mod1Mask
           smMask   = shiftMask .|. modMask'
@@ -119,25 +125,33 @@ keybindings =
           lowerVolume' x = lowerVolume x >> return ()
           stepSize = 2
 
-config' handle = defaultConfig
+config' handle = E.ewmh defaultConfig
     { normalBorderColor = colorFg
     , focusedBorderColor = colorHighlight
     , terminal = terminal'
     , layoutHook
-        -- FIXME: gaps and smartSpacing handle space differently.
-        = gaps (zip [U, D] $ repeat (2 * windowSpacing))
+        = avoidStruts
+        -- TODO: Implement smartGaps which should work similar to smartSpacing,
+        --       i.e., only display the gaps if there's more than one window
+        --       in a workspace.
+        $ gaps (zip [U, D, R, L] $ repeat windowSpacing)
+        -- TODO: Override smartSpacing resp. the modifierDescription of
+        --       SmartSpacing to get rid of the the "SmartSpacing prefix" in
+        --       layout names.
         $ smartSpacing windowSpacing
-        $ avoidStruts . fullscreenFull . smartBorders
+        $ smartBorders
         $ layouts
     , manageHook
         =   manageDocks
         <+> manageHooks
         <+> fullscreenManageHook
-        -- XXX: This still doesn't fully cut it. For example, VLC doesn't leave
-        --      fullscreen immediately after a double-click.
-        <+> (isFullscreen --> doFullFloat)
-        <+> manageHook defaultConfig
-    , handleEventHook = fullscreenEventHook
+    , handleEventHook
+        =   docksEventHook
+        -- TODO: Test if we can drop fullscreenEventHook in favor of the EWMH
+        --       variant. Without the latter, we can convince VLC to go into
+        --       fullscreen but not smplayer.
+        <+> fullscreenEventHook
+        <+> E.fullscreenEventHook
     , workspaces = workspaces'
     , borderWidth = borderWidth'
     , logHook = dynamicLogWithPP $ prettyPrinter handle
