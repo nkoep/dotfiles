@@ -15,7 +15,7 @@ import XMonad.Layout.Fullscreen ( fullscreenFull
                                 , fullscreenManageHook
                                 )
 import XMonad.Layout.Gaps (gaps)
-import XMonad.Layout.Spacing (smartSpacing)
+import XMonad.Layout.Spacing (spacing)
 import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Util.Cursor (setDefaultCursor)
@@ -131,14 +131,8 @@ config' handle = E.ewmh defaultConfig
     , terminal = terminal'
     , layoutHook
         = avoidStruts
-        -- TODO: Implement smartGaps which should work similar to smartSpacing,
-        --       i.e., only display the gaps if there's more than one window
-        --       in a workspace.
         $ gaps (zip [U, D, R, L] $ repeat windowSpacing)
-        -- TODO: Override smartSpacing resp. the modifierDescription of
-        --       SmartSpacing to get rid of the the "SmartSpacing prefix" in
-        --       layout names.
-        $ smartSpacing windowSpacing
+        $ spacing windowSpacing
         $ smartBorders
         $ layouts
     , manageHook
