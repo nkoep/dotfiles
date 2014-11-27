@@ -19,7 +19,7 @@ import XMonad.Actions.CycleWS
 import XMonad.Actions.WindowBringer (gotoMenuArgs)
 -- This module is part of the xmonad-extras package.
 import XMonad.Actions.Volume (raiseVolume, lowerVolume)
-import XMonad.StackSet (greedyView, shift)
+import qualified XMonad.StackSet as W
 
 -- Color definitions
 colorHighlight = "#a51f1c"
@@ -35,6 +35,8 @@ workspaces' = ["bla", "web", "mail", "media", "irc", "misc"]
 windowSpacing = 5
 
 -- Layouts
+-- TODO: Use XMonad.Layout.PerWorkspace.onWorkspace to use full layout per
+--       default on the mail workspace.
 layouts = tiled ||| mtiled ||| full
     where goldenRatio       = (1+(toRational(sqrt(5)::Double))) / 2
           renameLayout name = renamed [Replace name]
@@ -48,16 +50,14 @@ manageHooks = composeAll
       className =? "Gimp" --> doFloat
       -- Center-floated windows
     , className =? "Gmrun" --> doCenterFloat
-    , className =? "Vlc" --> doCenterFloat -- TODO: Push to `media` WS.
-    , className =? "ioquake3" --> doCenterFloat -- TODO: Push to `misc` WS.
+    , className =? "ioquake3" --> doCenterFloat
     , className =? "Volumeicon" --> doCenterFloat
     , className =? "Settings" --> doCenterFloat
       -- Windows with default workspaces
     , className =? "Thunderbird" --> doShift "mail"
     , className =? "Blaplay" --> viewShift "media"
-    , className =? "Hexchat" --> viewShift "irc"
     ]
-    where viewShift = doF . liftM2 (.) greedyView shift
+    where viewShift = doF . liftM2 (.) W.greedyView W.shift
 
 -- Pretty-printer for xmobar
 prettyPrinter handle = defaultPP
