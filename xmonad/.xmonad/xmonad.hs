@@ -125,10 +125,6 @@ keybindings =
           lowerVolume' x = lowerVolume x >> return ()
           stepSize = 2
 
-startupHook' = do
-    setDefaultCursor xC_left_ptr
-    spawn "~/Dropbox/bla/.bin/configure-session"
-
 config' handle = E.ewmh defaultConfig
     { normalBorderColor = colorFg
     , focusedBorderColor = colorHighlight
@@ -153,7 +149,7 @@ config' handle = E.ewmh defaultConfig
     , workspaces = workspaces'
     , borderWidth = borderWidth'
     , logHook = dynamicLogWithPP $ prettyPrinter handle
-    , startupHook = startupHook'
+    , startupHook = setDefaultCursor xC_left_ptr
     , focusFollowsMouse = False
     , clickJustFocuses = False
     } `additionalKeys` keybindings
