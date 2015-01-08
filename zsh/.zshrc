@@ -45,6 +45,7 @@ alias yearn="journalctl" # Do you ever yearn?
 alias csh="configure-screens home"
 alias csw="configure-screens work"
 alias lm="l -ictr"
+alias clip="xclip -sel clip"
 
 # Functions
 function cdup() {
