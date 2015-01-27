@@ -18,6 +18,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'dart-lang/dart-vim-plugin'
+Plugin 'flazz/vim-colorschemes'
 call vundle#end()
 
 " {{{ General settings }}}
