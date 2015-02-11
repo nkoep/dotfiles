@@ -1,7 +1,6 @@
 import Data.List (intercalate, elemIndex)
 import Text.Printf (printf)
 import System.IO (hPutStrLn)
-import Control.Monad (liftM2)
 
 import XMonad
 import XMonad.Hooks.ManageDocks
@@ -10,20 +9,24 @@ import XMonad.Hooks.ManageHelpers (isFullscreen, doCenterFloat, doFullFloat)
 import qualified XMonad.Hooks.EwmhDesktops as E
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Layout.NoBorders (smartBorders)
-import XMonad.Layout.Fullscreen ( fullscreenFull
-                                , fullscreenEventHook
-                                , fullscreenManageHook
-                                )
+import XMonad.Layout.Fullscreen
+    ( fullscreenFull
+    , fullscreenEventHook
+    , fullscreenManageHook
+    )
 import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.Spacing (spacing)
 import XMonad.Util.EZConfig (additionalKeys)
+import Graphics.X11.ExtraTypes.XF86
+    ( xF86XK_MonBrightnessUp
+    , xF86XK_MonBrightnessDown
+    )
 import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Actions.CycleWS
 import XMonad.Actions.WindowBringer (gotoMenuArgs)
 -- This module is part of the xmonad-extras package.
 import XMonad.Actions.Volume (raiseVolume, lowerVolume)
-import qualified XMonad.StackSet as W
 
 -- Color definitions
 colorHighlight = "#a51f1c"
@@ -59,10 +62,8 @@ manageHooks = composeAll
     , className =? "Settings" --> doCenterFloat
       -- Windows with default workspaces
     , className =? "Thunderbird" --> doShift "mail"
-    , className =? "Blaplay" --> viewShift "media"
     , isFullscreen --> doFullFloat
     ]
-    where viewShift = doF . liftM2 (.) W.greedyView W.shift
 
 -- Pretty-printer for xmobar
 prettyPrinter handle = defaultPP
@@ -83,7 +84,7 @@ prettyPrinter handle = defaultPP
                             in addAction idx' $ idx' ++ ":" ++ workspaceId
                 Nothing  -> workspaceId
           addAction idx =
-            wrap ("<action=`xdotool key alt+" ++ idx ++ "`>") "</action>"
+              wrap ("<action=`xdotool key alt+" ++ idx ++ "`>") "</action>"
 
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
@@ -113,17 +114,31 @@ keybindings =
     -- TODO: Add bindings for `prevScreen` and `nextScreen`.
     -- TODO: Add bindings for media keys, e.g., XF86MonBrightnessUp ->
     --       xbacklight +10 (use `parseKey`).
-    , ((0, xK_F11), raiseVolume' stepSize)
-    , ((0, xK_F12), lowerVolume' stepSize)
+    , ((0, xK_F11), raiseVolume')
+    , ((0, xK_F12), lowerVolume')
     , ((modMask', xK_q), safeSpawn "xmonad" ["--replace"])
+    , ((mod4Mask, xF86XK_MonBrightnessUp), raiseBrightness)
+    , ((mod4Mask, xF86XK_MonBrightnessDown), lowerBrightness)
     ]
-    where modMask' = mod1Mask
-          smMask   = shiftMask .|. modMask'
-          cmMask   = controlMask .|. modMask'
-          scmMask  = shiftMask .|. cmMask
-          raiseVolume' x = raiseVolume x >> return ()
-          lowerVolume' x = lowerVolume x >> return ()
-          stepSize = 2
+    where modMask'           = mod1Mask
+          smMask             = shiftMask .|. modMask'
+          cmMask             = controlMask .|. modMask'
+          scmMask            = shiftMask .|. cmMask
+          volumeStep         = 2
+          adjustVolume f     = f volumeStep >> return ()
+          raiseVolume'       = adjustVolume raiseVolume
+          lowerVolume'       = adjustVolume lowerVolume
+          brightnessStep     = "5%"
+          adjustBrightness o = safeSpawn "xbacklight" [o : brightnessStep]
+          raiseBrightness    = adjustBrightness '+'
+          lowerBrightness    = adjustBrightness '-'
+
+startupHook' = do
+    setDefaultCursor xC_left_ptr
+    spawn "xprofile auto"
+    spawn "~/Dropbox/bla/.bin/trayer-start"
+    spawn "systemctl --user restart dropbox"
+    spawn "xbacklight -set 80%"
 
 config' handle = E.ewmh defaultConfig
     { normalBorderColor = colorFg
@@ -149,7 +164,7 @@ config' handle = E.ewmh defaultConfig
     , workspaces = workspaces'
     , borderWidth = borderWidth'
     , logHook = dynamicLogWithPP $ prettyPrinter handle
-    , startupHook = setDefaultCursor xC_left_ptr
+    , startupHook = startupHook'
     , focusFollowsMouse = False
     , clickJustFocuses = False
     } `additionalKeys` keybindings
