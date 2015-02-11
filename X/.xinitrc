@@ -29,6 +29,8 @@ start-pulseaudio-x11
 
 ~/Dropbox/bla/.bin/settings &
 
+xrr-events --daemonize &
+
 # Start xmonad.
 exec ~/.cabal/bin/xmonad
 
