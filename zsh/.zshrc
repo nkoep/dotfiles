@@ -1,8 +1,5 @@
 # Set the theme.
 ZSH_THEME="bla"
-# ZSH_THEME="mh"
-# ZSH_THEME="arrow"
-# ZSH_THEME="cloud"
 
 # Select zsh plugins.
 plugins=(colored-man cp git systemd z)
