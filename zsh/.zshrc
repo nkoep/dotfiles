@@ -43,6 +43,7 @@ alias csh="configure-screens home"
 alias csw="configure-screens work"
 alias lm="l -ictr"
 alias clip="xclip -sel clip"
+alias pdf="evince"
 
 # Functions
 function cdup() {
