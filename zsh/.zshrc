@@ -72,3 +72,9 @@ function grepext() {
     findext $1 | xargs grep -In $2
 }
 
+function wiki() {
+    url="http://en.wikipedia.org/w/api.php?continue=&action=query&"\
+"prop=extracts&exintro=&explaintext=&format=json&redirects"
+    curl -s -G $url --data-urlencode titles="$*" | jq \
+        -r ".query.pages[].extract" | fold -s -w 80
+}
