@@ -44,6 +44,7 @@ alias csw="configure-screens work"
 alias lm="l -ictr"
 alias clip="xclip -sel clip"
 alias pdf="evince"
+alias avidemux="avidemux2_gtk"
 
 # Functions
 function cdup() {
