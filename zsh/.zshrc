@@ -73,3 +73,19 @@ function grepext() {
     findext $1 | xargs grep -In $2
 }
 
+function wiki() {
+    url="http://en.wikipedia.org/w/api.php?continue=&action=query&"\
+"prop=extracts&exintro=&explaintext=&format=json&redirects"
+    curl -s -G $url --data-urlencode titles="$*" | jq \
+        -r ".query.pages[].extract" | fold -s -w 80
+}
+
+function countdown() {
+    date_=$((`date +%s` + $1));
+    while [ "$date_" -ne `date +%s` ]; do
+        echo -ne "$(date -u --date @$(($date_ - `date +%s`)) +%H:%M:%S)\r";
+        sleep 0.1
+    done
+    zenity --info --text="Aaaaand time!"
+}
+
