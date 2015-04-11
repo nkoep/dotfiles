@@ -2,16 +2,28 @@ Config
     { font = "xft:Sans:pixelsize=10"
     , bgColor = "#262729"
     , fgColor = "#fafafa"
-    , position = BottomSize L 90 30
+    , position = TopSize L 100 30
     , lowerOnStart = True
-    , commands = [
-        Run Mpris2 "blaplay"
+    , commands =
+        [ Run UnsafeStdinReader
+        , Run Date "%A <fc=#a51f1c>-</fc> %B %d <fc=#a51f1c>-</fc> %H<fc=#a51f1c>:</fc>%M" "date" 600
+        , Run BatteryP ["BAT0", "BAT1"]
             [ "-t"
-            , "<fc=#a51f1c>blaplay</fc> <artist> <fc=#a51f1c>-</fc> <title>"
+            , "<fc=#a51f1c>bat</fc> <left>%<acstatus>"
+            , "--"
+            , "-O"
+            , ""
+            , "-i"
+            , ""
+            , "-o"
+            , " (<timeleft>)"
             ] 30
-    ]
+        , Run DynNetwork ["-t", "<fc=#a51f1c>net</fc> ↓<rx> kb/s ↑<tx> kb/s"] 30
+        , Run MultiCpu ["-t", "<fc=#a51f1c>cpu</fc> <total0>%"] 30
+        , Run Memory ["-t","<fc=#a51f1c>mem</fc> <usedratio>%"] 30
+        ]
     , sepChar = "%"
     , alignSep = "}{"
-    , template = "  %mpris2%  "
+    , template = "  %UnsafeStdinReader%  }%date%{%multicpu%  %memory%  %battery%  %dynnetwork%  "
     }
 

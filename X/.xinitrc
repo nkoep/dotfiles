@@ -21,16 +21,12 @@ xset -dpms &
 WP=bluegradient.jpg
 feh --bg-scale ~/Dropbox/Bilder/wallpaper/$WP &
 
-# Start pulseaudio.
+# Start remaining background processes.
 start-pulseaudio-x11
-
-# Start the bottom xmobar instance.
-~/.cabal/bin/xmobar &
-
+xrr-events --daemonize &
+volumeicon &
 ~/Dropbox/bla/.bin/settings &
 
-xrr-events --daemonize &
-
 # Start xmonad.
-exec ~/.cabal/bin/xmonad
+exec xmonad
 

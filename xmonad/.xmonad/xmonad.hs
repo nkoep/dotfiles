@@ -25,8 +25,6 @@ import XMonad.Util.Run (safeSpawn, spawnPipe)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Actions.CycleWS
 import XMonad.Actions.WindowBringer (gotoMenuArgs)
--- This module is part of the xmonad-extras package.
-import XMonad.Actions.Volume (raiseVolume, lowerVolume)
 
 -- Color definitions
 colorHighlight = "#a51f1c"
@@ -36,14 +34,11 @@ colorBg = "#262729"
 -- Generic settings
 terminal' = "xfce4-terminal"
 borderWidth' = 1
--- TODO: Define variables for these so we don't have to hard-code workspace
---       names below.
+-- TODO: Migrate to on-demand workspaces.
 workspaces' = ["bla", "web", "mail", "media", "irc", "misc"]
 windowSpacing = 5
 
 -- Layouts
--- TODO: Use XMonad.Layout.PerWorkspace.onWorkspace to use full layout per
---       default on the mail workspace.
 layouts = tiled ||| mtiled ||| full
     where goldenRatio       = (1+(toRational(sqrt(5)::Double))) / 2
           renameLayout name = renamed [Replace name]
@@ -60,8 +55,6 @@ manageHooks = composeAll
     , className =? "ioquake3" --> doCenterFloat
     , className =? "Volumeicon" --> doCenterFloat
     , className =? "Settings" --> doCenterFloat
-      -- Windows with default workspaces
-    , className =? "Thunderbird" --> doShift "mail"
     , isFullscreen --> doFullFloat
     ]
 
@@ -77,7 +70,6 @@ prettyPrinter handle = defaultPP
     , ppLayout = id
     , ppOutput = hPutStrLn handle
     }
-    -- TODO: Add a star (*) to workspaces that have windows.
     where formatWSString workspaceId =
             case (workspaceId `elemIndex` workspaces') of
                 Just idx -> let idx' = show (idx+1)
@@ -111,11 +103,6 @@ keybindings =
     , ((cmMask, xK_l), nextWS)
     , ((scmMask, xK_h), shiftToPrev)
     , ((scmMask, xK_l), shiftToNext)
-    -- TODO: Add bindings for `prevScreen` and `nextScreen`.
-    -- TODO: Add bindings for media keys, e.g., XF86MonBrightnessUp ->
-    --       xbacklight +10 (use `parseKey`).
-    , ((0, xK_F11), raiseVolume')
-    , ((0, xK_F12), lowerVolume')
     , ((modMask', xK_q), safeSpawn "xmonad" ["--replace"])
     , ((mod4Mask, xF86XK_MonBrightnessUp), raiseBrightness)
     , ((mod4Mask, xF86XK_MonBrightnessDown), lowerBrightness)
@@ -124,10 +111,6 @@ keybindings =
           smMask             = shiftMask .|. modMask'
           cmMask             = controlMask .|. modMask'
           scmMask            = shiftMask .|. cmMask
-          volumeStep         = 2
-          adjustVolume f     = f volumeStep >> return ()
-          raiseVolume'       = adjustVolume raiseVolume
-          lowerVolume'       = adjustVolume lowerVolume
           brightnessStep     = "5%"
           adjustBrightness o = safeSpawn "xbacklight" [o : brightnessStep]
           raiseBrightness    = adjustBrightness '+'
@@ -172,6 +155,6 @@ config' handle = E.ewmh defaultConfig
 -- xmobar configuration
 main :: IO ()
 main = do
-    handle <- spawnPipe "~/.cabal/bin/xmobar ~/.config/xmobar/xmobarrc_top"
+    handle <- spawnPipe "xmobar ~/.config/xmobar/xmobarrc"
     xmonad $ config' handle
 
