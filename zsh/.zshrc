@@ -80,7 +80,7 @@ function wiki() {
         -r ".query.pages[].extract" | fold -s -w 80
 }
 
-function countdown() {
+function timer() {
     date_=$((`date +%s` + $1));
     while [ "$date_" -ne `date +%s` ]; do
         echo -ne "$(date -u --date @$(($date_ - `date +%s`)) +%H:%M:%S)\r";
