@@ -28,6 +28,7 @@ import XMonad.Actions.WindowBringer (gotoMenuArgs)
 
 -- Color definitions
 colorHighlight = "#a51f1c"
+focusBorderColor = "green"
 colorFg = "#fafafa"
 colorBg = "#262729"
 
@@ -125,7 +126,7 @@ startupHook' = do
 
 config' handle = E.ewmh defaultConfig
     { normalBorderColor = colorFg
-    , focusedBorderColor = colorHighlight
+    , focusedBorderColor = focusBorderColor
     , terminal = terminal'
     , layoutHook
         = avoidStruts
