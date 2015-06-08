@@ -45,6 +45,7 @@ alias lm="l -ictr"
 alias clip="xclip -sel clip"
 alias pdf="evince"
 alias avidemux="avidemux2_gtk"
+alias texmake="latexmk -pdf -pvc"
 
 # Functions
 function cdup() {
