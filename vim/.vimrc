@@ -50,13 +50,13 @@ set cmdheight=2 " make status bar span across two rows
 set history=1000 " increase size of command and search history buffer
 set undolevels=1000 " increase size of undo buffer
 let tex_no_error = 1 " turn off error highlighting in tex as it highlights
-                   " underscores in non-math contexts
+                     " underscores in non-math contexts
 let g:tex_fast = ""
 
 " {{{ Indentation and tab rules }}}
-set tabstop=4
-set shiftwidth=4
-autocmd! FileType html,css,scss set tabstop=2 shiftwidth=2
+set tabstop=4 " ts
+set shiftwidth=4 " sw
+autocmd! Filetype html,css,scss,javascript,tex,sty,cls,sh,matlab set ts=2 sw=2
 set expandtab
 
 " {{{ GUI }}}
@@ -69,8 +69,8 @@ set colorcolumn=80
 set number
 
 " {{{ Cursor }}}
-set guicursor=n-v-c:block-Cursor
-set guicursor+=a:blinkon0
+set guicursor=n-v-c:block-Cursor " Force block cursor in all modes
+set guicursor+=a:blinkon0 " Don't blink
 
 " {{{ Colorscheme }}}
 set t_Co=256
