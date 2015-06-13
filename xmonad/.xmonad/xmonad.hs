@@ -31,8 +31,17 @@ colorBg = "#262729"
 -- Generic settings
 terminal' = "xfce4-terminal"
 borderWidth' = 1
--- TODO: Migrate to on-demand workspaces.
-workspaces' = ["bla", "web", "mail", "media", "irc", "misc"]
+workspaces' =
+    [ "one"
+    , "two"
+    , "three"
+    , "four"
+    , "five"
+    , "six"
+    , "seven"
+    , "eight"
+    , "nine"
+    ]
 windowSpacing = 5
 
 -- Layouts
@@ -54,23 +63,23 @@ manageHooks = composeAll
 
 -- Pretty-printer for xmobar
 prettyPrinter handle = defaultPP
-    { ppCurrent = xmobarColor colorHighlight "" . formatWSString
-    , ppVisible = wrap "[" "]" . formatWSString
-    , ppHidden = formatWSString
-    , ppHiddenNoWindows = (++ "*") . formatWSString
+    -- FIXME: This seems to mess up the workspace click action.
+    { ppCurrent = wrap (hl "[") (hl "]") . addWSAction
+    , ppVisible = addWSAction
     , ppTitle = shorten 50
     -- FIXME: Remove the "Spacing 5" string added when using the smartSpacing
     --        layout modifier.
     , ppLayout = id
     , ppOutput = hPutStrLn handle
     }
-    where formatWSString workspaceId =
+    where addWSAction workspaceId =
             case (workspaceId `elemIndex` workspaces') of
-                Just idx -> let idx' = show (idx+1)
-                            in addAction idx' $ idx' ++ ":" ++ workspaceId
+                Just idx -> let idxString = show (idx+1)
+                            in wrapAction idxString $ workspaceId
                 Nothing  -> workspaceId
-          addAction idx =
+          wrapAction idx =
               wrap ("<action=`xdotool key alt+" ++ idx ++ "`>") "</action>"
+          hl = xmobarColor colorHighlight ""
 
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
@@ -93,8 +102,8 @@ keybindings =
     , ((modMask', xK_n), spawn "nemo")
     , ((smMask, xK_f), gotoMenuArgs dmenuOptions)
     , ((modMask', xK_F5), spawn "slock")
-    , ((cmMask, xK_h), prevWS)
-    , ((cmMask, xK_l), nextWS)
+    , ((smMask, xK_h), prevWS)
+    , ((smMask, xK_l), nextWS)
     , ((scmMask, xK_h), shiftToPrev)
     , ((scmMask, xK_l), shiftToNext)
     , ((modMask', xK_q), safeSpawn "xmonad" ["--replace"])
