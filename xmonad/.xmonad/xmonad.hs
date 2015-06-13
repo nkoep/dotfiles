@@ -36,12 +36,11 @@ workspaces' = ["bla", "web", "mail", "media", "irc", "misc"]
 windowSpacing = 5
 
 -- Layouts
-layouts = tiled ||| mtiled ||| full
-    where goldenRatio       = (1+(toRational(sqrt(5)::Double))) / 2
+layouts = golden ||| half
+    where goldenRatio       = (1+(toRational(sqrt(5)::Double)))/2
           renameLayout name = renamed [Replace name]
-          tiled             = renameLayout "T" $ Tall 1 (1/100) (1/goldenRatio)
-          mtiled            = renameLayout "MT" $ Mirror tiled
-          full              = renameLayout "F" $ Full
+          golden            = renameLayout "G" $ Tall 1 (1/100) (1/goldenRatio)
+          half              = renameLayout "H" $ Tall 1 (1/100) (1/2)
 
 -- Explicit window management hooks
 manageHooks = composeAll
@@ -60,8 +59,8 @@ prettyPrinter handle = defaultPP
     , ppHidden = formatWSString
     , ppHiddenNoWindows = (++ "*") . formatWSString
     , ppTitle = shorten 50
-    -- FIXME: Remove the "SmartSpacing 5" string added when using the
-    --        smartSpacing layout modifier.
+    -- FIXME: Remove the "Spacing 5" string added when using the smartSpacing
+    --        layout modifier.
     , ppLayout = id
     , ppOutput = hPutStrLn handle
     }
