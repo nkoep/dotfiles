@@ -5,15 +5,11 @@ import System.IO (hPutStrLn)
 import XMonad
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageHelpers (isFullscreen, doCenterFloat, doFullFloat)
+import XMonad.Hooks.ManageHelpers
 import qualified XMonad.Hooks.EwmhDesktops as E
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Layout.NoBorders (smartBorders)
-import XMonad.Layout.Fullscreen
-    ( fullscreenFull
-    , fullscreenEventHook
-    , fullscreenManageHook
-    )
+import XMonad.Layout.Fullscreen (fullscreenManageHook)
 import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.Spacing (spacing)
 import XMonad.Util.EZConfig (additionalKeys)
@@ -49,10 +45,8 @@ layouts = tiled ||| mtiled ||| full
 
 -- Explicit window management hooks
 manageHooks = composeAll
-    [ -- Floated windows
-      className =? "Gimp" --> doFloat
-      -- Center-floated windows
-    , className =? "Gmrun" --> doCenterFloat
+    [ -- Center-floated windows
+      className =? "Gmrun" --> doCenterFloat
     , className =? "ioquake3" --> doCenterFloat
     , className =? "Volumeicon" --> doCenterFloat
     , className =? "Settings" --> doCenterFloat
@@ -140,10 +134,6 @@ config' handle = E.ewmh defaultConfig
         <+> fullscreenManageHook
     , handleEventHook
         =   docksEventHook
-        -- TODO: Test if we can drop fullscreenEventHook in favor of the EWMH
-        --       variant. Without the latter, we can convince VLC to go into
-        --       fullscreen but not smplayer.
-        <+> fullscreenEventHook
         <+> E.fullscreenEventHook
     , workspaces = workspaces'
     , borderWidth = borderWidth'
