@@ -49,8 +49,8 @@ workspaces' =
     ]
 windowSpacing = 5
 
--- Layout modifier `spacing` copied from XMonad.Layout.Spacing so we can
--- override the `modifierDescription` implementation.
+-- Layout modifier `spacing`, copied from XMonad.Layout.Spacing so we can
+-- override the implementation for `modifierDescription`.
 data Spacing a = Spacing Int deriving (Show, Read)
 instance LayoutModifier Spacing a where
     pureModifier (Spacing p) _ _ wrs = (map (second $ shrinkRect p) wrs, Nothing)
@@ -114,16 +114,19 @@ dmenuOptions =
     ]
 
 -- Keybindings
+userScript = spawn . (++) "~/Dropbox/bla/.bin/"
+
 keybindings =
     [ ((modMask', xK_p), safeSpawn "dmenu_run" dmenuOptions)
     , ((modMask', xK_n), spawn "nemo")
     , ((smMask, xK_f), gotoMenuArgs dmenuOptions)
     , ((modMask', xK_F5), spawn "slock")
+    , ((modMask', xK_F6), userScript "atoggle")
     , ((smMask, xK_h), prevWS)
     , ((smMask, xK_l), nextWS)
     , ((scmMask, xK_h), shiftToPrev)
     , ((scmMask, xK_l), shiftToNext)
-    , ((modMask', xK_q), safeSpawn "xmonad" ["--replace"])
+    -- FIXME: These two aren't working.
     , ((mod4Mask, xF86XK_MonBrightnessUp), raiseBrightness)
     , ((mod4Mask, xF86XK_MonBrightnessDown), lowerBrightness)
     ]
@@ -139,7 +142,7 @@ keybindings =
 startupHook' = do
     setDefaultCursor xC_left_ptr
     spawn "xprofile auto"
-    spawn "~/Dropbox/bla/.bin/trayer-start"
+    userScript "trayer-start"
     spawn "systemctl --user restart dropbox"
     spawn "xbacklight -set 80%"
 
