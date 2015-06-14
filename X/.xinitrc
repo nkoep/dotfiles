@@ -25,7 +25,6 @@ feh --bg-scale ~/Dropbox/Bilder/wallpaper/$WP &
 start-pulseaudio-x11
 xrr-events --daemonize &
 volumeicon &
-~/Dropbox/bla/.bin/settings &
 
 # Start xmonad.
 exec xmonad
