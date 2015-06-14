@@ -1,26 +1,31 @@
-import Data.List (intercalate, elemIndex)
-import Text.Printf (printf)
-import System.IO (hPutStrLn)
+{-# LANGUAGE FlexibleInstances, MultiParamTypeClasses #-}
 
-import XMonad
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageHelpers
-import qualified XMonad.Hooks.EwmhDesktops as E
-import XMonad.Layout.Renamed (renamed, Rename (Replace))
-import XMonad.Layout.NoBorders (smartBorders)
-import XMonad.Layout.Fullscreen (fullscreenManageHook)
-import XMonad.Layout.Gaps (gaps)
-import XMonad.Layout.Spacing (spacing)
-import XMonad.Util.EZConfig (additionalKeys)
+import Control.Arrow (second)
+import Data.List (intercalate, elemIndex)
+import Graphics.X11 (Rectangle(..))
 import Graphics.X11.ExtraTypes.XF86
     ( xF86XK_MonBrightnessUp
     , xF86XK_MonBrightnessDown
     )
-import XMonad.Util.Run (safeSpawn, spawnPipe)
-import XMonad.Util.Cursor (setDefaultCursor)
+import System.IO (hPutStrLn)
+import Text.Printf (printf)
+
+import XMonad
 import XMonad.Actions.CycleWS
 import XMonad.Actions.WindowBringer (gotoMenuArgs)
+import XMonad.Hooks.DynamicLog
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
+import qualified XMonad.Hooks.EwmhDesktops as E
+import XMonad.Layout.Fullscreen (fullscreenManageHook)
+import XMonad.Layout.LayoutModifier
+import XMonad.Layout.Gaps (gaps)
+import XMonad.Layout.NoBorders (smartBorders)
+import XMonad.Layout.Renamed (renamed, Rename (Replace))
+import XMonad.Util.Cursor (setDefaultCursor)
+import XMonad.Util.EZConfig (additionalKeys)
+import XMonad.Util.Font (fi)
+import XMonad.Util.Run (safeSpawn, spawnPipe)
 
 -- Color definitions
 colorHighlight = "#a51f1c"
@@ -43,6 +48,16 @@ workspaces' =
     , "nine"
     ]
 windowSpacing = 5
+
+-- Layout modifier `spacing` copied from XMonad.Layout.Spacing so we can
+-- override the `modifierDescription` implementation.
+data Spacing a = Spacing Int deriving (Show, Read)
+instance LayoutModifier Spacing a where
+    pureModifier (Spacing p) _ _ wrs = (map (second $ shrinkRect p) wrs, Nothing)
+    modifierDescription (Spacing p) = ""
+
+shrinkRect p (Rectangle x y w h) = Rectangle (x+fi p) (y+fi p) (w-2*fi p) (h-2*fi p)
+spacing p = ModifiedLayout (Spacing p)
 
 -- Layouts
 layouts = golden ||| half
@@ -79,9 +94,6 @@ prettyPrinter handle = defaultPP
     , ppHidden = formatWSName "" ""
     , ppSep = hl " - "
     , ppTitle = shorten 75
-    -- FIXME: Remove the "Spacing 5" string added when using the smartSpacing
-    --        layout modifier.
-    , ppLayout = id
     , ppOutput = hPutStrLn handle
     }
     where hl = xmobarColor colorHighlight ""
