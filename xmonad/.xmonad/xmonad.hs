@@ -91,12 +91,13 @@ formatWSName l r name =
 
 prettyPrinter handle = defaultPP
     { ppCurrent = formatWSName (hl "[") (hl "]")
-    , ppHidden = formatWSName "" ""
+    , ppHidden = formatWSName (bg "[") (bg "]")
     , ppSep = hl " - "
     , ppTitle = shorten 75
     , ppOutput = hPutStrLn handle
     }
     where hl = xmobarColor colorHighlight ""
+          bg = xmobarColor colorBg ""
 
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
