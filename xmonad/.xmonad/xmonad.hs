@@ -78,7 +78,7 @@ prettyPrinter handle = defaultPP
     { ppCurrent = formatWSName (hl "[") (hl "]")
     , ppHidden = formatWSName "" ""
     , ppSep = hl " - "
-    , ppTitle = shorten 50
+    , ppTitle = shorten 75
     -- FIXME: Remove the "Spacing 5" string added when using the smartSpacing
     --        layout modifier.
     , ppLayout = id
