@@ -28,7 +28,7 @@ focusBorderColor = "green"
 colorFg = "#fafafa"
 colorBg = "#262729"
 
--- Generic settings
+-- Miscellaneous settings
 terminal' = "xfce4-terminal"
 borderWidth' = 1
 workspaces' =
@@ -62,24 +62,28 @@ manageHooks = composeAll
     ]
 
 -- Pretty-printer for xmobar
+workspaceIndex workspaceId =
+    case (workspaceId `elemIndex` workspaces') of
+        Just idx -> (idx+1)
+        Nothing  -> 0 -- unreachable
+
+wsAction idx =
+    wrap ("<action=`xdotool key alt+" ++ show idx ++ "`>") "</action>"
+
+formatWSName l r name =
+    let idx = workspaceIndex name
+    in wsAction idx $ wrap l r name
+
 prettyPrinter handle = defaultPP
-    -- FIXME: This seems to mess up the workspace click action.
-    { ppCurrent = wrap (hl "[") (hl "]") . addWSAction
-    , ppVisible = addWSAction
+    { ppCurrent = formatWSName (hl "[") (hl "]")
+    , ppHidden = formatWSName "" ""
     , ppTitle = shorten 50
     -- FIXME: Remove the "Spacing 5" string added when using the smartSpacing
     --        layout modifier.
     , ppLayout = id
     , ppOutput = hPutStrLn handle
     }
-    where addWSAction workspaceId =
-            case (workspaceId `elemIndex` workspaces') of
-                Just idx -> let idxString = show (idx+1)
-                            in wrapAction idxString $ workspaceId
-                Nothing  -> workspaceId
-          wrapAction idx =
-              wrap ("<action=`xdotool key alt+" ++ idx ++ "`>") "</action>"
-          hl = xmobarColor colorHighlight ""
+    where hl = xmobarColor colorHighlight ""
 
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
