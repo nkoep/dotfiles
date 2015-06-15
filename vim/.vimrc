@@ -19,6 +19,12 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'Shougo/neocomplete'
+Plugin 'Shougo/neosnippet'
+Plugin 'Shougo/neosnippet-snippets'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-colorscheme-switcher'
+Plugin 'tpope/vim-surround'
 call vundle#end()
 
 " {{{ General settings }}}
@@ -27,12 +33,12 @@ set fileformats=unix,dos
 set nobackup
 " Remove trailing whitespace on save
 augroup trail_save
-    autocmd!
-    autocmd BufWritePre * :%s/\s\+$//e
+  autocmd!
+  autocmd BufWritePre * :%s/\s\+$//e
 augroup END
 " Add keywords TODO and FIXME to the current highlight group
 autocmd! WinEnter,VimEnter *
-    :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
+  :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
 
 syntax on
 set splitright " open new vertically split buffers on the right
@@ -56,7 +62,7 @@ let g:tex_fast = ""
 " {{{ Indentation and tab rules }}}
 set tabstop=4 " ts
 set shiftwidth=4 " sw
-autocmd! Filetype html,css,scss,javascript,tex,sty,cls,sh,matlab set ts=2 sw=2
+autocmd! Filetype html,css,scss,javascript,tex,sty,cls,sh,matlab,json,vim set ts=2 sw=2
 set expandtab
 
 " {{{ GUI }}}
@@ -75,10 +81,10 @@ set guicursor+=a:blinkon0 " Don't blink
 " {{{ Colorscheme }}}
 set t_Co=256
 if has("gui_running")
-    " colorscheme Mustang
-    colorscheme darktango
+  " colorscheme Mustang
+  colorscheme darktango
 else
-    colorscheme morning
+  colorscheme morning
 endif
 highlight ColorColumn ctermbg=2
 highlight ColorColumn guibg=Green
@@ -111,14 +117,17 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 " NERDTree
 nnoremap <leader>t :NERDTree<CR>
+" Color theme switcher
+nmap <C-k> :NextColorScheme<CR>
+nmap <C-j> :PrevColorScheme<CR>
 
 " Project specific settings
 function! LoadCustomConfig()
-    " Check for .vim.custom in the current directory.
-    let l:config = ".vim.custom"
-    if filereadable(l:config)
-        exe "source" l:config
-    endif
+  " Check for .vim.custom in the current directory.
+  let l:config = ".vim.custom"
+  if filereadable(l:config)
+    exe "source" l:config
+  endif
 endfunction
 autocmd! BufReadPost,BufNewFile * call LoadCustomConfig()
 
