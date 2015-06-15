@@ -46,6 +46,7 @@ alias clip="xclip -sel clip"
 alias pdf="evince"
 alias avidemux="avidemux2_gtk"
 alias texmake="latexmk -pdf -pvc"
+alias vader="ssh vader"
 
 # Functions
 function cdup() {
