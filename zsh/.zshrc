@@ -8,7 +8,7 @@ source $ZSH/oh-my-zsh.sh
 
 # terminfo
 if [[ -e /usr/share/terminfo/x/xterm-256color ]]; then
-    export TERM="xterm-256color"
+  export TERM="xterm-256color"
 fi
 
 # Aliases
@@ -49,45 +49,49 @@ alias texmake="latexmk -pdf -pvc"
 alias vader="ssh vader"
 
 # Functions
-function cdup() {
-    if ! [[ $1 =~ [0-9]+ && $1 -gt 0 ]]; then
-        echo "argument must be a positive integer"
-    else
-        cd $(printf "../%.0s" $(seq 1 $1))
-    fi
+cdup() {
+  if ! [[ $1 =~ [0-9]+ && $1 -gt 0 ]]; then
+    echo "argument must be a positive integer"
+  else
+    cd $(printf "../%.0s" $(seq 1 $1))
+  fi
 }
 
-function youtube-dl-1080p() {
-    _filename=$(youtube-dl --get-filename ${1});
-    youtube-dl -o 'a.m4a' -f 140 "${1}";
-    youtube-dl -o 'v.mp4' -f 137 "${1}";
-    ffmpeg -i "v.mp4" -i "a.m4a" \
-        -c:v copy -c:a copy \
-        "${_filename}" \
-        && rm a.m4a v.mp4
+youtube-dl-1080p() {
+  _filename=$(youtube-dl --get-filename ${1});
+  youtube-dl -o 'a.m4a' -f 140 "${1}";
+  youtube-dl -o 'v.mp4' -f 137 "${1}";
+  ffmpeg -i "v.mp4" -i "a.m4a" \
+    -c:v copy -c:a copy \
+    "${_filename}" \
+    && rm a.m4a v.mp4
 }
 
-function findext() {
-    find . -name "*.$1"
+findext() {
+  find . -name "*.$1"
 }
 
-function grepext() {
-    findext $1 | xargs grep -In $2
+grepext() {
+  findext $1 | xargs grep -In $2
 }
 
-function wiki() {
-    url="http://en.wikipedia.org/w/api.php?continue=&action=query&"\
+wiki() {
+  url="http://en.wikipedia.org/w/api.php?continue=&action=query&"\
 "prop=extracts&exintro=&explaintext=&format=json&redirects"
-    curl -s -G $url --data-urlencode titles="$*" | jq \
-        -r ".query.pages[].extract" | fold -s -w 80
+  curl -s -G $url --data-urlencode titles="$*" | jq \
+    -r ".query.pages[].extract" | fold -s -w 80
 }
 
-function timer() {
-    date_=$((`date +%s` + $1));
-    while [ "$date_" -ne `date +%s` ]; do
-        echo -ne "$(date -u --date @$(($date_ - `date +%s`)) +%H:%M:%S)\r";
-        sleep 0.1
-    done
-    zenity --info --text="Aaaaand time!"
+timer() {
+  date_=$((`date +%s` + $1));
+  while [ "$date_" -ne `date +%s` ]; do
+    echo -ne "$(date -u --date @$(($date_ - `date +%s`)) +%H:%M:%S)\r";
+    sleep 0.1
+  done
+  zenity --info --text="Aaaaand time!"
+}
+
+twitch() {
+  livestreamer twitch.tv/$1 best
 }
 
