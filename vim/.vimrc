@@ -62,7 +62,7 @@ let g:tex_fast = ""
 " {{{ Indentation and tab rules }}}
 set tabstop=4 " ts
 set shiftwidth=4 " sw
-autocmd! Filetype html,css,scss,javascript,tex,sty,cls,sh,matlab,json,vim set ts=2 sw=2
+autocmd! Filetype html,css,scss,javascript,tex,sty,cls,sh,matlab,json,vim,zsh set ts=2 sw=2
 set expandtab
 
 " {{{ GUI }}}
