@@ -18,13 +18,7 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'dart-lang/dart-vim-plugin'
-Plugin 'flazz/vim-colorschemes'
-Plugin 'Shougo/neocomplete'
-Plugin 'Shougo/neosnippet'
-Plugin 'Shougo/neosnippet-snippets'
-Plugin 'xolox/vim-misc'
-Plugin 'xolox/vim-colorscheme-switcher'
-Plugin 'tpope/vim-surround'
+Plugin 'Valloric/YouCompleteMe'
 call vundle#end()
 
 " {{{ General settings }}}
@@ -117,9 +111,8 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
 inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
 " NERDTree
 nnoremap <leader>t :NERDTree<CR>
-" Color theme switcher
-nmap <C-k> :NextColorScheme<CR>
-nmap <C-j> :PrevColorScheme<CR>
+" YCM recompilation
+nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 
 " Project specific settings
 function! LoadCustomConfig()
