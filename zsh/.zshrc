@@ -95,3 +95,19 @@ twitch() {
   livestreamer twitch.tv/$1 best
 }
 
+_peep() {
+  pipcmd=$1
+  pipdir=.$pipcmd
+  export PYTHONPATH=$pipdir
+  shift
+  $pipcmd install -t $pipdir $*
+}
+
+peep() {
+  _peep pip $*
+}
+
+peep2() {
+  _peep pip2 $*
+}
+
