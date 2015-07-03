@@ -19,6 +19,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'NLKNguyen/papercolor-theme'
 call vundle#end()
 
 " {{{ General settings }}}
@@ -78,7 +79,8 @@ if has("gui_running")
   " colorscheme Mustang
   colorscheme darktango
 else
-  colorscheme morning
+  " colorscheme morning
+  colorscheme PaperColor
 endif
 highlight ColorColumn ctermbg=2
 highlight ColorColumn guibg=Green
