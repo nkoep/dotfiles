@@ -143,7 +143,6 @@ keybindings =
 startupHook' = do
     setDefaultCursor xC_left_ptr
     userScript "trayer-start"
-    spawn "systemctl --user restart dropbox"
     spawn "xbacklight -set 80%"
 
 config' handle = E.ewmh defaultConfig
