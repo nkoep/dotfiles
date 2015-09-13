@@ -55,9 +55,9 @@ let tex_no_error = 1 " turn off error highlighting in tex as it highlights
 let g:tex_fast = ""
 
 " {{{ Indentation and tab rules }}}
-set tabstop=4 " ts
-set shiftwidth=4 " sw
-autocmd! Filetype html,css,scss,javascript,tex,sty,cls,sh,matlab,json,vim,zsh,yaml set ts=2 sw=2
+set tabstop=2 " ts
+set shiftwidth=2 " sw
+autocmd! Filetype python set ts=4 sw=4
 set expandtab
 
 " {{{ GUI }}}
