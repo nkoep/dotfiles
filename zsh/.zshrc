@@ -50,6 +50,7 @@ alias vader="ssh vader"
 alias cleanpdf="ps2pdf -dPDFSETTINGS=/prepress"
 alias maxima="rlwrap rmaxima"
 alias dmesg="dmesg -T"
+alias vi="vim"
 
 # Functions
 cdup() {
