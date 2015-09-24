@@ -49,6 +49,7 @@ alias texmake="latexmk -pdf -pvc -interaction=nonstopmode"
 alias vader="ssh vader"
 alias cleanpdf="ps2pdf -dPDFSETTINGS=/prepress"
 alias maxima="rlwrap rmaxima"
+alias dmesg="dmesg -T"
 
 # Functions
 cdup() {
