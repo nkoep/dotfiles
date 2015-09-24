@@ -119,7 +119,7 @@ userScript = spawn . (++) "~/Dropbox/bla/.bin/"
 
 keybindings =
     [ ((modMask', xK_p), safeSpawn "dmenu_run" dmenuOptions)
-    , ((modMask', xK_n), spawn "nemo")
+    , ((modMask', xK_n), spawn "nautilus")
     , ((smMask, xK_f), gotoMenuArgs dmenuOptions)
     , ((modMask', xK_F5), spawn "slock")
     , ((modMask', xK_F6), userScript "atoggle")
