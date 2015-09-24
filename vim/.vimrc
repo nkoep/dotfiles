@@ -57,7 +57,7 @@ let g:tex_fast = ""
 " {{{ Indentation and tab rules }}}
 set tabstop=2 " ts
 set shiftwidth=2 " sw
-autocmd! Filetype python set ts=4 sw=4
+autocmd! Filetype python,make set ts=4 sw=4
 set expandtab
 
 " {{{ GUI }}}
