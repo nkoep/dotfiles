@@ -142,7 +142,7 @@ keybindings =
 
 startupHook' = do
     setDefaultCursor xC_left_ptr
-    userScript "trayer-start"
+    userScript "trayer-restart"
     spawn "xbacklight -set 80%"
 
 config' handle = E.ewmh defaultConfig
