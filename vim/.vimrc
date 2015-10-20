@@ -53,6 +53,8 @@ set undolevels=1000 " increase size of undo buffer
 let tex_no_error = 1 " turn off error highlighting in tex as it highlights
                      " underscores in non-math contexts
 let g:tex_fast = ""
+let g:ycm_autoclose_preview_window_after_completion = 1
+let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " {{{ Indentation and tab rules }}}
 set tabstop=2 " ts
