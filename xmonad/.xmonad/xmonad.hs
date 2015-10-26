@@ -73,6 +73,7 @@ manageHooks = composeAll
     , className =? "ioquake3" --> doCenterFloat
     , className =? "Volumeicon" --> doCenterFloat
     , className =? "Settings" --> doCenterFloat
+    , className =? "Gcr-prompter" --> doCenterFloat
     , isFullscreen --> doFullFloat
     ]
 
