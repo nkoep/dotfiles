@@ -18,7 +18,6 @@ alias ls="ls -h --color=always --group-directories-first"
 alias l="ls -lF"
 alias la="ls -lAF"
 alias grep="grep -E"
-alias changes="svn log -r HEAD -v"
 alias which="command -v"
 alias pmsyu="sudo pacman -Syu"
 alias pmu="sudo pacman -U"
@@ -39,8 +38,6 @@ alias octmod="stat -c %a"
 alias revparse="git rev-parse --short"
 alias encoding="file -b --mime-encoding"
 alias yearn="journalctl" # Do you ever yearn?
-alias csh="configure-screens home"
-alias csw="configure-screens work"
 alias lm="l -ictr"
 alias clip="xclip -sel clip"
 alias pdf="evince"
@@ -53,37 +50,12 @@ alias vi="vim"
 alias sinfo="ssh -t vader -- sinfo"
 
 # Functions
-cdup() {
-  if ! [[ $1 =~ [0-9]+ && $1 -gt 0 ]]; then
-    echo "argument must be a positive integer"
-  else
-    cd $(printf "../%.0s" $(seq 1 $1))
-  fi
-}
-
-youtube-dl-1080p() {
-  _filename=$(youtube-dl --get-filename ${1});
-  youtube-dl -o 'a.m4a' -f 140 "${1}";
-  youtube-dl -o 'v.mp4' -f 137 "${1}";
-  ffmpeg -i "v.mp4" -i "a.m4a" \
-    -c:v copy -c:a copy \
-    "${_filename}" \
-    && rm a.m4a v.mp4
-}
-
 findext() {
   find . -name "*.$1"
 }
 
 grepext() {
   findext $1 | xargs grep -In $2
-}
-
-wiki() {
-  url="http://en.wikipedia.org/w/api.php?continue=&action=query&"\
-"prop=extracts&exintro=&explaintext=&format=json&redirects"
-  curl -s -G $url --data-urlencode titles="$*" | jq \
-    -r ".query.pages[].extract" | fold -s -w 80
 }
 
 timer() {
@@ -97,21 +69,5 @@ timer() {
 
 twitch() {
   livestreamer twitch.tv/$1 best
-}
-
-_peep() {
-  pipcmd=$1
-  pipdir=.$pipcmd
-  export PYTHONPATH=$pipdir
-  shift
-  $pipcmd install -t $pipdir $*
-}
-
-peep() {
-  _peep pip $*
-}
-
-peep2() {
-  _peep pip2 $*
 }
 
