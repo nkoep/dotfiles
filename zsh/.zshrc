@@ -48,6 +48,7 @@ alias maxima="rlwrap rmaxima"
 alias dmesg="dmesg -T"
 alias vi="vim"
 alias sinfo="ssh -t vader -- sinfo"
+alias octave="octave --no-gui -q"
 
 # Functions
 findext() {
