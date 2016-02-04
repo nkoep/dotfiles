@@ -49,6 +49,8 @@ alias dmesg="dmesg -T"
 alias vi="vim"
 alias sinfo="ssh -t vader -- sinfo"
 alias octave="octave --no-gui -q"
+alias matlab="matlab -nojvm -nodesktop"
+alias pep8="pep8-python2"
 
 # Functions
 findext() {
