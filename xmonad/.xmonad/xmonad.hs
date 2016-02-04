@@ -60,11 +60,12 @@ shrinkRect p (Rectangle x y w h) = Rectangle (x+fi p) (y+fi p) (w-2*fi p) (h-2*f
 spacing p = ModifiedLayout (Spacing p)
 
 -- Layouts
-layouts = golden ||| half
+layouts = golden ||| half ||| full
     where goldenRatio       = (1+(toRational(sqrt(5)::Double)))/2
           renameLayout name = renamed [Replace name]
           golden            = renameLayout "G" $ Tall 1 (1/100) (1/goldenRatio)
           half              = renameLayout "H" $ Tall 1 (1/100) (1/2)
+          full              = renameLayout "F" $ Full
 
 -- Explicit window management hooks
 manageHooks = composeAll
