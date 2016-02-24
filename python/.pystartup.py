@@ -1,11 +1,11 @@
 import sys
 import os
 
-if sys.version_info.major == 2:
-    import numpy as np
-    import numpy.linalg as la
-    import numpy.random as rnd
-else:
+import numpy as np
+import numpy.linalg as la
+import numpy.random as rnd
+
+if sys.version_info.major == 3:
     import gi
     from importlib import import_module
 
