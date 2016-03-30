@@ -5,7 +5,7 @@ export ZSH=$HOME/.oh-my-zsh
 typeset -U path
 path=($HOME/Dropbox/bla/.bin $HOME/.cabal/bin $path)
 if command -v ruby >/dev/null && command -v gem >/dev/null; then
-    path=($(ruby -e 'puts Gem.user_dir')/bin $path)
+  path=($(ruby -e 'puts Gem.user_dir')/bin $path)
 fi
 
 # Environment variables

@@ -27,6 +27,11 @@ xrr-events --daemonize &
 volumeicon &
 dropbox-restart &
 
+icc="~/.color/icc/benq_xl2411.icm"
+if [ -e "$icc" ]; then
+  dispwin -d0 "$icc"
+fi
+
 # Start xmonad.
 exec xmonad
 
