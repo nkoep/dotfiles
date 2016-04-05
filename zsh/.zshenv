@@ -15,7 +15,5 @@ export BROWSER="chromium"
 export EDITOR="vim"
 export PYTHONSTARTUP="$HOME/.pystartup.py"
 export TEXMFHOME="$HOME/.texmf"
-export MOSEKLM_LICENSE_FILE="$HOME/Dropbox/bla/mosek.lic"
 export VIDEO_FORMAT="PAL"
 export SSH_KEY_PATH="~/.ssh/rsa_id"
-
