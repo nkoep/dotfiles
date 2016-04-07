@@ -20,6 +20,7 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'mxw/vim-jsx'
 call vundle#end()
 
 " {{{ General settings }}}
