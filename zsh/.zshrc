@@ -75,3 +75,11 @@ timer() {
 twitch() {
   livestreamer twitch.tv/$1 best
 }
+
+vim() {
+  if [ -e $(which nvim) ]; then
+    nvim $*
+  else
+    vim $*
+  fi
+}
