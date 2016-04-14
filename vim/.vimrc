@@ -14,13 +14,17 @@ set rtp+=~/.vim/bundle/Vundle.vim
 
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
-Plugin 'kien/ctrlp.vim'
+Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'NLKNguyen/papercolor-theme'
+Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
+Plugin 'tpope/vim-fugitive'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
 call vundle#end()
 
 " {{{ General settings }}}
@@ -54,8 +58,12 @@ set undolevels=1000 " increase size of undo buffer
 let tex_no_error = 1 " turn off error highlighting in tex as it highlights
                      " underscores in non-math contexts
 let g:tex_fast = ""
+let g:ycm_server_python_interpreter = '/usr/bin/python'
 let g:ycm_autoclose_preview_window_after_completion = 1
 let g:ycm_autoclose_preview_window_after_insertion = 1
+
+set laststatus=2 " Show airline without having to split a window first
+let g:airline_theme = 'bubblegum'
 
 " {{{ Indentation and tab rules }}}
 set tabstop=2 " ts
@@ -122,4 +130,3 @@ function! LoadCustomConfig()
   endif
 endfunction
 autocmd! BufReadPost,BufNewFile * call LoadCustomConfig()
-
