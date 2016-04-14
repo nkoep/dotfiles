@@ -5,6 +5,7 @@ import numpy as np
 import numpy.linalg as la
 import numpy.random as rnd
 
+
 if sys.version_info.major == 3:
     import gi
     from importlib import import_module
@@ -23,4 +24,3 @@ if sys.version_info.major == 3:
             globals_[module] = import_module("gi.repository.%s" % module)
         except ImportError:
             pass
-

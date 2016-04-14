@@ -1,6 +1,8 @@
 # Set the theme.
 ZSH_THEME="bla"
 
+unsetopt AUTO_CD
+
 # Select zsh plugins.
 plugins=(colored-man cp git systemd z)
 
@@ -73,4 +75,3 @@ timer() {
 twitch() {
   livestreamer twitch.tv/$1 best
 }
-
