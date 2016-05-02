@@ -18,7 +18,7 @@ Config
             , "-o"
             , " (<timeleft>)"
             ] 30
-        , Run DynNetwork ["-t", "<fc=#a51f1c>net</fc> ↓<rx> kb/s ↑<tx> kb/s"] 30
+        , Run DynNetwork ["-S", "True", "-t", "<fc=#a51f1c>net</fc> ↓<rx> ↑<tx>"] 30
         , Run MultiCpu ["-t", "<fc=#a51f1c>cpu</fc> <total0>%"] 30
         , Run Memory ["-t","<fc=#a51f1c>mem</fc> <usedratio>%"] 30
         ]
