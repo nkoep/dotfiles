@@ -23,6 +23,9 @@ Plugin 'mxw/vim-jsx'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
+Plugin 'ervandew/supertab'
+Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 call vundle#end()
 
 " {{{ General settings }}}
@@ -94,36 +97,32 @@ hi Search ctermfg=Black ctermbg=Yellow guifg=Black guibg=Yellow
 
 " {{{ Keybindings }}}
 set pastetoggle=<F2>
-" Bindings to indent via shift+tab in command mode
-nmap <S-Tab> <<
-" FIXME: this is broken
-" Bindings to indent via shift+tab in insert mode
-imap <S-Tab> <Esc> <<i
+
 " Turn off Vim's regex handling
 nnoremap / /\v
 vnoremap / /\v
+
 " Use leader (defaults to \) space to clear search results
 nnoremap <leader><space> :noh<cr>
+
 " Remap tab in normal and visual mode to jump between enclosing parens
 map <tab> %
-" Speed up scrolling of the viewport by moving two instead of one line
+
+" Speed up scrolling of the viewport by moving two instead of one line at a
+" time
 nmap <C-e> 2<C-e>
 nmap <C-y> 2<C-y>
-" `make' shortcuts
-nmap mk :w<CR>:make!<CR><CR>
-" Use ctrl-{j,k} to navigate the completion menu, and enter to confirm.
-inoremap <expr> <C-j> pumvisible() ? "\<C-N>" : "\<C-j>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-P>" : "\<C-k>"
-inoremap <expr> <CR> pumvisible() ? "\<C-y>" : "\<CR>"
-" NERDTree
-nnoremap <leader>t :NERDTree<CR>
-" YCM recompilation
-nnoremap <F5> :YcmForceCompileAndDiagnostics<CR>
 
-" Project specific settings
+" `make' shortcut
+nmap mk :w<CR>:make!<CR><CR>
+
+" Define an alterative exapdn trigger for ultisnips to work alongside YCM.
+let g:UltiSnipsExpandTrigger="<C-j>"
+
+" Load project specific configs
 function! LoadCustomConfig()
   " Check for .vim.custom in the current directory.
-  let l:config = ".vim.custom"
+  let l:config = ".config.vim"
   if filereadable(l:config)
     exe "source" l:config
   endif
