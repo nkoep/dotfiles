@@ -39,6 +39,7 @@ autocmd! WinEnter,VimEnter *
   :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
 
 syntax on
+set nofoldenable " disable code folding
 set splitright " open new vertically split buffers on the right
 filetype plugin indent on
 set showmode
