@@ -11,11 +11,9 @@ set noswapfile
 " Add vundle to the runtime path. Install vundle itself via:
 "   git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 set rtp+=~/.vim/bundle/Vundle.vim
-
 call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'scrooloose/nerdtree'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'dart-lang/dart-vim-plugin'
 Plugin 'Valloric/YouCompleteMe'
