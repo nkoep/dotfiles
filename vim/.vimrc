@@ -116,15 +116,9 @@ nmap <C-y> 2<C-y>
 " `make' shortcut
 nmap mk :w<CR>:make!<CR><CR>
 
-" Define an alterative exapdn trigger for ultisnips to work alongside YCM.
+" Define an alterative expand trigger for ultisnips to work alongside YCM.
 let g:UltiSnipsExpandTrigger="<C-j>"
 
-" Load project specific configs
-function! LoadCustomConfig()
-  " Check for .vim.custom in the current directory.
-  let l:config = ".config.vim"
-  if filereadable(l:config)
-    exe "source" l:config
-  endif
-endfunction
-autocmd! BufReadPost,BufNewFile * call LoadCustomConfig()
+" Enable project specific configs
+set exrc
+set secure
