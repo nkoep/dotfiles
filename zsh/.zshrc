@@ -75,3 +75,7 @@ timer() {
 twitch() {
   livestreamer twitch.tv/$1 best
 }
+
+clonebitbucket() {
+  git clone git@bitbucket.org:nkoep/$1.git $2
+}
