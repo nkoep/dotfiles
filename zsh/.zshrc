@@ -69,7 +69,7 @@ timer() {
     echo -ne "$(date -u --date @$(($date_ - `date +%s`)) +%H:%M:%S)\r";
     sleep 0.1
   done
-  zenity --info --text="Aaaaand time!"
+  zenity --info --text="Time's up, bozo!"
 }
 
 twitch() {
@@ -78,4 +78,12 @@ twitch() {
 
 clonebitbucket() {
   git clone git@bitbucket.org:nkoep/$1.git $2
+}
+
+psgrep() {
+  ps axuf | grep -v grep | grep "$@" -i --color=auto
+}
+
+fname() {
+  find . -iname "*$@*"
 }
