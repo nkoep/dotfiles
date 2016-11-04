@@ -20,10 +20,6 @@ numlockx on &
 xset s off &
 xset -dpms &
 
-# Set the wallpaper.
-WP=bluegradient.jpg
-feh --bg-scale ~/Dropbox/Bilder/wallpaper/$WP &
-
 # Start remaining background processes.
 start-pulseaudio-x11
 xrr-events --daemonize &

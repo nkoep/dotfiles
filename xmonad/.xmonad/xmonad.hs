@@ -143,9 +143,11 @@ keybindings =
           lowerBrightness    = adjustBrightness '-'
 
 startupHook' = do
+    spawn "autorandr -c"
     setDefaultCursor xC_left_ptr
     userScript "trayer-restart"
     spawn "xbacklight -set 80%"
+    userScript "set-wallpaper"
 
 config' handle = E.ewmh defaultConfig
     { normalBorderColor = colorFg
@@ -177,4 +179,3 @@ main :: IO ()
 main = do
     handle <- spawnPipe "xmobar ~/.config/xmobar/xmobarrc"
     xmonad $ config' handle
-
