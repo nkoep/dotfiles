@@ -22,7 +22,6 @@ xset -dpms &
 
 # Start remaining background processes.
 start-pulseaudio-x11
-xrr-events --daemonize &
 volumeicon &
 dropbox-restart &
 
