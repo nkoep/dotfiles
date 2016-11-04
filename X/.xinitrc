@@ -26,7 +26,7 @@ volumeicon &
 dropbox-restart &
 
 icc="~/.color/icc/benq_xl2411.icm"
-if [ -e "$icc" ]; then
+if [ -e "$icc" && -x $(which dispwin) ]; then
   dispwin -d0 "$icc"
 fi
 
