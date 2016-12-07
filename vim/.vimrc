@@ -12,7 +12,6 @@ set noswapfile
 "   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 "     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 call plug#begin('~/.vim/plugged')
-Plug 'gmarik/Vundle.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'dart-lang/dart-vim-plugin'
