@@ -1,4 +1,4 @@
-" Initialize pathogen. Install it first via:
+" Initialize pathogen. Install it via:
 "   mkdir -p ~/.vim/autoload ~/.vim/bundle && \
 "   curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 execute pathogen#infect()
@@ -8,25 +8,26 @@ execute pathogen#infect()
 set nocompatible
 set noswapfile
 
-" Add vundle to the runtime path. Install vundle itself via:
-"   git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
-set rtp+=~/.vim/bundle/Vundle.vim
-call vundle#begin()
-Plugin 'gmarik/Vundle.vim'
-Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'tomtom/tcomment_vim'
-Plugin 'dart-lang/dart-vim-plugin'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'NLKNguyen/papercolor-theme'
-Plugin 'pangloss/vim-javascript'
-Plugin 'mxw/vim-jsx'
-Plugin 'tpope/vim-fugitive'
-Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'ervandew/supertab'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-call vundle#end()
+" Set up vim-plug. Install it via:
+"   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+"     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+call plug#begin('~/.vim/plugged')
+Plug 'gmarik/Vundle.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'tomtom/tcomment_vim'
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'Valloric/YouCompleteMe'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'tpope/vim-fugitive'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ervandew/supertab'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'xevz/vim-squirrel'
+call plug#end()
 
 " {{{ General settings }}}
 set fileformat=unix
