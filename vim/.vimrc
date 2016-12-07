@@ -1,8 +1,3 @@
-" Initialize pathogen. Install it via:
-"   mkdir -p ~/.vim/autoload ~/.vim/bundle && \
-"   curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
-execute pathogen#infect()
-
 " Use vim settings, rather then vi settings. This must be first, because it
 " changes other options as a side effect.
 set nocompatible
