@@ -10,7 +10,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'tomtom/tcomment_vim'
 Plug 'dart-lang/dart-vim-plugin'
-Plug 'Valloric/YouCompleteMe'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
@@ -18,9 +17,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ervandew/supertab'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'xevz/vim-squirrel'
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'zchee/deoplete-jedi'
+Plug 'zchee/deoplete-clang'
 call plug#end()
 
 " {{{ General settings }}}
@@ -115,3 +114,6 @@ let g:UltiSnipsExpandTrigger="<C-j>"
 " Enable project specific configs
 set exrc
 set secure
+
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
