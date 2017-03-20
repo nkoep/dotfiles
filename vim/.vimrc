@@ -17,9 +17,9 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ervandew/supertab'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
-Plug 'zchee/deoplete-clang'
+Plug 'zchee/deoplete-clang', { 'do': ':UpdateRemotePlugins' }
 call plug#end()
 
 " {{{ General settings }}}
@@ -109,7 +109,7 @@ nmap <C-y> 2<C-y>
 nmap mk :w<CR>:make!<CR><CR>
 
 " Define an alterative expand trigger for ultisnips to work alongside YCM.
-let g:UltiSnipsExpandTrigger="<C-j>"
+let g:UltiSnipsExpandTrigger = "<C-j>"
 
 " Enable project specific configs
 set exrc
@@ -117,3 +117,4 @@ set secure
 
 " Use deoplete.
 let g:deoplete#enable_at_startup = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
