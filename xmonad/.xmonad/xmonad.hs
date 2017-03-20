@@ -53,10 +53,12 @@ windowSpacing = 5
 -- override the implementation for `modifierDescription`.
 data Spacing a = Spacing Int deriving (Show, Read)
 instance LayoutModifier Spacing a where
-    pureModifier (Spacing p) _ _ wrs = (map (second $ shrinkRect p) wrs, Nothing)
+    pureModifier (Spacing p) _ _ wrs =
+        (map (second $ shrinkRect p) wrs, Nothing)
     modifierDescription (Spacing p) = ""
 
-shrinkRect p (Rectangle x y w h) = Rectangle (x+fi p) (y+fi p) (w-2*fi p) (h-2*fi p)
+shrinkRect p (Rectangle x y w h) =
+    Rectangle (x+fi p) (y+fi p) (w-2*fi p) (h-2*fi p)
 spacing p = ModifiedLayout (Spacing p)
 
 -- Layouts
@@ -120,23 +122,22 @@ dmenuOptions =
 userScript = spawn . (++) "~/Dropbox/bla/.bin/"
 
 keybindings =
-    [ ((modMask', xK_p), safeSpawn "dmenu_run" dmenuOptions)
-    , ((modMask', xK_n), spawn "nautilus")
-    , ((smMask, xK_f), gotoMenuArgs dmenuOptions)
-    , ((modMask', xK_F5), spawn "slock")
-    , ((modMask', xK_F6), userScript "atoggle")
-    , ((smMask, xK_h), prevWS)
-    , ((smMask, xK_l), nextWS)
-    , ((scmMask, xK_h), shiftToPrev)
-    , ((scmMask, xK_l), shiftToNext)
-    -- FIXME: These two aren't working.
-    , ((mod4Mask, xF86XK_MonBrightnessUp), raiseBrightness)
-    , ((mod4Mask, xF86XK_MonBrightnessDown), lowerBrightness)
+    [ ((alt, xK_p), safeSpawn "dmenu_run" dmenuOptions)
+    , ((alt, xK_n), spawn "nautilus")
+    , ((shiftAlt, xK_f), gotoMenuArgs dmenuOptions)
+    , ((alt, xK_F5), spawn "slock")
+    , ((alt, xK_F6), userScript "audio-toggle")
+    , ((shiftAlt, xK_h), prevWS)
+    , ((shiftAlt, xK_l), nextWS)
+    , ((shiftControlAlt, xK_h), shiftToPrev)
+    , ((shiftControlAlt, xK_l), shiftToNext)
+    , ((alt, xK_Up), raiseBrightness)
+    , ((alt, xK_Down), lowerBrightness)
     ]
-    where modMask'           = mod1Mask
-          smMask             = shiftMask .|. modMask'
-          cmMask             = controlMask .|. modMask'
-          scmMask            = shiftMask .|. cmMask
+    where alt                = mod1Mask
+          shiftAlt           = shiftMask .|. alt
+          controlAlt         = controlMask .|. alt
+          shiftControlAlt    = shiftMask .|. controlAlt
           brightnessStep     = "5%"
           adjustBrightness o = safeSpawn "xbacklight" [o : brightnessStep]
           raiseBrightness    = adjustBrightness '+'
@@ -145,9 +146,8 @@ keybindings =
 startupHook' = do
     spawn "autorandr -c"
     setDefaultCursor xC_left_ptr
-    userScript "trayer-restart"
     spawn "xbacklight -set 80%"
-    userScript "set-wallpaper"
+    userScript "init-desktop"
 
 config' handle = E.ewmh defaultConfig
     { normalBorderColor = colorFg
