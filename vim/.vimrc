@@ -55,6 +55,7 @@ let tex_no_error = 1 " turn off error highlighting in tex as it highlights
                      " underscores in non-math contexts
 let g:tex_fast = ""
 let g:ycm_server_python_interpreter = '/usr/bin/python'
+let g:python3_host_prog = '/usr/bin/python'
 
 set laststatus=2 " Show airline without having to split a window first
 let g:airline_theme = 'bubblegum'
