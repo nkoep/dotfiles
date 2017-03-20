@@ -51,6 +51,7 @@ alias sinfo="ssh -t vader -- sinfo"
 alias texmake="latexmk -pdf -pvc -interaction=nonstopmode"
 alias valgrind="valgrind --leak-check=full"
 alias vi="vim"
+alias vim="nvim"
 alias which="command -v"
 alias yearn="journalctl" # Do you ever yearn?
 
