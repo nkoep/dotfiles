@@ -76,7 +76,7 @@ set colorcolumn=80
 set number
 
 " {{{ Cursor }}}
-set guicursor=n-v-c:block-Cursor " Force block cursor in all modes
+set guicursor=a:block-Cursor " Force block cursor in all modes
 set guicursor+=a:blinkon0 " Don't blink
 
 " {{{ Colorscheme }}}
