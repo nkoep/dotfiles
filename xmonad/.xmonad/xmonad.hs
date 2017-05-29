@@ -106,6 +106,7 @@ prettyPrinter handle = defaultPP
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
     [ "-b"
+    , "-i"
     , "-fn"
     , "'DejaVu Sans-8'"
     , "-nb"
