@@ -2,7 +2,7 @@
 	name = Niklas Koep
 	email = niklas.koep@gmail.com
 [core]
-	editor = vim
+	editor = nvim
 	excludesfile = ~/.gitexcludes
 [alias]
 	st = status
