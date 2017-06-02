@@ -1,8 +1,8 @@
 #!/bin/sh
 
+mkdir -p ~/.config
 for d in $(tree --noreport -id); do
-    if [[ ! $d = "." ]]; then
-        stow $d
-    fi
+  if [[ ! $d = "." ]]; then
+    stow $d
+  fi
 done
-

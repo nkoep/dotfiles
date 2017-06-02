@@ -94,3 +94,16 @@ medialength() {
   echo "$1: $(ffprobe -i $1 -show_entries format=duration -v quiet -of \
               csv='p=0' -sexagesimal)"
 }
+
+_bat() {
+  echo $(upower -i /org/freedesktop/UPower/devices/battery_BAT${1} | \
+         grep -E "state|to\ full|percentage")
+}
+bat() {
+  if $(upower --enumerate | grep BAT); then
+    _bat 0
+    _bat 1
+  else
+    echo "No battery found"
+  fi
+}
