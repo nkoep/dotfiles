@@ -20,6 +20,7 @@ Plug 'ervandew/supertab'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-clang', { 'do': ':UpdateRemotePlugins' }
+Plug 'google/vim-searchindex'
 call plug#end()
 
 " {{{ General settings }}}
