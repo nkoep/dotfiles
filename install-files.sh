@@ -13,9 +13,15 @@ for d in $(tree --noreport -id); do
   fi
 done
 
-# Grab vim plug and fetch plugins.
+# Install vim-plug for vim.
 if [ ! -e ~/.vim/autoload/plug.vim ]; then
   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  vim +PlugInstall +qall
 fi
+
+# Symlink files for neovim.
+ln -s ~/.vim ~/.config/nvim
+ln -s ~/.vimrc ~/.config/nvim/init.vim
+
+# Install vim plugins.
+vim +PlugInstall +qall
