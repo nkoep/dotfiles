@@ -14,7 +14,12 @@ path=(~/.local/bin ~/anaconda3/bin $path)
 export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
 export LESS="-R "
 export BROWSER="chromium"
-export EDITOR="vim"
+if [ "$(command -v nvim)" != "" ] ;then
+  export VISUAL="nvim"
+else
+  export VISUAL="vim"
+fi
+export EDITOR="$VISUAL"
 export PYTHONSTARTUP="$HOME/.pystartup.py"
 export TEXMFHOME="$HOME/.texmf"
 export VIDEO_FORMAT="PAL"
