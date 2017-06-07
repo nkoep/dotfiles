@@ -10,6 +10,6 @@
 	br = branch
 	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	taglist = log --tags --simplify-by-decoration --pretty=\"format:%ai %d\"
+	amend = commit --amend -c HEAD
 [include]
 	path = ~/Dropbox/bla/gitconfig.mail
-
