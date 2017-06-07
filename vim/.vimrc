@@ -57,13 +57,12 @@ let tex_no_error = 1 " turn off error highlighting in tex as it highlights
 let g:tex_fast = ""
 let g:python3_host_prog = '/usr/bin/python'
 
-set laststatus=2 " Show airline without having to split a window first
 let g:airline_theme = 'bubblegum'
 
 " {{{ Indentation and tab rules }}}
 set tabstop=2 " ts
 set shiftwidth=2 " sw
-autocmd! Filetype python,make set ts=4 sw=4
+autocmd! Filetype python,make,rust set ts=4 sw=4
 set expandtab
 
 " {{{ GUI }}}
@@ -108,9 +107,6 @@ nmap <C-y> 2<C-y>
 
 " `make' shortcut
 nmap mk :w<CR>:make!<CR><CR>
-
-" Define an alterative expand trigger for ultisnips to work alongside YCM.
-let g:UltiSnipsExpandTrigger = "<C-j>"
 
 " Enable project specific configs
 set exrc

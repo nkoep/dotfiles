@@ -33,4 +33,3 @@ Config
     , alignSep = "}{"
     , template = "  %UnsafeStdinReader%  }%date%{%multicpu%  %memory%  %bright%  %battery%  %dynnetwork%  "
     }
-
