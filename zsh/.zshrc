@@ -17,7 +17,7 @@ fi
 alias avidemux="avidemux2_gtk"
 alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
 alias cleanpdf="ps2pdf -dPDFSETTINGS=/prepress"
-alias clip="xclip -sel clip"
+alias clip="xclip -selection clipboard"
 alias dmesg="dmesg -T"
 alias encoding="file -b --mime-encoding"
 alias grep="grep -E --color=always"
