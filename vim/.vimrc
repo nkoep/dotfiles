@@ -21,6 +21,7 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
 Plug 'zchee/deoplete-clang', { 'do': ':UpdateRemotePlugins' }
 Plug 'google/vim-searchindex'
+Plug 'eagletmt/neco-ghc'
 call plug#end()
 
 " {{{ General settings }}}
