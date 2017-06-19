@@ -36,6 +36,9 @@ augroup END
 " Add keywords TODO and FIXME to the current highlight group
 autocmd! WinEnter,VimEnter *
   :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
+augroup filetypedetect
+  au BufRead,BufNewFile *.cls,*.sty set filetype=tex
+augroup END
 
 syntax on
 set nofoldenable " disable code folding
