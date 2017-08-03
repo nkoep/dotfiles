@@ -30,6 +30,7 @@ alias ls="ls -h --color=always --group-directories-first"
 alias matlab="matlab -nojvm -nodesktop"
 alias matlabgui="wmname LG3D; \matlab"
 alias maxima="rlwrap rmaxima"
+alias mkpasswd="openssl rand -base64 16"
 alias octave="octave --no-gui -q"
 alias octmod="stat -c %a"
 alias pcc="paccache -d -k2 -vvv"
@@ -73,7 +74,7 @@ timer() {
     echo -ne "$(date -u --date @$(($date_ - `date +%s`)) +%H:%M:%S)\r";
     sleep 0.1
   done
-  zenity --info --text="Time's up, bozo!"
+  zenity --info --text="Time's up, jabroni!"
 }
 
 twitch() {
