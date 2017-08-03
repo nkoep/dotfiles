@@ -1,4 +1,4 @@
-" Use vim settings, rather then vi settings. This must be first, because it
+" Use vim rather than vi settings. This must be first, because it
 " changes other options as a side effect.
 set nocompatible
 set noswapfile
@@ -19,7 +19,7 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ervandew/supertab'
 Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
-Plug 'zchee/deoplete-clang', { 'do': ':UpdateRemotePlugins' }
+Plug 'tweekmonster/deoplete-clang2'
 Plug 'google/vim-searchindex'
 Plug 'eagletmt/neco-ghc'
 call plug#end()
@@ -104,7 +104,7 @@ nnoremap <leader><space> :noh<cr>
 " Remap tab in normal and visual mode to jump between enclosing parens
 map <tab> %
 
-" Speed up scrolling of the viewport by moving two instead of one line at a
+" Speed up scrolling of the viewport
 " time
 nmap <C-e> 2<C-e>
 nmap <C-y> 2<C-y>
@@ -112,10 +112,10 @@ nmap <C-y> 2<C-y>
 " `make' shortcut
 nmap mk :w<CR>:make!<CR><CR>
 
-" Enable project specific configs
+" Enable project specific configs (loads .vimrc files in the current directory)
 set exrc
 set secure
 
-" Use deoplete.
+" Enable deoplete.
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
