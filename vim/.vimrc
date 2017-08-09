@@ -36,6 +36,7 @@ augroup END
 " Add keywords TODO and FIXME to the current highlight group
 autocmd! WinEnter,VimEnter *
   :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
+" Associate .cls and .sty files with latex.
 augroup filetypedetect
   au BufRead,BufNewFile *.cls,*.sty set filetype=tex
 augroup END
@@ -111,6 +112,10 @@ nmap <C-y> 2<C-y>
 
 " `make' shortcut
 nmap mk :w<CR>:make!<CR><CR>
+
+" Remap tag jumping to ctrl+g
+nnoremap <C-g> <C-]>
+command! Mktags :silent! :!ctags -R .
 
 " Enable project specific configs (loads .vimrc files in the current directory)
 set exrc
