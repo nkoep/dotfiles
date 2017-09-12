@@ -8,7 +8,7 @@ if command -v ruby >/dev/null && command -v gem >/dev/null; then
   path=($(ruby -e 'puts Gem.user_dir')/bin $path)
 fi
 
-path=(~/.local/bin ~/.anaconda3/bin $path)
+path=(~/.local/bin ~/.anaconda3.6/bin $path)
 
 # Environment variables
 export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
