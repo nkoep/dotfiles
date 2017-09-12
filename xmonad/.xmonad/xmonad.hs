@@ -2,7 +2,7 @@
 
 import Control.Arrow (second)
 import Data.List (intercalate, elemIndex)
-import Graphics.X11 (Rectangle(..))
+import qualified Graphics.X11.Xlib (Rectangle(..))
 import Graphics.X11.ExtraTypes.XF86
     ( xF86XK_MonBrightnessUp
     , xF86XK_MonBrightnessDown
@@ -63,10 +63,10 @@ spacing p = ModifiedLayout (Spacing p)
 
 -- Layouts
 layouts = golden ||| half ||| full
-    where goldenRatio       = (1+(toRational(sqrt(5)::Double)))/2
+    where gr                = (1 + (toRational(sqrt(5) :: Double))) / 2
           renameLayout name = renamed [Replace name]
-          golden            = renameLayout "G" $ Tall 1 (1/100) (1/goldenRatio)
-          half              = renameLayout "H" $ Tall 1 (1/100) (1/2)
+          golden            = renameLayout "G" $ Tall 1 (1 / 100) (1 / gr)
+          half              = renameLayout "H" $ Tall 1 (1 / 100) (1 / 2)
           full              = renameLayout "F" $ Full
 
 -- Explicit window management hooks
