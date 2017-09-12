@@ -81,8 +81,16 @@ twitch() {
   livestreamer twitch.tv/$1 best
 }
 
+_clone() {
+  git clone git@$1:nkoep/$2.git $3
+}
+
 clonebitbucket() {
-  git clone git@bitbucket.org:nkoep/$1.git $2
+  _clone bitbucket.org $1 $2
+}
+
+clonegithub() {
+  _clone github.com $1 $2
 }
 
 psgrep() {
