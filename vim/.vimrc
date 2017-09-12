@@ -67,7 +67,7 @@ let g:airline_theme = 'bubblegum'
 " {{{ Indentation and tab rules }}}
 set tabstop=2 " ts
 set shiftwidth=2 " sw
-autocmd! Filetype python,make,rust set ts=4 sw=4
+autocmd! Filetype python,make,rust,haskell set ts=4 sw=4
 set expandtab
 
 " {{{ GUI }}}
