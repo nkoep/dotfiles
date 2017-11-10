@@ -20,5 +20,6 @@ if [ ! -e ~/.vim/autoload/plug.vim ]; then
 fi
 
 # Symlink files for neovim.
+mkdir -p ~/.config
 ln -sf ~/.vim ~/.config/nvim
 ln -sf ~/.vimrc ~/.config/nvim/init.vim
