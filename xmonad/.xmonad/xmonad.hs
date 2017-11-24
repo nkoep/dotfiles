@@ -62,11 +62,10 @@ shrinkRect p (Rectangle x y w h) =
 spacing p = ModifiedLayout (Spacing p)
 
 -- Layouts
-layouts = golden ||| half ||| full
+layouts = tiled ||| full
     where gr                = (1 + (toRational(sqrt(5) :: Double))) / 2
           renameLayout name = renamed [Replace name]
-          golden            = renameLayout "G" $ Tall 1 (1 / 100) (1 / gr)
-          half              = renameLayout "H" $ Tall 1 (1 / 100) (1 / 2)
+          tiled             = renameLayout "T" $ Tall 1 (1 / 100) (1 / gr)
           full              = renameLayout "F" $ Full
 
 -- Explicit window management hooks
