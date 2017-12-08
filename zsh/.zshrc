@@ -98,6 +98,10 @@ clonegithub() {
   _clone github.com $1 $2
 }
 
+cloneaur() {
+  git clone https://aur.archlinux.org/$1.git $2
+}
+
 psgrep() {
   ps axuf | grep -v grep | grep "$@" -i --color=auto
 }
