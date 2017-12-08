@@ -1,6 +1,7 @@
 # Set the theme.
 ZSH_THEME="bla"
 
+setopt extendedglob
 unsetopt AUTO_CD
 
 # Select zsh plugins.
