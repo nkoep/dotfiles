@@ -21,9 +21,4 @@ xset -dpms &
 nm-applet &
 volumeicon &
 
-icc="~/.color/icc/benq_xl2411.icm"
-if [ -e "$icc" && -x $(which dispwin) ]; then
-  dispwin -d0 "$icc"
-fi
-
 xrdb -merge ~/.Xresources
