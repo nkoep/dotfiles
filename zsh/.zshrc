@@ -115,4 +115,6 @@ medialength() {
               csv='p=0' -sexagesimal)"
 }
 
+mergesubs() {
+  ffmpeg -i $1 -i $2 -c copy -metadata:s:s:0 language=eng $3
 }
