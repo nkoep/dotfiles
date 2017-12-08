@@ -16,6 +16,7 @@ fi
 
 # Aliases
 alias avidemux="avidemux2_gtk"
+alias bat="acpi"
 alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
 alias cleanpdf="ps2pdf -dPDFSETTINGS=/prepress"
 alias clip="xclip -selection clipboard"
@@ -110,15 +111,4 @@ medialength() {
               csv='p=0' -sexagesimal)"
 }
 
-_bat() {
-  echo BAT$1: $(upower -i /org/freedesktop/UPower/devices/battery_BAT$1 | \
-                grep -E "state|to\ full|percentage")
-}
-bat() {
-  if [ "$(upower --enumerate | grep BAT)" != "" ]; then
-    _bat 0
-    _bat 1
-  else
-    echo "No battery found"
-  fi
 }
