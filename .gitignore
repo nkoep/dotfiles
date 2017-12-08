@@ -27,3 +27,4 @@ cabal.project.local
 
 xmonad.*
 xmonad-*
+xfce4-terminal/.config/xfce4/help.rc

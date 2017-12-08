@@ -146,7 +146,7 @@ keybindings =
 startupHook' = do
     spawn "autorandr -c"
     setDefaultCursor xC_left_ptr
-    spawn "xbacklight -set 80%"
+    spawn "xbacklight -set 50%"
     userScript "init-desktop"
 
 config' handle = E.ewmh defaultConfig
