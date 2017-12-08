@@ -5,7 +5,7 @@ setopt extendedglob
 unsetopt AUTO_CD
 
 # Select zsh plugins.
-plugins=(colored-man cp git systemd z)
+plugins=(colored-man cp git systemd z ssh-agent)
 
 source $ZSH/oh-my-zsh.sh
 
