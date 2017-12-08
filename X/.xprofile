@@ -18,6 +18,7 @@ xset s off &
 xset -dpms &
 
 # Start remaining background processes.
+nm-applet &
 volumeicon &
 
 icc="~/.color/icc/benq_xl2411.icm"
