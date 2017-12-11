@@ -8,7 +8,7 @@ Config
         [ Run UnsafeStdinReader
         , Run Date "%A <fc=#a51f1c>-</fc> %B %d <fc=#a51f1c>-</fc> %H<fc=#a51f1c>:</fc>%M" "date" 600
         , Run MultiCpu ["-t", "<fc=#a51f1c>cpu</fc> <total0>%"] 10
-        , Run Memory ["-t", "<fc=#a51f1c>mem</fc> <usedratio>%"] 10
+        , Run Memory ["-t", "<fc=#a51f1c>mem</fc> <usedratio>% (<used>/<total> MB)"] 10
         , Run Brightness
             [ "-t"
             , "<fc=#a51f1c>bright</fc> <percent>%"
