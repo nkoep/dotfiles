@@ -22,6 +22,7 @@ Plug 'zchee/deoplete-jedi'
 Plug 'tweekmonster/deoplete-clang2'
 Plug 'google/vim-searchindex'
 Plug 'eagletmt/neco-ghc'
+Plug 'chr4/nginx.vim'
 call plug#end()
 
 " {{{ General settings }}}
