@@ -18,7 +18,6 @@ fi
 alias avidemux="avidemux2_gtk"
 alias bat="acpi"
 alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
-alias cleanpdf="ps2pdf -dPDFSETTINGS=/prepress"
 alias clip="xclip -selection clipboard"
 alias dmesg="dmesg -T"
 alias encoding="file -b --mime-encoding"
@@ -117,4 +116,17 @@ medialength() {
 
 mergesubs() {
   ffmpeg -i $1 -i $2 -c copy -metadata:s:s:0 language=eng $3
+}
+
+repair-pdf() {
+  if [ $# -lt 2 ]; then
+    echo "Two arguments required"
+  else
+    gs \
+    -q \
+    -o "$2" \
+    -sDEVICE=pdfwrite \
+    -dEmbedAllFonts=true \
+    "$1"
+  fi
 }
