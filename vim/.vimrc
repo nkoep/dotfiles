@@ -39,7 +39,7 @@ autocmd! WinEnter,VimEnter *
   :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
 " Associate .cls and .sty files with latex.
 augroup filetypedetect
-  au BufRead,BufNewFile *.tex,*.cls,*.sty set filetype=tex
+  au BufRead,BufNewFile *.tex,*.cls,*.sty,*.tikz set filetype=tex
 augroup END
 
 syntax on
