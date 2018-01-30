@@ -1,0 +1,8 @@
+"quodlibet --play-pause"
+  Mod2 + F7
+
+"quodlibet --previous"
+  Mod2 + F9
+
+"quodlibet --next"
+  Mod2 + F10

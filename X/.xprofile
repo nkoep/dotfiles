@@ -10,6 +10,9 @@ fi
 # Disable the caps lock key.
 setxkbmap -option ctrl:nocaps
 
+# Set up global keybindings.
+xbindkeys
+
 # Enable the num pad.
 numlockx on &
 
