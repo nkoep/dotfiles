@@ -127,3 +127,6 @@ if has("nvim") && has("python3")
   let g:deoplete#enable_at_startup = 1
 endif
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+" Enable jsx syntax highlighting for regular .js files.
+let g:jsx_ext_required = 0
