@@ -3,12 +3,13 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Define the PATH variable.
 typeset -U path
-path=($HOME/Dropbox/bla/.bin $HOME/.cabal/bin $path)
+path=(~/.local/bin $HOME/Dropbox/bla/.bin $HOME/.cabal/bin $path)
 if command -v ruby >/dev/null && command -v gem >/dev/null; then
   path=($(ruby -e 'puts Gem.user_dir')/bin $path)
 fi
 
-path=(~/.bin ~/.local/bin ~/.anaconda3.6/bin $path)
+# Add conda command.
+source /home/nik/.anaconda3.6/etc/profile.d/conda.sh
 
 # Environment variables
 export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
