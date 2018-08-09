@@ -23,5 +23,6 @@ xset -dpms &
 # Start remaining background processes.
 nm-applet &
 volumeicon &
+dropbox &
 
 xrdb -merge ~/.Xresources
