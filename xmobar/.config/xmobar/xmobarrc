@@ -1,8 +1,8 @@
 Config
-    { font = "xft:Sans:pixelsize=10"
+    { font = "xft:Sans:pixelsize=17"
     , bgColor = "#262729"
     , fgColor = "#fafafa"
-    , position = TopSize L 100 30
+    , position = TopSize L 100 45
     , lowerOnStart = True
     , commands =
         [ Run UnsafeStdinReader
