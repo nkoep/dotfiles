@@ -25,7 +25,8 @@ import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.EZConfig (additionalKeys)
 import XMonad.Util.Font (fi)
-import XMonad.Util.Run (safeSpawn, spawnPipe)
+import XMonad.Util.Run (safeSpawn, safeSpawnProg)
+
 
 -- Color definitions
 colorHighlight = "#a51f1c"
@@ -85,22 +86,17 @@ workspaceIndex workspaceId =
         Just idx -> (idx+1)
         Nothing  -> 0 -- unreachable
 
-wsAction idx =
-    wrap ("<action=`xdotool key alt+" ++ show idx ++ "`>") "</action>"
+polybarColor fg = wrap ("%{F" ++ fg ++ "}") "%{F-}"
 
-formatWSName l r name =
-    let idx = workspaceIndex name
-    in wsAction idx $ wrap l r name
-
-prettyPrinter handle = defaultPP
-    { ppCurrent = formatWSName (hl "[") (hl "]")
-    , ppHidden = formatWSName (bg "[") (bg "]")
+prettyPrinter file = defaultPP
+    { ppCurrent = wrap (hl "[") (hl "]")
+    , ppHidden = wrap (bg "[") (bg "]")
     , ppSep = hl " - "
     , ppTitle = shorten 75
-    , ppOutput = hPutStrLn handle
+    , ppOutput = \s -> appendFile file (s ++ "\n")
     }
-    where hl = xmobarColor colorHighlight ""
-          bg = xmobarColor colorBg ""
+    where hl = polybarColor colorHighlight
+          bg = polybarColor colorBg
 
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
@@ -119,14 +115,11 @@ dmenuOptions =
     ]
 
 -- Keybindings
-userScript = spawn . (++) "~/Dropbox/bla/.bin/"
-
 keybindings =
     [ ((alt, xK_p), safeSpawn "dmenu_run" dmenuOptions)
-    , ((alt, xK_n), spawn "nautilus")
+    , ((alt, xK_n), safeSpawnProg "nautilus")
     , ((shiftAlt, xK_f), gotoMenuArgs dmenuOptions)
-    , ((alt, xK_F5), spawn "slock")
-    , ((alt, xK_F6), userScript "audio-toggle")
+    , ((alt, xK_F5), safeSpawnProg "slock")
     , ((shiftAlt, xK_h), prevWS)
     , ((shiftAlt, xK_l), nextWS)
     , ((shiftControlAlt, xK_h), shiftToPrev)
@@ -144,12 +137,11 @@ keybindings =
           lowerBrightness    = adjustBrightness '-'
 
 startupHook' = do
-    spawn "autorandr -c"
     setDefaultCursor xC_left_ptr
-    spawn "xbacklight -set 50%"
-    userScript "init-desktop"
+    safeSpawn "xbacklight" ["-set", "50%"]
+    safeSpawn "feh" ["--bg-scale", "~/Dropbox/bla/wallpaper2.jpg"]
 
-config' handle = E.ewmh defaultConfig
+config' logfile = E.ewmh defaultConfig
     { normalBorderColor = colorFg
     , focusedBorderColor = focusBorderColor
     , terminal = terminal'
@@ -168,7 +160,7 @@ config' handle = E.ewmh defaultConfig
         <+> E.fullscreenEventHook
     , workspaces = workspaces'
     , borderWidth = borderWidth'
-    , logHook = dynamicLogWithPP $ prettyPrinter handle
+    , logHook = dynamicLogWithPP $ prettyPrinter logfile
     , startupHook = startupHook'
     , focusFollowsMouse = False
     , clickJustFocuses = False
@@ -177,5 +169,8 @@ config' handle = E.ewmh defaultConfig
 -- xmobar configuration
 main :: IO ()
 main = do
-    handle <- spawnPipe "xmobar ~/.config/xmobar/xmobarrc"
-    xmonad $ config' handle
+    let logfile = "/tmp/.xmonad.log"
+    safeSpawn "mkfifo" [logfile]
+    -- FIXME: This spawns a new polybar instance every time we restart xmonad.
+    safeSpawn "polybar" ["bla"]
+    xmonad $ config' logfile
