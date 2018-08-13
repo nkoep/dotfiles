@@ -1,14 +1,10 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses #-}
 
 import Control.Arrow (second)
-import Data.List (intercalate, elemIndex)
+import Data.List (elemIndex)
 import qualified Graphics.X11.Xlib (Rectangle(..))
-import Graphics.X11.ExtraTypes.XF86
-    ( xF86XK_MonBrightnessUp
-    , xF86XK_MonBrightnessDown
-    )
-import System.IO (hPutStrLn)
-import Text.Printf (printf)
+-- import System.IO (hPutStrLn)
+import qualified Codec.Binary.UTF8.String as U
 
 import XMonad
 import XMonad.Actions.CycleWS
@@ -86,17 +82,17 @@ workspaceIndex workspaceId =
         Just idx -> (idx+1)
         Nothing  -> 0 -- unreachable
 
-polybarColor fg = wrap ("%{F" ++ fg ++ "}") "%{F-}"
-
 prettyPrinter file = defaultPP
-    { ppCurrent = wrap (hl "[") (hl "]")
-    , ppHidden = wrap (bg "[") (bg "]")
+    { ppCurrent = colorBracket hl
+    , ppHidden = colorBracket bg
     , ppSep = hl " - "
-    , ppTitle = shorten 75
-    , ppOutput = \s -> appendFile file (s ++ "\n")
+    , ppTitle = shorten 60
+    , ppOutput = \s -> appendFile file . U.decodeString$ (s ++ "\n")
     }
-    where hl = polybarColor colorHighlight
+    where polybarColor c = wrap ("%{F" ++ c ++ "}") "%{F-}"
+          hl = polybarColor colorHighlight
           bg = polybarColor colorBg
+          colorBracket c = wrap (c "[") (c "]")
 
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
