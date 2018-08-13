@@ -25,4 +25,9 @@ nm-applet &
 volumeicon &
 dropbox &
 
-xrdb -merge ~/.Xresources
+if [ "$HOST" = "monolith" ]; then
+  X_DPI=220
+else
+  X_DPI=120
+fi
+xrdb -DX_DPI -merge ~/.Xresources
