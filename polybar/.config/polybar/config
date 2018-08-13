@@ -33,9 +33,7 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 1
 
-; font-0 = fixed:pixelsize=8;1
-; font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
-font-2 = xft:Sans:pixelsize=8;1
+font-0 = xft:Sans:pixelsize=8;1
 
 modules-left = xmonad
 modules-center = date
