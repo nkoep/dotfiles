@@ -135,7 +135,7 @@ keybindings =
 startupHook' = do
     setDefaultCursor xC_left_ptr
     safeSpawn "xbacklight" ["-set", "50%"]
-    safeSpawn "feh" ["--bg-scale", "~/Dropbox/bla/wallpaper2.jpg"]
+    spawn "feh --bg-scale ~/Dropbox/bla/wallpaper2.jpg"
 
 config' logfile = E.ewmh defaultConfig
     { normalBorderColor = colorFg
