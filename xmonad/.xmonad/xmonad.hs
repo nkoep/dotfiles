@@ -3,8 +3,7 @@
 import Control.Arrow (second)
 import Data.List (elemIndex)
 import qualified Graphics.X11.Xlib (Rectangle(..))
--- import System.IO (hPutStrLn)
-import qualified Codec.Binary.UTF8.String as U
+import Codec.Binary.UTF8.String (decodeString)
 
 import XMonad
 import XMonad.Actions.CycleWS
@@ -87,7 +86,7 @@ prettyPrinter file = defaultPP
     , ppHidden = colorBracket bg
     , ppSep = hl " - "
     , ppTitle = shorten 60
-    , ppOutput = \s -> appendFile file . U.decodeString$ (s ++ "\n")
+    , ppOutput = \s -> appendFile file . decodeString $ (s ++ "\n")
     }
     where polybarColor c = wrap ("%{F" ++ c ++ "}") "%{F-}"
           hl = polybarColor colorHighlight
@@ -167,6 +166,5 @@ main :: IO ()
 main = do
     let logfile = "/tmp/.xmonad.log"
     safeSpawn "mkfifo" [logfile]
-    -- FIXME: This spawns a new polybar instance every time we restart xmonad.
     safeSpawn "polybar" ["bla"]
     xmonad $ config' logfile
