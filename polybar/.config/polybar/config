@@ -33,13 +33,13 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 1
 
-font-0 = fixed:pixelsize=8;1
-font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
+; font-0 = fixed:pixelsize=8;1
+; font-1 = unifont:fontformat=truetype:size=8:antialias=false;0
 font-2 = xft:Sans:pixelsize=8;1
 
 modules-left = xmonad
 modules-center = date
-modules-right = filesystem xbacklight alsa pulseaudio memory cpu wlan eth battery temperature
+modules-right = xbacklight pulseaudio cpu memory wlan battery temperature
 
 tray-position = right
 tray-padding = 2
@@ -69,8 +69,8 @@ label-unmounted-foreground = ${colors.foreground-alt}
 [module/xbacklight]
 type = internal/xbacklight
 
-format = <label> <bar>
-label = BL
+format = <label>
+label = BL %percentage:2%%
 
 bar-width = 10
 bar-indicator = |
@@ -106,41 +106,12 @@ label = %percentage_used%%
 
 [module/wlan]
 type = internal/network
-interface = net1
+interface = wlp58s0
 interval = 3.0
-
-format-connected = <ramp-signal> <label-connected>
 format-connected-underline = #9f78e1
-label-connected = %essid%
-
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
-
-ramp-signal-0 = 
-ramp-signal-1 = 
-ramp-signal-2 = 
-ramp-signal-3 = 
-ramp-signal-4 = 
-ramp-signal-foreground = ${colors.foreground-alt}
-
-[module/eth]
-type = internal/network
-interface = enp3s0
-interval = 3.0
-
-format-connected-underline = #55aa55
-format-connected-prefix = " "
-format-connected-prefix-foreground = ${colors.foreground-alt}
-label-connected = %local_ip%
-
-format-disconnected =
-;format-disconnected = <label-disconnected>
-;format-disconnected-underline = ${self.format-connected-underline}
-;label-disconnected = %ifname% disconnected
-;label-disconnected-foreground = ${colors.foreground-alt}
+label-connected = wifi %essid%
+format-disconnected-underline = <label>
+label-disconnected = wifi
 
 [module/date]
 type = internal/date
@@ -263,7 +234,7 @@ ramp-foreground = ${colors.foreground-alt}
 [module/xmonad]
 type = custom/script
 exec = tail -F /tmp/.xmonad.log
-; exec-if = [ -p /tmp/.xmonad.log ]
+exec-if = [ -p /tmp/.xmonad.log ]
 tail = true
 
 ; vim:ft=dosini
