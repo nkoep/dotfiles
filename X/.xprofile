@@ -26,8 +26,10 @@ volumeicon &
 dropbox &
 
 if [ "$HOST" = "monolith" ]; then
-  DPI=220
+  export X_DPI=180
+  export X_BAR_HEIGHT=40
 else
-  DPI=120
+  export X_DPI=120
+  export X_BAR_HEIGHT=30
 fi
-xrdb -DX_DPI=$DPI -merge ~/.Xresources
+xrdb -DX_DPI=$X_DPI -merge ~/.Xresources

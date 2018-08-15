@@ -15,7 +15,7 @@ secondary = #e60053
 
 [bar/bla]
 width = 100%
-height = 30
+height = ${env:X_BAR_HEIGHT:30}
 radius = 0.0
 fixed-center = true
 
