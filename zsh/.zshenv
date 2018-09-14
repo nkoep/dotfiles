@@ -9,7 +9,10 @@ if command -v ruby >/dev/null && command -v gem >/dev/null; then
 fi
 
 # Add conda command.
-source /home/nik/.anaconda3.6/etc/profile.d/conda.sh
+condapath="/home/nik/.anaconda3.6/etc/profile.d/conda.sh"
+if [ -e "$condapath" ]; then
+  source "$condapath"
+fi
 
 # Environment variables
 export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
