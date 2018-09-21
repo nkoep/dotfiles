@@ -31,7 +31,6 @@ alias ls="ls -h --color=always --group-directories-first"
 alias matlab="matlab -nojvm -nodesktop"
 alias matlabgui="wmname LG3D && \matlab"
 alias maxima="rlwrap rmaxima"
-alias mkpasswd="echo -n $(openssl rand -base64 16)"
 alias mpv="mpv --x11-netwm=yes"
 alias octave="octave --no-gui -q"
 alias octmod="stat -c %a"
@@ -130,4 +129,8 @@ repair-pdf() {
     -dEmbedAllFonts=true \
     "$1"
   fi
+}
+
+mkpasswd() {
+  echo -n $(openssl rand -base64 16)
 }
