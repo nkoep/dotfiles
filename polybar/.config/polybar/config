@@ -37,7 +37,7 @@ font-0 = xft:Sans:pixelsize=8;1
 
 modules-left = xmonad
 modules-center = date
-modules-right = xbacklight pulseaudio cpu memory wlan battery temperature
+modules-right = cpu xbacklight pulseaudio memory wlan battery temperature
 
 tray-position = right
 tray-padding = 2
@@ -86,10 +86,9 @@ card = intel_backlight
 [module/cpu]
 type = internal/cpu
 interval = 2
-format-prefix = " "
-format-prefix-foreground = ${colors.foreground-alt}
-format-underline = #f90000
-label = %percentage:2%%
+format-prefix = "cpu "
+format-prefix-foreground = ${colors.red}
+label = %percentage%%
 
 [module/memory]
 type = internal/memory
@@ -122,15 +121,20 @@ label = %date% %{F#a51f1c}-%{F-} %time%
 [module/pulseaudio]
 type = internal/pulseaudio
 
-label = VOL %percentage%%
+label = %percentage%%
+prefix = "vol "
 
-format-volume = <label-volume>
 label-volume = ${module/pulseaudio.label}
 label-volume-foreground = ${root.foreground}
+format-volume = <label-volume>
+format-volume-prefix = ${module/pulseaudio.prefix}
+format-volume-prefix-foreground = ${colors.red}
 
-format-muted = <label-muted>
 label-muted = ${module/pulseaudio.label}
 label-muted-foreground = #666
+format-muted = <label-muted>
+format-muted-prefix = ${module/pulseaudio.prefix}
+format-muted-prefix-foreground = ${colors.red}
 
 [module/battery]
 type = internal/battery
