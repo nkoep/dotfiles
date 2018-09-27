@@ -144,7 +144,7 @@ format-discharging-prefix-foreground = ${colors.red}
 format-full-prefix = ${module/battery1.prefix}
 format-full-prefix-foreground = ${colors.red}
 
-label-charging = ${module/battery1.label} (AC)
+label-charging = ${module/battery1.label}
 label-discharging = ${module/battery1.label}
 label-full = ${module/battery1.label}
 
