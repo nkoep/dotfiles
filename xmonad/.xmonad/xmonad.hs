@@ -68,12 +68,9 @@ layouts = tiled ||| half ||| full
 -- Explicit window management hooks
 manageHooks = composeAll
     [ -- Center-floated windows
-      className =? "Gmrun" --> doCenterFloat
-    , className =? "ioquake3" --> doCenterFloat
-    , className =? "Volumeicon" --> doCenterFloat
-    , className =? "Settings" --> doCenterFloat
-    , className =? "Gcr-prompter" --> doCenterFloat
+      className =? "Volumeicon" --> doCenterFloat
     , isFullscreen --> doFullFloat
+    , isDialog --> doCenterFloat
     ]
 
 -- Pretty-printer for xmobar
