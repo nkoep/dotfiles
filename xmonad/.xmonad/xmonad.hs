@@ -111,7 +111,7 @@ dmenuOptions =
 keybindings =
     [ ((alt, xK_p), safeSpawn "dmenu_run" dmenuOptions)
     , ((alt, xK_n), safeSpawnProg "nautilus")
-    , ((shiftAlt, xK_f), gotoMenuArgs dmenuOptions)
+    , ((alt, xK_f), gotoMenuArgs dmenuOptions)
     , ((alt, xK_F5), safeSpawnProg "slock")
     , ((shiftAlt, xK_h), prevWS)
     , ((shiftAlt, xK_l), nextWS)
