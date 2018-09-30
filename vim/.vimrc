@@ -43,7 +43,6 @@ augroup filetypedetect
 augroup END
 
 syntax on
-set spell spelllang=en_us " Enable spell-checking
 syntax spell toplevel
 set nofoldenable " disable code folding
 set splitright " open new vertically split buffers on the right
