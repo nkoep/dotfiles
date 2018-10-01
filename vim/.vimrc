@@ -23,6 +23,7 @@ Plug 'tweekmonster/deoplete-clang2'
 Plug 'google/vim-searchindex'
 Plug 'eagletmt/neco-ghc'
 Plug 'chr4/nginx.vim'
+Plug 'Integralist/vim-mypy'
 call plug#end()
 
 " {{{ General settings }}}
