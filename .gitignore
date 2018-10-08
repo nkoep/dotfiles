@@ -30,5 +30,5 @@ xmonad-*
 xfce4-terminal/.config/xfce4/help.rc
 
 firefox/.mozilla/firefox/msege2so.default/*
-!firefox/.mozilla/firefox/msege2so.default/prefs.js
+!firefox/.mozilla/firefox/msege2so.default/user.js
 !firefox/.mozilla/firefox/msege2so.default/userChrome*
