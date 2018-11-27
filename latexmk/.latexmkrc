@@ -1,5 +1,7 @@
 $pdf_previewer = "start evince";
 $pdf_update_method = 0;
+$latex = 'latex  %O  --shell-escape %S';
+$pdflatex = 'pdflatex  %O  --shell-escape %S';
 
 add_cus_dep('glo', 'gls', 0, 'run_makeglossaries');
 add_cus_dep('acn', 'acr', 0, 'run_makeglossaries');
