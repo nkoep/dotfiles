@@ -108,7 +108,7 @@ nnoremap <leader><space> :noh<cr>
 " Remap tab in normal and visual mode to jump between enclosing parens
 map <tab> %
 
-" Speed up scrolling of the viewport
+" Speed up scrolling of the viewport by moving two instead of one line at a
 " time
 nmap <C-e> 2<C-e>
 nmap <C-y> 2<C-y>
@@ -132,3 +132,6 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " Enable jsx syntax highlighting for regular .js files.
 let g:jsx_ext_required = 0
+
+" Reverse completion menu tab cycle direction
+let g:SuperTabDefaultCompletionType = "<c-n>"
