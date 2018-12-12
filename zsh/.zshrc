@@ -134,3 +134,10 @@ repair-pdf() {
 mkpasswd() {
   echo -n $(openssl rand -base64 16)
 }
+
+cenv() {
+  condaenvfile="$PWD/.conda_env"
+  if [ -e "$condaenvfile" ]; then
+    conda activate $(cat "$condaenvfile")
+  fi
+}
