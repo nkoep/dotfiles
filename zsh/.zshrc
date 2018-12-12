@@ -142,3 +142,12 @@ cenv() {
     conda activate $(cat "$condaenvfile")
   fi
 }
+
+pydep() {
+  depsdir="$PWD/.deps"
+  if [ -d "$depsdir" ]; then
+    PYTHONPATH="$depsdir" python -S $*
+  else
+    echo "No .deps directory found"
+  fi
+}
