@@ -33,7 +33,8 @@ padding-right = 2
 module-margin-left = 1
 module-margin-right = 1
 
-font-0 = xft:Sans:pixelsize=8;1
+font-0 = xft:Sans:pixelsize=8;0
+font-1 = xft:Monospace:pixelsize=8;0
 
 modules-left = xmonad
 modules-center = date
@@ -67,7 +68,7 @@ type = internal/xbacklight
 format = <label>
 format-prefix = "bl "
 format-prefix-foreground = ${colors.red}
-label = %percentage%%
+label = %percentage:3%%
 
 [module/backlight-acpi]
 inherit = module/xbacklight
@@ -79,14 +80,14 @@ type = internal/cpu
 interval = 2
 format-prefix = "cpu "
 format-prefix-foreground = ${colors.red}
-label = %percentage%%
+label = %percentage:3%%
 
 [module/memory]
 type = internal/memory
 interval = 2
 format-prefix = "mem "
 format-prefix-foreground = ${colors.red}
-label = %percentage_used%%
+label = %percentage_used:3%%
 
 [module/wifi]
 type = internal/network
@@ -111,7 +112,7 @@ label = %date% %{F#a51f1c}-%{F-} %time%
 [module/pulseaudio]
 type = internal/pulseaudio
 
-label = %percentage%%
+label = %percentage:3%%
 prefix = "vol "
 
 label-volume = ${module/pulseaudio.label}
@@ -134,7 +135,7 @@ type = internal/battery
 
 battery = BAT0
 adapter = AC
-label = %percentage%%
+label = %percentage:3%%
 prefix = "bat "
 
 format-charging-prefix = ${module/battery1.prefix}
