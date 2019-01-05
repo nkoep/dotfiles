@@ -88,6 +88,7 @@ set guicursor+=a:blinkon0 " Don't blink
 
 " {{{ Colorscheme }}}
 set t_Co=256
+set background=light
 colorscheme PaperColor
 highlight ColorColumn ctermbg=2
 highlight ColorColumn guibg=Green
