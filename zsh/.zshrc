@@ -17,6 +17,7 @@ fi
 # Aliases
 alias avidemux="avidemux2_gtk"
 alias bat="acpi"
+alias cast="mkchromecast --encoder-backend ffmpeg --codec flac"
 alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
 alias clip="xclip -selection clipboard"
 alias denv="conda deactivate"
