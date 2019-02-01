@@ -139,7 +139,9 @@ mkpasswd() {
 
 cenv() {
   condaenvfile="$PWD/.conda_env"
-  if [ -e "$condaenvfile" ]; then
+  if [ $# -eq 1 ]; then
+    conda activate $1
+  elif [ -e "$condaenvfile" ]; then
     conda activate $(cat "$condaenvfile")
   fi
 }
