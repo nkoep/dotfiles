@@ -3,7 +3,7 @@ export ZSH=$HOME/.oh-my-zsh
 
 # Define the PATH variable.
 typeset -U path
-path=(~/.local/bin $HOME/Dropbox/bla/.bin $HOME/.cabal/bin $path)
+path=(~/.bin ~/.local/bin $HOME/Dropbox/bla/.bin $HOME/.cabal/bin $path)
 if command -v ruby >/dev/null && command -v gem >/dev/null; then
   path=($(ruby -e 'puts Gem.user_dir')/bin $path)
 fi
