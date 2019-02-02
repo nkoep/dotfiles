@@ -12,5 +12,3 @@
 	taglist = log --tags --simplify-by-decoration --pretty=\"format:%ai %d\"
 	amend = commit --amend -c HEAD
 	rev = rev-parse --short
-[include]
-	path = ~/Dropbox/bla/gitconfig.mail
