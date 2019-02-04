@@ -1,8 +1,8 @@
-"quodlibet --play-pause"
+"mpc toggle"
   Mod2 + F7
 
-"quodlibet --previous"
+"mpc prev"
   Mod2 + F9
 
-"quodlibet --next"
+"mpc next"
   Mod2 + F10
