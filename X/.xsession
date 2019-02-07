@@ -15,7 +15,6 @@ xset -dpms &
 
 # Start remaining background processes.
 nm-applet &
-volumeicon &
 dropbox &
 
 case $HOSTNAME in
