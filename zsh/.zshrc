@@ -155,3 +155,12 @@ pydep() {
     echo "No .deps directory found"
   fi
 }
+
+retag-folder() {
+  if [ $# -eq 1 ]; then
+    targetdir="$1"
+  else
+    echo "No target directory specified"
+  fi
+  find "$targetdir" -type f -iname "*.mp3" -exec retag-mp3 {} \;
+}
