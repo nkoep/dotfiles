@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -o nounset
+set -o errexit
+
+die() {
+  echo $*
+  exit 1
+}
+
+command -v mid3v2 >/dev/null || die "mutagen required"
+
+mid3v2 -v --delete-v1 --delete-frames COMM -C $*
