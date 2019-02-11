@@ -3,25 +3,15 @@ mpd_port = 6600
 mpd_music_dir = ~/syncthing/music
 
 allow_for_physical_item_deletion = yes
-
 media_library_primary_tag = album_artist
-
 jump_to_now_playing_song_at_start = yes
 autocenter_mode = yes
+playlist_disable_highlight_delay = 0
 
-#mpd_crossfade_time = 5
 
-##### delays #####
-#
-## Time of inactivity (in seconds) after playlist highlighting will be disabled
-## (0 = always on).
-##
-#playlist_disable_highlight_delay = 5
-#
-## Defines how long messages are supposed to be visible.
-##
-#message_delay_time = 5
-#
+
+
+
 ##### song format #####
 ##
 ## For a song format you can use:
