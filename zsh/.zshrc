@@ -58,6 +58,8 @@ alias rscp="rsync -aP"
 alias rsmv="rscp --remove-source-files"
 alias sinfo="ssh -t vader -- sinfo"
 alias texmake="latexmk -pdf -pvc -interaction=nonstopmode"
+alias timonitor="tisimctl monitor --simulation config.yaml"
+alias tistop="tisimctl stop --simulation config.yaml"
 alias valgrind="valgrind --leak-check=full"
 alias vi="vim"
 if [ "$(command -v nvim)" != "" ]; then
