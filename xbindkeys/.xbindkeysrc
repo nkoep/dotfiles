@@ -6,3 +6,9 @@
 
 "mpc next"
   Mod2 + F10
+
+"pactl set-sink-volume @DEFAULT_SINK@ +5%"
+  Mod2 + F11
+
+"pactl set-sink-volume @DEFAULT_SINK@ -5%"
+  Mod2 + F12
