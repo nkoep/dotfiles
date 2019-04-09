@@ -6,6 +6,7 @@ unsetopt AUTO_CD
 
 # Select zsh plugins.
 plugins=(colored-man cp git systemd z ssh-agent)
+zstyle :omz:plugins:ssh-agent identities id_rsa id_ed25519
 
 source $ZSH/oh-my-zsh.sh
 
