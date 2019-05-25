@@ -139,7 +139,11 @@ repair-pdf() {
 }
 
 mkpasswd() {
-  echo -n $(openssl rand -base64 16)
+  if [ $# -eq 1 ]; then
+    echo -n $(openssl rand -base64 $1)
+  else
+    echo -n $(openssl rand -base64 16)
+  fi
 }
 
 cenv() {
