@@ -69,6 +69,7 @@ if [ "$(command -v nvim)" != "" ]; then
 fi
 alias which="command -v"
 alias yearn="journalctl" # Do you ever yearn?
+alias ytdl="youtube-dl -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'"
 
 # Functions
 findext() {
