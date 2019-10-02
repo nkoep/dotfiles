@@ -1,6 +1,8 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses #-}
 
 import Control.Arrow (second)
+import Control.Monad (when)
+import System.Directory (doesFileExist, removeFile)
 import Data.List (elemIndex)
 import qualified Graphics.X11.Xlib (Rectangle(..))
 import Codec.Binary.UTF8.String (decodeString)
@@ -162,7 +164,9 @@ config' logfile = E.ewmh defaultConfig
 -- xmobar configuration
 main :: IO ()
 main = do
-    let logfile = "/tmp/.xmonad.log"
-    safeSpawn "mkfifo" [logfile]
+    let pipe = "/tmp/.xmonad.log"
+    fileExists <- doesFileExist pipe
+    when fileExists $ removeFile pipe
+    safeSpawn "mkfifo" [pipe]
     safeSpawn "polybar" ["bla"]
-    xmonad $ config' logfile
+    xmonad $ config' pipe
