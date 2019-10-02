@@ -93,8 +93,8 @@ colorscheme PaperColor
 highlight ColorColumn ctermbg=2
 highlight ColorColumn guibg=Green
 set hlsearch
-hi Search cterm=NONE gui=NONE
-hi Search ctermfg=Black ctermbg=Yellow guifg=Black guibg=Yellow
+hi Search gui=NONE guifg=Black guibg=Yellow
+hi Search cterm=NONE ctermfg=Black ctermbg=Yellow
 
 " {{{ Keybindings }}}
 set pastetoggle=<F2>
