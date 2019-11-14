@@ -17,7 +17,7 @@ fi
 # Environment variables
 export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
 export LESS="-R "
-export BROWSER="chromium"
+export BROWSER="firefox"
 if [ "$(command -v nvim)" != "" ] ;then
   export VISUAL="nvim"
 else
