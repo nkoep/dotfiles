@@ -9,6 +9,9 @@ xbindkeys
 # Enable the num pad.
 numlockx on &
 
+# Kill polybar just in case.
+pkill polybar
+
 # Turn off the screensaver.
 xset s off &
 xset -dpms &
