@@ -18,6 +18,7 @@ fi
 # Aliases
 alias avidemux="avidemux2_gtk"
 alias bat="acpi"
+alias booterrors="sudo journalctl -b -p err"
 alias cast="mkchromecast --encoder-backend ffmpeg --codec flac"
 alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
 alias cleantags="mid3v2 -v --delete-v1 --delete-frames COMM -C"
