@@ -39,9 +39,8 @@ yarn add --dev source-map html-webpack-plugin clean-webpack-plugin eslint
 
 # Add NPM scripts.
 cp package.json package.json.tmp
-add_npm_script "dev:build" "webpack --watch"
-add_npm_script "dev:serve" "webpack-dev-server --watch --open firefox"
-add_npm_script "dev" "npm-run-all -p dev:*"
+add_npm_script "dev" "webpack-dev-server --watch --open firefox"
+add_npm_script "lint" "eslint src"
 add_npm_script "build" "webpack --progress --mode=production"
 mv package.json.tmp package.json
 
@@ -97,6 +96,27 @@ module.exports = {
     require("autoprefixer")
   ]
 }
+EOF
+
+# Configure ESLint.
+cat <<'EOF' > .eslintrc.js
+module.exports = {
+  "env": {
+    "browser": true,
+    "es6": true
+  },
+  "extends": "eslint:recommended",
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parserOptions": {
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "rules": {
+  }
+};
 EOF
 
 # Create stubs for main.scss and index.js.
