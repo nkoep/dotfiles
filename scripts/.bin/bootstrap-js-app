@@ -1,0 +1,117 @@
+#!/bin/sh
+
+set -o errexit
+
+die() {
+  echo $*
+  exit 1
+}
+
+add_npm_script() {
+  key="$1"
+  value="$2"
+  jq ".scripts[\"$key\"] = \"$value\"" package.json.tmp \
+    | sponge package.json.tmp
+}
+
+# Check for npm, yarn and jq
+for p in npm yarn jq sponge; do
+  command -v $p >/dev/null 2>&1 || { die "\`$p\` not found in PATH"; }
+done
+
+mkdir -p src/{js,sass}
+
+# Initialize the repository.
+npm init
+
+# Install webpack.
+yarn add --dev webpack webpack-dev-server webpack-cli
+
+# Install babel.
+yarn add --dev @babel/core babel-loader @babel/preset-env
+
+# Install SASS/CSS loaders, autoprefixers, etc.
+yarn add --dev node-sass sass-loader css-loader style-loader autoprefixer \
+  postcss-loader postcss-preset-env
+
+# Install convenience utilities.
+yarn add --dev npm-run-all source-map html-webpack-plugin
+
+# Add NPM scripts.
+cp package.json package.json.tmp
+add_npm_script "dev:build" "webpack"
+add_npm_script "dev:serve" "webpack-dev-server --open firefox"
+add_npm_script "dev" "npm-run-all -p dev:*"
+add_npm_script "build" "webpack --progress --mode=production --watch=false"
+mv package.json.tmp package.json
+
+# Configure webpack.
+cat <<'EOF' > webpack.config.js
+const path = require("path");
+const htmlWebpackPlugin = require("html-webpack-plugin");
+
+module.exports = {
+  mode: "development",
+  entry: ["./src/index.js", "./src/sass/main.scss"],
+  output: {
+    path: path.resolve(__dirname, "public"),
+    filename: "app.js"
+  },
+  devtool: "source-map",
+  devServer: {
+    contentBase: "./public"
+  },
+  watch: true,
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-env"]
+          }
+        }
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"]
+      }
+    ]
+  },
+  plugins: [
+    new htmlWebpackPlugin({
+      template: "./src/index.html"
+    })
+  ]
+};
+EOF
+
+# Configure PostCSS.
+cat <<'EOF' > postcss.config.js
+module.exports = {
+  plugins: [
+    require("autoprefixer")
+  ]
+}
+EOF
+
+# Create stubs for main.scss and index.js.
+echo "body {}" > src/sass/main.scss
+echo "import \"./sass/main.scss\";" > src/index.js
+
+# Create stub for index.html.
+cat <<'EOF' > src/index.html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+
+  <body>
+    <div id="app"></div>
+  </body>
+</html>
+EOF
