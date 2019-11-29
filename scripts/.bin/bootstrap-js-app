@@ -39,10 +39,10 @@ yarn add --dev npm-run-all source-map html-webpack-plugin
 
 # Add NPM scripts.
 cp package.json package.json.tmp
-add_npm_script "dev:build" "webpack"
-add_npm_script "dev:serve" "webpack-dev-server --open firefox"
+add_npm_script "dev:build" "webpack --watch"
+add_npm_script "dev:serve" "webpack-dev-server --watch --open firefox"
 add_npm_script "dev" "npm-run-all -p dev:*"
-add_npm_script "build" "webpack --progress --mode=production --watch=false"
+add_npm_script "build" "webpack --progress --mode=production"
 mv package.json.tmp package.json
 
 # Configure webpack.
