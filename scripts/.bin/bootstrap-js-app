@@ -35,7 +35,7 @@ yarn add --dev node-sass sass-loader css-loader style-loader autoprefixer \
   postcss-loader postcss-preset-env
 
 # Install convenience utilities.
-yarn add --dev npm-run-all source-map html-webpack-plugin
+yarn add --dev source-map html-webpack-plugin clean-webpack-plugin eslint
 
 # Add NPM scripts.
 cp package.json package.json.tmp
@@ -48,7 +48,8 @@ mv package.json.tmp package.json
 # Configure webpack.
 cat <<'EOF' > webpack.config.js
 const path = require("path");
-const htmlWebpackPlugin = require("html-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 module.exports = {
   mode: "development",
@@ -81,7 +82,8 @@ module.exports = {
     ]
   },
   plugins: [
-    new htmlWebpackPlugin({
+    new CleanWebpackPlugin(),
+    new HtmlWebpackPlugin({
       template: "./src/index.html"
     })
   ]
