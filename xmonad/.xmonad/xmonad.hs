@@ -20,7 +20,7 @@ import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Util.Cursor (setDefaultCursor)
-import XMonad.Util.EZConfig (additionalKeys)
+import XMonad.Util.EZConfig (additionalKeys, removeKeys)
 import XMonad.Util.Font (fi)
 import XMonad.Util.Run (safeSpawn, safeSpawnProg)
 
@@ -159,7 +159,9 @@ config' logfile = E.ewmh defaultConfig
     , startupHook = startupHook'
     , focusFollowsMouse = False
     , clickJustFocuses = False
-    } `additionalKeys` keybindings
+    } `additionalKeys` keybindings `removeKeys` restartCombo
+    where restartCombo = [(mod1Mask, xK_q)]
+
 
 -- xmobar configuration
 main :: IO ()
