@@ -51,14 +51,15 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
-module.exports = {
+module.exports = (env, argv) => ({
   mode: "development",
   entry: ["./src/index.js", "./src/sass/main.scss"],
   output: {
     path: path.resolve(__dirname, "public"),
-    filename: "app.js"
+    filename: "app.js",
+    publicPath: "/"
   },
-  devtool: "source-map",
+  devtool: argv.mode === "development" ? "source-map" : false,
   devServer: {
     contentBase: "./public"
   },
@@ -87,7 +88,7 @@ module.exports = {
       template: "./src/index.html"
     })
   ]
-};
+});
 EOF
 
 # Configure PostCSS.
