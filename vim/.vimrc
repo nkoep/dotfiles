@@ -24,6 +24,7 @@ Plug 'google/vim-searchindex'
 Plug 'eagletmt/neco-ghc'
 Plug 'chr4/nginx.vim'
 Plug 'Integralist/vim-mypy'
+Plug 'cespare/vim-toml'
 call plug#end()
 
 " {{{ General settings }}}
