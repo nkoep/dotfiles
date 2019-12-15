@@ -27,8 +27,9 @@ npm init
 # Install webpack.
 yarn add --dev webpack webpack-dev-server webpack-cli
 
-# Install babel.
-yarn add --dev @babel/core babel-loader @babel/preset-env
+# Install babel with the necessary polyfills for await/async.
+yarn add --dev @babel/core babel-loader @babel/preset-env core-js \
+  regenerator-runtime
 
 # Install SASS/CSS loaders, autoprefixers, etc.
 yarn add --dev node-sass sass-loader css-loader style-loader autoprefixer \
@@ -121,7 +122,12 @@ EOF
 
 # Create stubs for main.scss and index.js.
 echo "body {}" > src/sass/main.scss
-echo "import \"./sass/main.scss\";" > src/index.js
+cat <<'EOF' > src/index.js
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
+import "./sass/main.scss;"
+EOF
 
 # Create stub for index.html.
 cat <<'EOF' > src/index.html
