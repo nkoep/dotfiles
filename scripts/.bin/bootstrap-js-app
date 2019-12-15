@@ -59,7 +59,7 @@ module.exports = (env, argv) => ({
     filename: "app.js",
     publicPath: "/"
   },
-  devtool: argv.mode === "development" ? "source-map" : false,
+  devtool: argv.mode === "production" ? false : "source-map",
   devServer: {
     contentBase: "./public"
   },
