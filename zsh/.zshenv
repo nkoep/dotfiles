@@ -14,6 +14,10 @@ if [ -e "$condapath" ]; then
   source "$condapath"
 fi
 
+# Set up OPAM.
+test -r /home/nik/.opam/opam-init/init.zsh && \
+  . /home/nik/.opam/opam-init/init.zsh > /dev/null 2> /dev/null || true
+
 # Environment variables
 export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
 export LESS="-R "
