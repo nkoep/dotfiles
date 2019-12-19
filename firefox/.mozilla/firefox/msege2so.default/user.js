@@ -36,7 +36,7 @@ user_pref("experiments.activeExperiment", false);
 user_pref("extensions.pendingOperations", false);
 user_pref("extensions.pocket.enabled", false);
 user_pref("findbar.highlightAll", true);
-user_pref("full-screen-api.ignore-widgets", true);
+user_pref("full-screen-api.ignore-widgets", false);
 user_pref("general.smoothScroll", false);
 user_pref("general.warnOnAboutConfig", false);
 user_pref("layout.css.font-loading-api.enabled", false);
