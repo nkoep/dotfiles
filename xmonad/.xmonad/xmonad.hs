@@ -1,9 +1,10 @@
 {-# LANGUAGE FlexibleInstances, MultiParamTypeClasses #-}
 
 import Control.Arrow (second)
-import Control.Monad (when)
+import Control.Monad (when, join)
 import System.Directory (doesFileExist, removeFile)
 import Data.List (elemIndex)
+import Data.Maybe (maybeToList)
 import qualified Graphics.X11.Xlib (Rectangle(..))
 import Codec.Binary.UTF8.String (decodeString)
 
@@ -13,8 +14,8 @@ import XMonad.Actions.WindowBringer (gotoMenuArgs)
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
-import qualified XMonad.Hooks.EwmhDesktops as E
-import XMonad.Layout.Fullscreen (fullscreenManageHook)
+import XMonad.Hooks.EwmhDesktops as E
+import XMonad.Layout.Fullscreen as LF
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.NoBorders (smartBorders)
@@ -24,6 +25,22 @@ import XMonad.Util.EZConfig (additionalKeys, removeKeys)
 import XMonad.Util.Font (fi)
 import XMonad.Util.Run (safeSpawn, safeSpawnProg)
 
+-- Add support for fullscreen videos in Firefox.
+addNETSupported :: Atom -> X ()
+addNETSupported x   = withDisplay $ \dpy -> do
+    r               <- asks theRoot
+    a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
+    a               <- getAtom "ATOM"
+    liftIO $ do
+       sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
+       when (fromIntegral x `notElem` sup) $
+         changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
+
+addEWMHFullscreen :: X ()
+addEWMHFullscreen   = do
+    wms <- getAtom "_NET_WM_STATE"
+    wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
+    mapM_ addNETSupported [wms, wfs]
 
 -- Color definitions
 colorHighlight = "#a51f1c"
@@ -33,7 +50,7 @@ colorBg = "#262729"
 
 -- Miscellaneous settings
 terminal' = "xfce4-terminal"
-borderWidth' = 1
+borderWidth' = 2
 workspaces' =
     [ "one"
     , "two"
@@ -67,11 +84,9 @@ layouts = tiled ||| half ||| full
           half              = renameLayout "H" $ Tall 1 (1 / 2) (1 / 2)
           full              = renameLayout "F" $ Full
 
--- Explicit window management hooks
-manageHooks = composeAll
-    [ -- Center-floated windows
-      className =? "Volumeicon" --> doCenterFloat
-    , isFullscreen --> doFullFloat
+-- Float windows
+floatHooks = composeAll
+    [ isFullscreen --> doFullFloat
     , isDialog --> doCenterFloat
     ]
 
@@ -148,20 +163,19 @@ config' logfile = E.ewmh defaultConfig
         $ layouts
     , manageHook
         =   manageDocks
-        <+> manageHooks
-        <+> fullscreenManageHook
+        <+> floatHooks
+        <+> LF.fullscreenManageHook
     , handleEventHook
         =   docksEventHook
         <+> E.fullscreenEventHook
     , workspaces = workspaces'
     , borderWidth = borderWidth'
     , logHook = dynamicLogWithPP $ prettyPrinter logfile
-    , startupHook = startupHook'
+    , startupHook = startupHook' >> addEWMHFullscreen
     , focusFollowsMouse = False
     , clickJustFocuses = False
     } `additionalKeys` keybindings `removeKeys` restartCombo
     where restartCombo = [(mod1Mask, xK_q)]
-
 
 -- xmobar configuration
 main :: IO ()
