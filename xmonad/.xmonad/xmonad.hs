@@ -84,11 +84,8 @@ layouts = tiled ||| half ||| full
           half              = renameLayout "H" $ Tall 1 (1 / 2) (1 / 2)
           full              = renameLayout "F" $ Full
 
--- Float windows
-floatHooks = composeAll
-    [ isFullscreen --> doFullFloat
-    , isDialog --> doCenterFloat
-    ]
+-- Float dialog windows
+floatHooks = isDialog --> doCenterFloat
 
 -- Pretty-printer for xmobar
 workspaceIndex workspaceId =
