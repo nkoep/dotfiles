@@ -16,6 +16,7 @@ if [[ -e /usr/share/terminfo/x/xterm-256color ]]; then
 fi
 
 # Aliases
+alias autofs="sudo automount -fv"
 alias avidemux="avidemux2_gtk"
 alias bat="acpi"
 alias booterrors="sudo journalctl -b -p err"
