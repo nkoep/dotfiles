@@ -9,6 +9,7 @@ autocenter_mode = yes
 playlist_disable_highlight_delay = 0
 incremental_seeking = no
 seek_time = 10
+song_columns_list_format = (4f)[green]{nE:#} (20)[]{A|a:Album Artist} (20)[]{a:Artist} (30)[white]{t|f:Title} (20)[cyan]{b:Album} (7f)[magenta]{lr:Length}
 
 
 
