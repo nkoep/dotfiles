@@ -10,4 +10,4 @@ die() {
 
 command -v mid3v2 >/dev/null || die "mutagen required"
 
-mid3v2 -v --delete-v1 --delete-frames COMM -C $*
+mid3v2 -v --delete-v1 --delete-frames COMM,TXXX -C "$*"
