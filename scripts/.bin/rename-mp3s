@@ -9,6 +9,7 @@ import struct
 from mutagen import MutagenError
 from mutagen.mp3 import MP3
 from mutagen.id3 import ID3
+from unidecode import unidecode
 
 
 def die(msg):
@@ -92,12 +93,12 @@ def build_filename(mp3, path, skip_disc):
         values[attr] = value[0]
 
     def clean_string(s):
-        return re.sub(r"[ ]", "_", re.sub("[^a-zA-Z0-9 ]", "", s))
+        return re.sub("[^a-zA-Z0-9 _]", "", re.sub(r"[ \-]", "_", s)).strip()
 
     prefix = build_prefix(
         values.get("track_number"), values.get("disc_number"), skip_disc)
-    artist = clean_string(values.get("artist")).lower()
-    title = clean_string(values.get("title")).lower()
+    artist = clean_string(unidecode(values.get("artist"))).lower()
+    title = clean_string(unidecode(values.get("title"))).lower()
     return f"{prefix}-{artist}-{title}.mp3"
 
 
