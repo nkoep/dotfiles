@@ -151,7 +151,7 @@ def main():
         print(f"{oldname}   →   {newname}")
     print()
 
-    answer = input("Confirm? [y/n] ")
+    answer = input("Confirm? [Y/n] ") or "y"
     if answer == "y":
         rename_files(directory, mapping)
         print("Done")
