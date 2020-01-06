@@ -70,7 +70,7 @@ def build_prefix(track, disc, include_disc):
 
 def clean_string(s):
     s = unidecode(s)
-    s = re.sub("[\-]", " ", s)
+    s = re.sub("[\-/]", " ", s)
     fragments = s.split()
     fragments = map(lambda f: "and" if f == "&" else f, fragments)
     s = "_".join(fragments)
