@@ -55,7 +55,7 @@ def parse_id3v1(path):
     return frames
 
 
-def build_prefix(track, disc, skip_disc):
+def build_prefix(track, disc, include_disc):
     def split_and_convert(s):
         try:
             return int(s.split("/")[0])
@@ -63,12 +63,21 @@ def build_prefix(track, disc, skip_disc):
             return ""
         return s
     track, disc = map(split_and_convert, (track, disc))
-    if skip_disc:
-        return f"{track:02d}"
-    return f"{disc}{track:02d}"
+    if include_disc:
+        return f"{disc}{track:02d}"
+    return f"{track:02d}"
 
 
-def build_filename(mp3, path, skip_disc):
+def clean_string(s):
+    s = unidecode(s)
+    s = re.sub("[\-]", " ", s)
+    fragments = s.split()
+    fragments = filter(lambda f: "and" if f == "&" else f, fragments)
+    s = "_".join(fragments)
+    return re.sub("[^a-zA-Z0-9 _]", "", s)
+
+
+def build_filename(mp3, path, include_disc):
     tags = mp3.tags or id3.ID3()
     tags_id3v1 = None
 
@@ -76,7 +85,10 @@ def build_filename(mp3, path, skip_disc):
         "TPE1": "artist",
         "TIT2": "title",
         "TRCK": "track_number",
-        "TPOS": "disc_number"
+        "TPOS": "disc_number",
+        "TPE2": "album_artist",
+        "TALB": "album",
+        "TDRC": "date"
     }
     values = {}
     for tag, attr in tag_mapping.items():
@@ -92,14 +104,18 @@ def build_filename(mp3, path, skip_disc):
         value = frame.text
         values[attr] = value[0]
 
-    def clean_string(s):
-        return re.sub("[^a-zA-Z0-9 _]", "", re.sub(r"[ \-]", "_", s)).strip()
-
     prefix = build_prefix(
-        values.get("track_number"), values.get("disc_number"), skip_disc)
-    artist = clean_string(unidecode(values.get("artist"))).lower()
-    title = clean_string(unidecode(values.get("title"))).lower()
-    return f"{prefix}-{artist}-{title}.mp3"
+        values.get("track_number"), values.get("disc_number"), include_disc)
+    artist = clean_string(values.get("artist")).lower()
+    title = clean_string(values.get("title")).lower()
+    album_artist = values.get("album_artist") or values.get("artist")
+    album_title = values.get("album")
+    try:
+        date = values.get("date").get_text()
+    except AttributeError:
+        date = ""
+
+    return f"{prefix}-{artist}-{title}.mp3", album_artist, album_title, date
 
 
 def rename_files(directory, mapping):
@@ -111,9 +127,28 @@ def rename_files(directory, mapping):
 def parse_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("directory", nargs=1, help="target directory")
-    parser.add_argument("-s", help="skip disc prefix", default=False,
-                        required=False, action="store_true", dest="skip_disc")
+    parser.add_argument("-d", help="include disc prefix", default=False,
+                        required=False, action="store_true",
+                        dest="include_disc")
     return vars(parser.parse_args())
+
+
+def determine_folder_name(album_artists, album_titles, dates):
+    if len(album_artists) == 1:
+        album_artist = album_artists.pop()
+    else:
+        album_artist = "VA"
+    if len(album_titles) > 1:
+        die("Album title is not unique")
+    album_title = album_titles.pop()
+    if len(dates) > 1:
+        die("Year is not unique")
+    date = dates.pop()
+    return f"{clean_string(album_artist)}-{clean_string(album_title)}-{date}"
+
+
+def canonicalize_path(p):
+    return os.path.realpath(os.path.expanduser(p))
 
 
 def main():
@@ -122,6 +157,7 @@ def main():
     directory = args["directory"][0]
     if not os.path.isdir(directory):
         die(f"'{directory} is not a directory")
+    directory = canonicalize_path(directory)
 
     tracks = {}
     for f in os.listdir(directory):
@@ -133,10 +169,17 @@ def main():
         tracks[f] = mp3
 
     mapping = {}
+    album_artists = set()
+    album_titles = set()
+    dates = set()
     for f in sorted(tracks.keys()):
         audio = tracks[f]
-        filename = build_filename(
-            audio, os.path.join(directory, f), skip_disc=args["skip_disc"])
+        filename, album_artist, album_title, date = build_filename(
+            audio, os.path.join(directory, f),
+            include_disc=args["include_disc"])
+        album_artists.add(album_artist)
+        album_titles.add(album_title)
+        dates.add(date)
         mapping[filename] = f
 
     print()
@@ -152,14 +195,28 @@ def main():
         print(f"{oldname}   →   {newname}")
     print()
 
-    answer = input("Confirm? [Y/n] ") or "y"
-    if answer == "y":
-        rename_files(directory, mapping)
-        print("Done")
-    elif answer == "n":
-        print("Aborting")
-    else:
-        die(f"Invalid choice: '{answer}'")
+    def prompt_action(question, callback):
+        answer = input(f"{question} [Y/n] ").lower() or "y"
+        if answer == "y":
+            callback()
+            print("Done")
+            return True
+        print()
+        return False
+
+    prompt_action("Rename files?",
+                  lambda: rename_files(directory, mapping))
+
+    dirname = os.path.dirname(directory)
+    basename = os.path.basename(directory)
+    new_directory = determine_folder_name(album_artists, album_titles, dates)
+
+    def rename_directories():
+        if os.getcwd() == directory:
+            die("Cannot rename working directory")
+        os.rename(directory, os.path.join(dirname, new_directory))
+    prompt_action(f"Rename directories: '{basename}'   →   '{new_directory}'?",
+                  rename_directories)
 
 
 if __name__ == "__main__":
