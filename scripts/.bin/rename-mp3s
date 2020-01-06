@@ -72,9 +72,11 @@ def clean_string(s):
     s = unidecode(s)
     s = re.sub("[\-]", " ", s)
     fragments = s.split()
-    fragments = filter(lambda f: "and" if f == "&" else f, fragments)
+    fragments = map(lambda f: "and" if f == "&" else f, fragments)
     s = "_".join(fragments)
-    return re.sub("[^a-zA-Z0-9 _]", "", s)
+    s = re.sub("[^a-zA-Z0-9 _]", "", s)
+    s = re.sub("[_]", "_", s)
+    return s
 
 
 def build_filename(mp3, path, include_disc):
