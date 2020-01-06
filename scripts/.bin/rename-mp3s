@@ -194,7 +194,7 @@ def main():
     print("-" * len(header))
     print()
     for newname, oldname in sorted(mapping.items(), key=lambda v: v[0]):
-        print(f"{oldname}   →   {newname}")
+        print(f"{oldname.encode('utf-8', 'surrogateescape')}   →   {newname}")
     print()
 
     def prompt_action(question, callback):
@@ -202,6 +202,7 @@ def main():
         if answer == "y":
             callback()
             print("Done")
+            print()
             return True
         print()
         return False
