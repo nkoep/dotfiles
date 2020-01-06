@@ -5,6 +5,7 @@ import os
 import re
 import argparse
 import struct
+import signal
 
 from mutagen import MutagenError
 from mutagen.mp3 import MP3
@@ -223,4 +224,5 @@ def main():
 
 
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, lambda *x: sys.exit(1))
     main()
