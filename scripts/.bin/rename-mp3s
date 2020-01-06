@@ -75,7 +75,7 @@ def clean_string(s):
     fragments = map(lambda f: "and" if f == "&" else f, fragments)
     s = "_".join(fragments)
     s = re.sub("[^a-zA-Z0-9 _]", "", s)
-    s = re.sub("[_]", "_", s)
+    s = re.sub("[_]+", "_", s)
     return s
 
 
