@@ -4,6 +4,8 @@ def_key "q"
   quit
 def_key "5"  # Disable playlist editor cause it crashes ncmpcpp
  dummy
+def_key "ctrl-l"
+  dummy
 
 # Regular navigation
 def_key "j"
@@ -28,3 +30,7 @@ def_key "n"
   next_found_item
 def_key "N"
   previous_found_item
+
+# Lyrics
+def_key "L"
+  show_lyrics
