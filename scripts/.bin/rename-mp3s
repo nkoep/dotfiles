@@ -6,11 +6,18 @@ import re
 import argparse
 import struct
 import signal
+import collections
 
 from mutagen import MutagenError
 from mutagen.mp3 import MP3
-from mutagen.id3 import ID3
+from mutagen import id3
 from unidecode import unidecode
+from titlecase import titlecase
+
+
+Track = collections.namedtuple(
+    "Track", ("path", "disc", "track", "artist", "album_artist", "title",
+              "album", "year"))
 
 
 def die(msg):
@@ -23,7 +30,7 @@ def parse_id3v1(path):
         f.seek(-128, os.SEEK_END)
         string = f.read(128)
 
-    frames = ID3()
+    frames = id3.ID3()
     try:
         tag, title, artist, album, year, _, track, genre = \
             struct.unpack("3s30s30s30s4s29sBB", string)
@@ -36,13 +43,13 @@ def parse_id3v1(path):
     def fix_encoding(s):
         return s.split("\x00")[0].strip()
 
-    title, artist, album, year, comment = list(map(
-        fix_encoding, [title, artist, album, year, comment]))
+    title, artist, album, year, genre = list(map(
+        fix_encoding, [title, artist, album, year, genre]))
 
     if title:
         frames["TIT2"] = id3.TIT2(text=title)
     if artist:
-        frames["TPE1"] = id3.TPE1(text=[artist])
+        frames["TPE1"] = id3.TPE1(text=artist)
     if album:
         frames["TALB"] = id3.TALB(text=album)
     if year:
@@ -56,19 +63,6 @@ def parse_id3v1(path):
     return frames
 
 
-def build_prefix(track, disc, include_disc):
-    def split_and_convert(s):
-        try:
-            return int(s.split("/")[0])
-        except (ValueError, IndexError, AttributeError):
-            return ""
-        return s
-    track, disc = map(split_and_convert, (track, disc))
-    if include_disc:
-        return f"{disc}{track:02d}"
-    return f"{track:02d}"
-
-
 def clean_string(s):
     s = unidecode(s)
     s = re.sub("[\-/]", " ", s)
@@ -80,16 +74,20 @@ def clean_string(s):
     return s
 
 
-def build_filename(mp3, path, include_disc):
+def gather_facts(path):
+    try:
+        mp3 = MP3(path)
+    except MutagenError:
+        return None
+
     tags = mp3.tags or id3.ID3()
     tags_id3v1 = None
-
     tag_mapping = {
+        "TPOS": "disc",
+        "TRCK": "track",
         "TPE1": "artist",
-        "TIT2": "title",
-        "TRCK": "track_number",
-        "TPOS": "disc_number",
         "TPE2": "album_artist",
+        "TIT2": "title",
         "TALB": "album",
         "TDRC": "date"
     }
@@ -107,124 +105,240 @@ def build_filename(mp3, path, include_disc):
         value = frame.text
         values[attr] = value[0]
 
-    prefix = build_prefix(
-        values.get("track_number"), values.get("disc_number"), include_disc)
-    artist = clean_string(values.get("artist")).lower()
-    title = clean_string(values.get("title")).lower()
-    album_artist = values.get("album_artist") or values.get("artist")
-    album_title = values.get("album")
+    def split_disc_track_number(s):
+        try:
+            return int(s.split("/")[0])
+        except (ValueError, IndexError, AttributeError):
+            pass
+        return None
+
+    def extract_year(date):
+        try:
+            date_fragments = date.split("-")
+        except AttributeError:
+            return None
+        if len(date_fragments) == 1:
+            year = date
+        else:
+            year = ""
+            for fragment in date_fragments:
+                if len(fragment) > len(year):
+                    year = fragment
+        try:
+            return int(year)
+        except TypeError:
+            pass
+        return None
+
+    def ensure_tag(tag):
+        if tag not in values:
+            die(f"No '{tag}' tag defined for file '{path}'")
+
+    disc = split_disc_track_number(values.get("disc"))
+    track = split_disc_track_number(values.get("track"))
+    ensure_tag("artist")
+    artist = titlecase(values.get("artist"))
+    album_artist = values.get("album_artist")
+    if album_artist is not None:
+        album_artist = titlecase(album_artist)
+    ensure_tag("title")
+    title = titlecase(values.get("title"))
+    ensure_tag("album")
+    album = titlecase(values.get("album"))
     try:
         date = values.get("date").get_text()
     except AttributeError:
-        date = ""
+        date = None
+    year = extract_year(date)
 
-    return f"{prefix}-{artist}-{title}.mp3", album_artist, album_title, date
+    return Track(path=path, disc=disc, track=track, artist=artist,
+                 album_artist=album_artist, title=title, album=album,
+                 year=year)
+
+
+def build_filename(track, has_single_disc):
+    artist = clean_string(track.artist).lower()
+    title = clean_string(track.title).lower()
+    prefix = ""
+    if track.track is not None:
+        if not has_single_disc:
+            prefix = f"{track.disc}"
+        prefix += f"{track.track:02d}-"
+    return f"{prefix}{artist}-{title}.mp3"
 
 
 def rename_files(directory, mapping):
-    for newname, oldname in sorted(mapping.items(), key=lambda v: v[0]):
-        os.rename(
-            *map(lambda f: os.path.join(directory, f), (oldname, newname)))
-
-
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("directory", nargs=1, help="target directory")
-    parser.add_argument("-d", help="include disc prefix", default=False,
-                        required=False, action="store_true",
-                        dest="include_disc")
-    return vars(parser.parse_args())
-
-
-def determine_folder_name(album_artists, album_titles, dates):
-    if len(album_artists) == 1:
-        album_artist = album_artists.pop()
-    else:
-        album_artist = "VA"
-    if len(album_titles) > 1:
-        die("Album title is not unique")
-    album_title = album_titles.pop()
-    if len(dates) > 1:
-        die("Year is not unique")
-    date = dates.pop()
-    return f"{clean_string(album_artist)}-{clean_string(album_title)}-{date}"
+    for f, new_f in sorted(mapping.items(), key=lambda i: i[0]):
+        os.rename(*map(lambda f: os.path.join(directory, f), (f, new_f)))
 
 
 def canonicalize_path(p):
     return os.path.realpath(os.path.expanduser(p))
 
 
+def prompt_action(question, always_yes, callback):
+    answer = input(f"{question} [Y/n] ").lower() or "y"
+    if answer == "y" or always_yes:
+        callback()
+        print("Done")
+        print()
+        return True
+    print()
+    return False
+
+
+def retag_mp3s(files, has_single_disc, album_artist):
+    for track in files.values():
+        audio = MP3(track.path)
+        tags = audio.tags
+        tags.update_to_v24()
+        tags.delall("TXXX")
+        tags.delall("COMM")
+
+        # We don't need to test for the presence of artist, title and album
+        # tags as we should have error'd out earlier if a track lacks them.
+        tags.get("TPE1").text = [track.artist]
+        tags.get("TIT2").text = [track.title]
+        tags.get("TALB").text = [track.album]
+
+        # XXX: We assume all tags have the same encoding.
+        encoding = tags.get("TPE1").encoding
+
+        tags.delall("TPOS")
+        if not has_single_disc and track.disc is not None:
+            tag = id3.TPOS(encoding=encoding, text=str(track.disc))
+            tags.add(tag)
+
+        # Add the track number if we have one.
+        tags.delall("TRCK")
+        if track.track is not None:
+            tag = id3.TRCK(encoding=encoding, text=str(track.track))
+            tags.add(tag)
+
+        # Add an album artist if we have one.
+        tags.delall("TPE2")
+        if album_artist is not None:
+            tag = id3.TPE2(encoding=encoding, text=album_artist)
+            tags.add(tag)
+
+        # Update the year tag if we have one.
+        tags.delall("TDRC")
+        if track.year is not None:
+            tag = id3.TDRC(encoding=encoding)
+            tag.text = [str(track.year)]
+            tags.add(tag)
+
+        audio.save()
+
+
+def parse_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("directory", nargs=1, help="target directory")
+    parser.add_argument("-y", help="answer yes to every query", default=False,
+                        required=False, action="store_true", dest="always_yes")
+    return vars(parser.parse_args())
+
+
 def main():
     args = parse_args()
 
-    directory = args["directory"][0]
+    (directory,) = args.get("directory")
     if not os.path.isdir(directory):
         die(f"'{directory} is not a directory")
     directory = canonicalize_path(directory)
 
+    if os.getcwd() == directory:
+        die("Cannot operate inside working directory")
+
+    always_yes = args.get("always_yes")
+
+    # Extract and parse relevant information from all tracks.
     tracks = {}
     for f in os.listdir(directory):
-        try:
-            mp3 = MP3(os.path.join(directory, f))
-        except MutagenError as exc:
-            print(f"Skipping file '{f}': {exc}")
+        path = os.path.join(directory, f)
+        track = gather_facts(path)
+        if track is None:
+            print(f"Skipping file '{f}'")
             continue
-        tracks[f] = mp3
+        tracks[f] = track
 
-    mapping = {}
+    # Check value consistency.
+    missing_disc = []
+    missing_track = []
+    discs = set()
+    artists = set()
     album_artists = set()
-    album_titles = set()
-    dates = set()
-    for f in sorted(tracks.keys()):
-        audio = tracks[f]
-        filename, album_artist, album_title, date = build_filename(
-            audio, os.path.join(directory, f),
-            include_disc=args["include_disc"])
-        album_artists.add(album_artist)
-        album_titles.add(album_title)
-        dates.add(date)
-        mapping[filename] = f
+    albums = set()
+    years = set()
+    for f, track in tracks.items():
+        if track.disc is None:
+            missing_disc.append(f)
+        if track.track is None:
+            missing_track.append(f)
+        discs.add(track.disc)
+        artists.add(track.artist)
+        album_artists.add(track.album_artist)
+        albums.add(track.album)
+        years.add(track.year)
 
-    print()
-    if not mapping:
-        print("No mp3s found")
-        sys.exit(0)
+    if missing_disc and len(missing_disc) != len(tracks):
+        die("Inconsistent disc number specifications!")
+    if missing_track and len(missing_track) != len(tracks):
+        die("Inconsistent track number specifications!")
+    if len(album_artists) != 1:
+        die("Inconsistent album artist! Values are: {album_artists}")
+    if len(albums) > 1:
+        die("Album title is not unique! Values are: {albums}")
+    if len(years) > 1:
+        die(f"Inconsistent year values! Values are: {years}")
+
+    if len(artists) == 1:
+        album_artist = None
+    else:
+        album_artist = album_artists.pop()
+        if album_artist is None:
+            album_artist = "VA"
+    has_single_disc = len(discs) == 1
+
+    # Retag files.
+    prompt_action("Retag files?", always_yes,
+                  lambda: retag_mp3s(tracks, has_single_disc, album_artist))
+
+    # Rename mp3s.
+    mapping = {}
+    for f, track in sorted(tracks.items(), key=lambda i: i[0]):
+        mapping[f] = build_filename(track, has_single_disc)
 
     header = "New filenames:"
     print(header)
     print("-" * len(header))
     print()
-    for newname, oldname in sorted(mapping.items(), key=lambda v: v[0]):
+    for f, new_f in sorted(mapping.items(), key=lambda i: i[0]):
         try:
-            print(f"{oldname}   →   {newname}")
+            print(f"{f}   →   {new_f}")
         except UnicodeError:
-            print(f"{oldname.encode('utf-8', 'surrogateescape')}   →   "
-                  f"{newname}")
+            print(f"{f.encode('utf-8', 'surrogateescape')}   →   "
+                  f"{new_f}")
     print()
-
-    def prompt_action(question, callback):
-        answer = input(f"{question} [Y/n] ").lower() or "y"
-        if answer == "y":
-            callback()
-            print("Done")
-            print()
-            return True
-        print()
-        return False
-
-    prompt_action("Rename files?",
+    prompt_action("Rename files?", always_yes,
                   lambda: rename_files(directory, mapping))
 
+    # Rename directory.
     dirname = os.path.dirname(directory)
     basename = os.path.basename(directory)
-    new_directory = determine_folder_name(album_artists, album_titles, dates)
-
-    def rename_directories():
-        if os.getcwd() == directory:
-            die("Cannot rename working directory")
-        os.rename(directory, os.path.join(dirname, new_directory))
-    prompt_action(f"Rename directories: '{basename}'   →   '{new_directory}'?",
-                  rename_directories)
+    if album_artist is None:
+        album_artist = artists.pop()
+    album = albums.pop()
+    year = years.pop()
+    suffix = ""
+    if year is not None:
+        suffix = f"-{year}"
+    new_directory = (f"{clean_string(album_artist)}-"
+                     f"{clean_string(album)}{suffix}")
+    prompt_action(
+        f"Rename directories: '{basename}'   →   '{new_directory}'?",
+        always_yes,
+        lambda: os.rename(directory, os.path.join(dirname, new_directory)))
 
 
 if __name__ == "__main__":
