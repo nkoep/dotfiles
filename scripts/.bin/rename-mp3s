@@ -31,6 +31,12 @@ TAG_MAPPING = {
     "TCON": "genre"
 }
 
+TITLECASE_EXCEPTIONS = (
+    "xx",
+    "blink-182",
+    "amo"
+)
+
 
 class Track(collections.namedtuple("Track", TRACK_FIELDS)):
     def __repr__(self):
@@ -54,7 +60,9 @@ def die(msg):
 
 
 def make_titlecase(s):
-    def handle_featuring(w, all_caps=False):
+    def handle_exceptions(w, all_caps=False):
+        if w in TITLECASE_EXCEPTIONS:
+            return w
         w_lower = w.lower()
         if w_lower in ("(feat.", "feat."):
             return w_lower
@@ -62,7 +70,7 @@ def make_titlecase(s):
             return w
         return None  # Let titlecase process the word as usual.
 
-    return titlecase(s, callback=handle_featuring)
+    return titlecase(s, callback=handle_exceptions)
 
 
 def parse_id3v1(path):
@@ -432,8 +440,14 @@ def main():
     suffix = ""
     if year is not None:
         suffix = f"-{year}"
-    new_directory = (f"{clean_string(album_artist)}-"
-                     f"{clean_string(album)}{suffix}")
+
+    def upperfirst(s):
+        fst, *tail = s
+        return fst.upper() + "".join(tail)
+
+    album_artist = upperfirst(clean_string(album_artist))
+    album = upperfirst(clean_string(album))
+    new_directory = (f"{album_artist}-{album}{suffix}")
     prompt_action(
         f"Rename directories: '{basename}'   →   '{new_directory}'?",
         always_yes,
