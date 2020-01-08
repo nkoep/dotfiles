@@ -15,14 +15,41 @@ from unidecode import unidecode
 from titlecase import titlecase
 
 
-Track = collections.namedtuple(
-    "Track", ("path", "disc", "track", "artist", "album_artist", "title",
-              "album", "year"))
+quiet = False
+
+TRACK_FIELDS = ("path", "disc", "track", "artist", "album_artist", "title",
+                "album", "year")
+
+
+class Track(collections.namedtuple("Track", TRACK_FIELDS)):
+    def __repr__(self):
+        values = []
+        for f in TRACK_FIELDS[1:]:
+            values.append(f"{f}: {getattr(self, f)}")
+        return "\n".join(values)
+
+
+def print_d(msg=None):
+    if not quiet:
+        if msg is None:
+            print()
+        else:
+            print(msg)
 
 
 def die(msg):
-    print(f"error: {msg}")
+    print(f"Error: {msg}")
     sys.exit(1)
+
+
+def make_titlecase(s):
+    def handle_featuring(w, *args, **kwargs):
+        w_lower = w.lower()
+        if w_lower in ("(feat.", "feat."):
+            return w_lower
+        return None  # Let titlecase process the word as usual.
+
+    return titlecase(s, callback=handle_featuring)
 
 
 def parse_id3v1(path):
@@ -137,14 +164,14 @@ def gather_facts(path):
     disc = split_disc_track_number(values.get("disc"))
     track = split_disc_track_number(values.get("track"))
     ensure_tag("artist")
-    artist = titlecase(values.get("artist"))
+    artist = make_titlecase(values.get("artist"))
     album_artist = values.get("album_artist")
     if album_artist is not None:
-        album_artist = titlecase(album_artist)
+        album_artist = make_titlecase(album_artist)
     ensure_tag("title")
-    title = titlecase(values.get("title"))
+    title = make_titlecase(values.get("title"))
     ensure_tag("album")
-    album = titlecase(values.get("album"))
+    album = make_titlecase(values.get("album"))
     try:
         date = values.get("date").get_text()
     except AttributeError:
@@ -177,13 +204,17 @@ def canonicalize_path(p):
 
 
 def prompt_action(question, always_yes, callback):
-    answer = input(f"{question} [Y/n] ").lower() or "y"
-    if answer == "y" or always_yes:
+    if always_yes:
         callback()
-        print("Done")
-        print()
         return True
-    print()
+
+    answer = input(f"{question} [Y/n] ").lower() or "y"
+    if answer == "y":
+        callback()
+        print_d("Done")
+        print_d()
+        return True
+    print_d()
     return False
 
 
@@ -251,6 +282,8 @@ def main():
         die("Cannot operate inside working directory")
 
     always_yes = args.get("always_yes")
+    global quiet
+    quiet = always_yes
 
     # Extract and parse relevant information from all tracks.
     tracks = {}
@@ -258,7 +291,7 @@ def main():
         path = os.path.join(directory, f)
         track = gather_facts(path)
         if track is None:
-            print(f"Skipping file '{f}'")
+            print_d(f"Skipping file '{f}'")
             continue
         tracks[f] = track
 
@@ -292,8 +325,30 @@ def main():
     if len(years) > 1:
         die(f"Inconsistent year values! Values are: {years}")
 
+    # Strip any "(feat. xyz)" annotations from the title and append them to the
+    # artist.
+    modified_artist = False
+    for f in tracks.keys():
+        track = tracks[f]
+        m = re.search(r"(.*) (\(feat. .*\))$", track.title)
+        if m:
+            title, featuring = m.groups()
+            title = title.strip()
+            featuring = featuring.strip("()").strip()
+            new_track = track._replace(artist=f"{track.artist} {featuring}",
+                                       title=title)
+            # XXX: Replacing the value in a loop is fine as the iteration order
+            #      is determined by .keys().
+            tracks[f] = new_track
+            modified_artist = True
+
     if len(artists) == 1:
-        album_artist = None
+        # We modified an artist above, so use the previously unique artist as
+        # album artist from now on.
+        if modified_artist:
+            album_artist = artists.pop()
+        else:
+            album_artist = None
     else:
         album_artist = album_artists.pop()
         if album_artist is None:
@@ -301,7 +356,16 @@ def main():
     has_single_disc = len(discs) == 1
 
     # Retag files.
-    prompt_action("Retag files?", always_yes,
+    header = "New tags:"
+    print_d(header)
+    print_d("-" * len(header))
+    print_d()
+    for f, track in sorted(tracks.items(), key=lambda i: i[0]):
+        print_d(f"filename: {f}")
+        print_d(track)
+        print_d()
+    prompt_action(f"Retag files using album artist '{album_artist}'?",
+                  always_yes,
                   lambda: retag_mp3s(tracks, has_single_disc, album_artist))
 
     # Rename mp3s.
@@ -310,16 +374,16 @@ def main():
         mapping[f] = build_filename(track, has_single_disc)
 
     header = "New filenames:"
-    print(header)
-    print("-" * len(header))
-    print()
+    print_d(header)
+    print_d("-" * len(header))
+    print_d()
     for f, new_f in sorted(mapping.items(), key=lambda i: i[0]):
         try:
-            print(f"{f}   →   {new_f}")
+            print_d(f"{f}   →   {new_f}")
         except UnicodeError:
-            print(f"{f.encode('utf-8', 'surrogateescape')}   →   "
+            print_d(f"{f.encode('utf-8', 'surrogateescape')}   →   "
                   f"{new_f}")
-    print()
+    print_d()
     prompt_action("Rename files?", always_yes,
                   lambda: rename_files(directory, mapping))
 
