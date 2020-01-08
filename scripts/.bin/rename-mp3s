@@ -2,6 +2,7 @@
 
 import sys
 import os
+import shutil
 import re
 import argparse
 import struct
@@ -18,7 +19,17 @@ from titlecase import titlecase
 quiet = False
 
 TRACK_FIELDS = ("path", "disc", "track", "artist", "album_artist", "title",
-                "album", "year")
+                "album", "year", "genre")
+TAG_MAPPING = {
+    "TPOS": "disc",
+    "TRCK": "track",
+    "TPE1": "artist",
+    "TPE2": "album_artist",
+    "TIT2": "title",
+    "TALB": "album",
+    "TDRC": "date",
+    "TCON": "genre"
+}
 
 
 class Track(collections.namedtuple("Track", TRACK_FIELDS)):
@@ -43,10 +54,12 @@ def die(msg):
 
 
 def make_titlecase(s):
-    def handle_featuring(w, *args, **kwargs):
+    def handle_featuring(w, all_caps=False):
         w_lower = w.lower()
         if w_lower in ("(feat.", "feat."):
             return w_lower
+        if all_caps:
+            return w
         return None  # Let titlecase process the word as usual.
 
     return titlecase(s, callback=handle_featuring)
@@ -102,6 +115,8 @@ def clean_string(s):
 
 
 def gather_facts(path):
+    if not path.endswith(".mp3"):
+        return None
     try:
         mp3 = MP3(path)
     except MutagenError:
@@ -109,17 +124,8 @@ def gather_facts(path):
 
     tags = mp3.tags or id3.ID3()
     tags_id3v1 = None
-    tag_mapping = {
-        "TPOS": "disc",
-        "TRCK": "track",
-        "TPE1": "artist",
-        "TPE2": "album_artist",
-        "TIT2": "title",
-        "TALB": "album",
-        "TDRC": "date"
-    }
     values = {}
-    for tag, attr in tag_mapping.items():
+    for tag, attr in TAG_MAPPING.items():
         try:
             frame = tags.getall(tag)[0]
         except IndexError:
@@ -141,7 +147,7 @@ def gather_facts(path):
 
     def extract_year(date):
         try:
-            date_fragments = date.split("-")
+            date_fragments = date.split()[0].split("-")
         except AttributeError:
             return None
         if len(date_fragments) == 1:
@@ -177,10 +183,11 @@ def gather_facts(path):
     except AttributeError:
         date = None
     year = extract_year(date)
+    genre = values.get("genre")
 
     return Track(path=path, disc=disc, track=track, artist=artist,
                  album_artist=album_artist, title=title, album=album,
-                 year=year)
+                 year=year, genre=genre)
 
 
 def build_filename(track, has_single_disc):
@@ -223,8 +230,11 @@ def retag_mp3s(files, has_single_disc, album_artist):
         audio = MP3(track.path)
         tags = audio.tags
         tags.update_to_v24()
-        tags.delall("TXXX")
-        tags.delall("COMM")
+
+        # Remove tags we don't care for.
+        for key in list(tags.keys()):
+            if key not in TAG_MAPPING:
+                tags.delall(key)
 
         # We don't need to test for the presence of artist, title and album
         # tags as we should have error'd out earlier if a track lacks them.
@@ -255,8 +265,13 @@ def retag_mp3s(files, has_single_disc, album_artist):
         # Update the year tag if we have one.
         tags.delall("TDRC")
         if track.year is not None:
-            tag = id3.TDRC(encoding=encoding)
-            tag.text = [str(track.year)]
+            tag = id3.TDRC(encoding=encoding, text=str(track.year))
+            tags.add(tag)
+
+        # Update the genre tag if we have one.
+        tags.delall("TCON")
+        if track.genre is not None:
+            tag = id3.TCON(encoding=encoding, text=track.genre)
             tags.add(tag)
 
         audio.save()
@@ -267,6 +282,8 @@ def parse_args():
     parser.add_argument("directory", nargs=1, help="target directory")
     parser.add_argument("-y", help="answer yes to every query", default=False,
                         required=False, action="store_true", dest="always_yes")
+    parser.add_argument("-o", help="output directory", required=False,
+                        dest="output_directory")
     return vars(parser.parse_args())
 
 
@@ -281,6 +298,17 @@ def main():
     if os.getcwd() == directory:
         die("Cannot operate inside working directory")
 
+    output_directory = args.get("output_directory")
+    if output_directory is not None:
+        output_directory = canonicalize_path(output_directory)
+        if not os.path.isdir(output_directory):
+            die(f"Output directory '{output_directory}' does not exist")
+        new_directory = os.path.join(
+            output_directory, os.path.basename(directory))
+        if not os.path.isdir(new_directory):
+            shutil.copytree(directory, new_directory)
+        directory = new_directory
+
     always_yes = args.get("always_yes")
     global quiet
     quiet = always_yes
@@ -294,6 +322,10 @@ def main():
             print_d(f"Skipping file '{f}'")
             continue
         tracks[f] = track
+
+    if not tracks:
+        print_d("No tracks to process")
+        sys.exit(0)
 
     # Check value consistency.
     missing_disc = []
@@ -318,10 +350,10 @@ def main():
         die("Inconsistent disc number specifications!")
     if missing_track and len(missing_track) != len(tracks):
         die("Inconsistent track number specifications!")
-    if len(album_artists) != 1:
-        die("Inconsistent album artist! Values are: {album_artists}")
+    if len(album_artists) != 1 and len(artists) != 1:
+        die(f"Inconsistent album artist! Values are: {album_artists}")
     if len(albums) > 1:
-        die("Album title is not unique! Values are: {albums}")
+        die(f"Album title is not unique! Values are: {albums}")
     if len(years) > 1:
         die(f"Inconsistent year values! Values are: {years}")
 
@@ -364,8 +396,11 @@ def main():
         print_d(f"filename: {f}")
         print_d(track)
         print_d()
-    prompt_action(f"Retag files using album artist '{album_artist}'?",
-                  always_yes,
+    if album_artist is None:
+        prompt = "Retag files?"
+    else:
+        prompt = f"Retag files using album artist '{album_artist}'?"
+    prompt_action(prompt, always_yes,
                   lambda: retag_mp3s(tracks, has_single_disc, album_artist))
 
     # Rename mp3s.
