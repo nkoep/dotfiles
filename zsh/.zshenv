@@ -9,7 +9,7 @@ if command -v ruby >/dev/null && command -v gem >/dev/null; then
 fi
 
 # Add conda command.
-condapath="/home/nik/.anaconda3.6/etc/profile.d/conda.sh"
+condapath="/home/nik/.anaconda3/etc/profile.d/conda.sh"
 if [ -e "$condapath" ]; then
   source "$condapath"
 fi
