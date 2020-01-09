@@ -54,6 +54,10 @@ def print_d(msg=None):
             print(msg)
 
 
+def warn(msg):
+    print(f"Warning: {msg}")
+
+
 def die(msg):
     print(f"Error: {msg}")
     sys.exit(1)
@@ -356,14 +360,19 @@ def main():
 
     if missing_disc and len(missing_disc) != len(tracks):
         die("Inconsistent disc number specifications!")
-    if missing_track and len(missing_track) != len(tracks):
-        die("Inconsistent track number specifications!")
+    if missing_track:
+        if len(missing_track) != len(tracks):
+            die("Inconsistent track number specifications!")
+        else:
+            warn("No track numbers available!")
     if len(album_artists) != 1 and len(artists) != 1:
         die(f"Inconsistent album artist! Values are: {album_artists}")
     if len(albums) > 1:
         die(f"Album title is not unique! Values are: {albums}")
     if len(years) > 1:
         die(f"Inconsistent year values! Values are: {years}")
+    if len(years) == 1 and None in years:
+        warn("No year information available!")
 
     # Strip any "(feat. xyz)" annotations from the title and append them to the
     # artist.
