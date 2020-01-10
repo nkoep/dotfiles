@@ -33,6 +33,7 @@ TAG_MAPPING = {
 
 TITLECASE_EXCEPTIONS = (
     "xx",
+    "XX",
     "blink-182",
     "amo"
 )
@@ -40,10 +41,13 @@ TITLECASE_EXCEPTIONS = (
 
 class Track(collections.namedtuple("Track", TRACK_FIELDS)):
     def __repr__(self):
-        values = []
+        lines = []
         for f in TRACK_FIELDS[1:]:
-            values.append(f"{f}: {getattr(self, f)}")
-        return "\n".join(values)
+            value = getattr(self, f)
+            if value is None:
+                value = "<none>"
+            lines.append(f"{f}: {value}")
+        return "\n".join(lines)
 
 
 def print_d(msg=None):
@@ -237,7 +241,7 @@ def prompt_action(question, always_yes, callback):
     return False
 
 
-def retag_mp3s(files, has_single_disc, album_artist):
+def retag_mp3s(files):
     for track in files.values():
         audio = MP3(track.path)
         tags = audio.tags
@@ -258,7 +262,7 @@ def retag_mp3s(files, has_single_disc, album_artist):
         encoding = tags.get("TPE1").encoding
 
         tags.delall("TPOS")
-        if not has_single_disc and track.disc is not None:
+        if track.disc is not None:
             tag = id3.TPOS(encoding=encoding, text=str(track.disc))
             tags.add(tag)
 
@@ -270,8 +274,8 @@ def retag_mp3s(files, has_single_disc, album_artist):
 
         # Add an album artist if we have one.
         tags.delall("TPE2")
-        if album_artist is not None:
-            tag = id3.TPE2(encoding=encoding, text=album_artist)
+        if track.album_artist is not None:
+            tag = id3.TPE2(encoding=encoding, text=track.album_artist)
             tags.add(tag)
 
         # Update the year tag if we have one.
@@ -404,6 +408,15 @@ def main():
             album_artist = "VA"
     has_single_disc = len(discs) == 1
 
+    # Update the disc and album artist fields.
+    for f in tracks.keys():
+        track = tracks[f]
+        if has_single_disc:
+            disc = None
+        else:
+            disc = track.disc
+        tracks[f] = track._replace(album_artist=album_artist, disc=disc)
+
     # Retag files.
     header = "New tags:"
     print_d(header)
@@ -413,12 +426,7 @@ def main():
         print_d(f"filename: {f}")
         print_d(track)
         print_d()
-    if album_artist is None:
-        prompt = "Retag files?"
-    else:
-        prompt = f"Retag files using album artist '{album_artist}'?"
-    prompt_action(prompt, always_yes,
-                  lambda: retag_mp3s(tracks, has_single_disc, album_artist))
+    prompt_action("Retag files?", always_yes, lambda: retag_mp3s(tracks))
 
     # Rename mp3s.
     mapping = {}
