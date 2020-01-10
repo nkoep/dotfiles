@@ -10,7 +10,7 @@ autocenter_mode = yes
 playlist_disable_highlight_delay = 0
 incremental_seeking = no
 seek_time = 10
-empty_tag_marker = <>
+empty_tag_marker = <none>
 
 media_library_primary_tag = album_artist
 song_columns_list_format = (4f)[green]{nE:#} (20)[]{A|a:Album Artist} (20)[]{a:Artist} (30)[white]{t|f:Title} (20)[cyan]{b:Album} (7f)[magenta]{lr:Length}
