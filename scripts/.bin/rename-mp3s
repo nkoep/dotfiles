@@ -72,8 +72,10 @@ def make_titlecase(s):
         if w in TITLECASE_EXCEPTIONS:
             return w
         w_lower = w.lower()
-        if w_lower in ("(feat.", "feat."):
-            return w_lower
+        if w_lower in ("feat.", "ft."):
+            return "feat."
+        if w_lower in ("(feat.", "(ft."):
+            return "(feat."
         if all_caps:
             return w
         return None  # Let titlecase process the word as usual.
