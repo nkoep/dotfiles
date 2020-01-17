@@ -17,7 +17,6 @@ xset s off &
 xset -dpms &
 
 # Start remaining background processes.
-nm-applet &
 dropbox &
 
 case $HOSTNAME in
