@@ -1,10 +1,10 @@
-"mpc toggle"
+"pgrep -fa ncmpcpp | grep 'osmc$' && mpc -h osmc toggle || mpc toggle"
   Mod2 + F7
 
-"mpc prev"
+"pgrep -fa ncmpcpp | grep 'osmc$' && mpc -h osmc prev || mpc prev"
   Mod2 + F9
 
-"mpc next"
+"pgrep -fa ncmpcpp | grep 'osmc$' && mpc -h osmc next || mpc next"
   Mod2 + F10
 
 "pactl set-sink-volume @DEFAULT_SINK@ +5%"
