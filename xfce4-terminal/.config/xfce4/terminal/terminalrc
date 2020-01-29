@@ -35,3 +35,6 @@ MiscUseShiftArrowsToScroll=FALSE
 ScrollingBar=TERMINAL_SCROLLBAR_NONE
 ScrollingUnlimited=TRUE
 TabActivityColor=#dc322f
+MiscSearchDialogOpacity=100
+MiscShowUnsafePasteDialog=FALSE
+
