@@ -15,8 +15,11 @@ if [ -e "$condapath" ]; then
 fi
 
 # Source pyenv and pyenv-virtualenv.
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
+
+if command -v pyenv >/dev/null; then
+  eval "$(pyenv init -)"
+  eval "$(pyenv virtualenv-init -)"
+fi
 
 # Set up OPAM.
 test -r /home/nik/.opam/opam-init/init.zsh && \
