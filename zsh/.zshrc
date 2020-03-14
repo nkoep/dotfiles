@@ -15,6 +15,10 @@ if [[ -e /usr/share/terminfo/x/xterm-256color ]]; then
   export TERM="xterm-256color"
 fi
 
+case $(uname -a) in
+  *Microsoft*) unsetopt BG_NICE ;;
+esac
+
 # Aliases
 alias autofs="sudo automount -fv"
 alias avidemux="avidemux2_gtk"
