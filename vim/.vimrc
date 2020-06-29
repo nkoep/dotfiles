@@ -7,24 +7,25 @@ set noswapfile
 "   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
 "     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 call plug#begin('~/.vim/plugged')
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tomtom/tcomment_vim'
-Plug 'dart-lang/dart-vim-plugin'
+Plug 'Integralist/vim-mypy'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'pangloss/vim-javascript'
+Plug 'Shougo/deoplete.nvim'
+Plug 'cespare/vim-toml'
+Plug 'chr4/nginx.vim'
+Plug 'ctrlpvim/ctrlp.vim'
+Plug 'dart-lang/dart-vim-plugin'
+Plug 'eagletmt/neco-ghc'
+Plug 'ervandew/supertab'
+Plug 'evanleck/vim-svelte'
+Plug 'google/vim-searchindex'
 Plug 'mxw/vim-jsx'
+Plug 'pangloss/vim-javascript'
+Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
+Plug 'tweekmonster/deoplete-clang2'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'ervandew/supertab'
-Plug 'Shougo/deoplete.nvim'
 Plug 'zchee/deoplete-jedi'
-Plug 'tweekmonster/deoplete-clang2'
-Plug 'google/vim-searchindex'
-Plug 'eagletmt/neco-ghc'
-Plug 'chr4/nginx.vim'
-Plug 'Integralist/vim-mypy'
-Plug 'cespare/vim-toml'
 call plug#end()
 
 " {{{ General settings }}}
@@ -137,3 +138,6 @@ let g:jsx_ext_required = 0
 
 " Reverse completion menu tab cycle direction
 let g:SuperTabDefaultCompletionType = "<c-n>"
+
+" Add svelte preprocessor highlight support for SASS
+let g:svelte_preprocessors = ["sass"]
