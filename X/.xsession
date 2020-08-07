@@ -17,7 +17,7 @@ xset s off &
 xset -dpms &
 
 # Start remaining background processes.
-dropbox &
+dropbox start &
 
 case $HOSTNAME in
   monolith)
