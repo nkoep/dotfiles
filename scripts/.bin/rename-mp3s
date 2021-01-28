@@ -121,6 +121,10 @@ def parse_id3v1(path):
     return frames
 
 
+def strip_extra_whitespace(string):
+    return " ".join(string.split())
+
+
 def clean_string(s):
     s = unidecode(s)
     s = re.sub("[\-/\.]", " ", s)
@@ -185,23 +189,26 @@ def gather_facts(path):
         if tag not in values:
             die(f"No '{tag}' tag defined for file '{path}'")
 
+    def transform(string):
+        if string is None:
+            return string
+        return make_titlecase(strip_extra_whitespace(string))
+
     disc = split_disc_track_number(values.get("disc"))
     track = split_disc_track_number(values.get("track"))
     ensure_tag("artist")
-    artist = make_titlecase(values.get("artist"))
-    album_artist = values.get("album_artist")
-    if album_artist is not None:
-        album_artist = make_titlecase(album_artist)
+    artist = transform(values.get("artist"))
+    album_artist = transform(values.get("album_artist"))
     ensure_tag("title")
-    title = make_titlecase(values.get("title"))
+    title = transform(values.get("title"))
     ensure_tag("album")
-    album = make_titlecase(values.get("album"))
+    album = transform(values.get("album"))
     try:
         date = values.get("date").get_text()
     except AttributeError:
         date = None
     year = extract_year(date)
-    genre = values.get("genre")
+    genre = strip_extra_whitespace(values.get("genre"))
 
     return Track(path=path, disc=disc, track=track, artist=artist,
                  album_artist=album_artist, title=title, album=album,
@@ -385,9 +392,9 @@ def main():
     modified_artist = False
     for f in tracks.keys():
         track = tracks[f]
-        m = re.search(r"(.*) (\(feat. .*\))$", track.title)
-        if m:
-            title, featuring = m.groups()
+        match = re.search(r"(.*) (\(feat. .*\))$", track.title)
+        if match:
+            title, featuring = match.groups()
             title = title.strip()
             featuring = featuring.strip("()").strip()
             new_track = track._replace(artist=f"{track.artist} {featuring}",
@@ -461,8 +468,8 @@ def main():
         suffix = f"-{year}"
 
     def upperfirst(s):
-        fst, *tail = s
-        return fst.upper() + "".join(tail)
+        head, *tail = s
+        return head.upper() + "".join(tail)
 
     album_artist = upperfirst(clean_string(album_artist))
     album = upperfirst(clean_string(album))
