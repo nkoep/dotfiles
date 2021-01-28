@@ -481,5 +481,5 @@ def main():
 
 
 if __name__ == "__main__":
-    signal.signal(signal.SIGINT, lambda *x: sys.exit(1))
+    signal.signal(signal.SIGINT, lambda *_: sys.exit(1))
     main()
