@@ -3,21 +3,24 @@
 # Disable the caps lock key.
 setxkbmap -option ctrl:nocaps
 
-# Set up global keybindings.
+# Enable global keybindings.
 xbindkeys
 
 # Enable the num pad.
-numlockx on &
+numlockx on
 
-# Kill polybar just in case.
+# Kill polybar just in case (gets started by xmonad).
 pkill polybar
 
+# Restart netctl.
+sudo systemctl restart netctl-auto@wlp58s0 &
+
 # Turn off the screensaver.
-xset s off &
-xset -dpms &
+xset s off
+xset -dpms
 
 # Start remaining background processes.
-dropbox start &
+dropbox start
 
 case $HOSTNAME in
   monolith)
