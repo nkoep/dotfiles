@@ -1,20 +1,11 @@
-root:
-  askformore: false
-  autoclip: true
-  autoprint: false
-  autoimport: true
-  autosync: true
-  check_recipient_hash: false
-  cliptimeout: 45
-  concurrency: 1
-  editrecipients: false
-  exportkeys: false
-  nocolor: false
-  noconfirm: false
-  nopager: false
-  notifications: false
-  path: gpgcli-gitcli-fs+file:///home/nik/.password-store
-  recipient_hash: {}
-  safecontent: false
-  usesymbols: false
+autoclip: true
+autoimport: true
+cliptimeout: 45
+exportkeys: false
+mime: true
+nocolor: false
+nopager: false
+notifications: false
+path: /home/nik/.password-store
+safecontent: false
 mounts: {}
