@@ -127,7 +127,7 @@ def strip_extra_whitespace(string):
 
 def clean_string(s):
     s = unidecode(s)
-    s = re.sub("[\-/\.]", " ", s)
+    s = re.sub(r"[\-/\.]", " ", s)
     fragments = s.split()
     fragments = map(lambda f: "and" if f == "&" else f, fragments)
     s = "_".join(fragments)
@@ -451,7 +451,7 @@ def main():
             print_d(f"{f}   →   {new_f}")
         except UnicodeError:
             print_d(f"{f.encode('utf-8', 'surrogateescape')}   →   "
-                  f"{new_f}")
+                    f"{new_f}")
     print_d()
     prompt_action("Rename files?", always_yes,
                   lambda: rename_files(directory, mapping))
