@@ -18,6 +18,7 @@ Plug 'evanleck/vim-svelte'
 Plug 'google/vim-searchindex'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
+Plug 'psf/black'
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
@@ -29,14 +30,17 @@ call plug#end()
 set fileformat=unix
 set fileformats=unix,dos
 set nobackup
-" Remove trailing whitespace on save
+
+" Remove trailing whitespace on save.
 augroup trail_save
   autocmd!
   autocmd BufWritePre * :%s/\s\+$//e
 augroup END
-" Add keywords TODO and FIXME to the current highlight group
+
+" Add keywords TODO and FIXME to the highlight group.
 autocmd! WinEnter,VimEnter *
   :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
+
 " Associate .cls and .sty files with latex.
 augroup filetypedetect
   au BufRead,BufNewFile *.tex,*.cls,*.sty,*.tikz set filetype=tex
@@ -69,7 +73,7 @@ let g:airline_theme = 'bubblegum'
 " {{{ Indentation and tab rules }}}
 set tabstop=2 " ts
 set shiftwidth=2 " sw
-autocmd! Filetype python,make,rust,haskell set ts=4 sw=4
+autocmd! Filetype python set ts=4 sw=4
 set expandtab
 
 " {{{ GUI }}}
@@ -98,23 +102,23 @@ hi Search cterm=NONE ctermfg=Black ctermbg=Yellow
 " {{{ Keybindings }}}
 set pastetoggle=<F2>
 
-" Turn off Vim's regex handling
+" Turn off Vim's regex handling.
 nnoremap / /\v
 vnoremap / /\v
 
-" Use leader (defaults to \) space to clear search results
+" Use leader (defaults to \) space to clear search results.
 nnoremap <leader><space> :noh<cr>
 
-" Remap tab in normal and visual mode to jump between enclosing parens
+" Remap tab in normal and visual mode to jump between enclosing parens.
 map <tab> %
 
 " Speed up scrolling of the viewport by moving two instead of one line at a
-" time
+" time.
 nmap <C-e> 2<C-e>
 nmap <C-y> 2<C-y>
 
-" `make' shortcut
-nmap mk :w<CR>:make!<CR><CR>
+" black shortcut
+nmap bk :Black<CR>
 
 " Remap tag jumping to ctrl+g
 nnoremap <C-g> <C-]>
@@ -138,3 +142,6 @@ let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Add svelte preprocessor highlight support for SASS
 let g:svelte_preprocessors = ["sass"]
+
+" Configure black.
+let g:black_linelength = 79
