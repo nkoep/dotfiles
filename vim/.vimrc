@@ -118,7 +118,7 @@ nmap <C-e> 2<C-e>
 nmap <C-y> 2<C-y>
 
 " black shortcut
-nmap bk :Black<CR>
+nmap mk :Black<CR>
 
 " Remap tag jumping to ctrl+g
 nnoremap <C-g> <C-]>
