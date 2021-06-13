@@ -15,6 +15,7 @@ Plug 'chr4/nginx.vim'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ervandew/supertab'
 Plug 'evanleck/vim-svelte'
+Plug 'fisadev/vim-isort'
 Plug 'google/vim-searchindex'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
@@ -118,7 +119,7 @@ nmap <C-e> 2<C-e>
 nmap <C-y> 2<C-y>
 
 " black shortcut
-nmap mk :Black<CR>
+nmap mk :Isort<CR>:Black<CR>
 
 " Remap tag jumping to ctrl+g
 nnoremap <C-g> <C-]>
