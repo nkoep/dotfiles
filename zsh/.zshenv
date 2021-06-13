@@ -15,7 +15,7 @@ if [ -e "$condapath" ]; then
 fi
 
 # Source pyenv and pyenv-virtualenv.
-
+eval "$(pyenv init --path)"
 if command -v pyenv >/dev/null; then
   eval "$(pyenv init -)"
   eval "$(pyenv virtualenv-init -)"
