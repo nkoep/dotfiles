@@ -19,9 +19,6 @@ sudo systemctl restart netctl-auto@wlp58s0 &
 xset s off
 xset -dpms
 
-# Start remaining background processes.
-dropbox start
-
 case $HOSTNAME in
   monolith)
     export X_DPI=180
