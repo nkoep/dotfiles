@@ -87,12 +87,6 @@ layouts = tiled ||| half ||| full
 -- Float dialog windows
 floatHooks = isDialog --> doCenterFloat
 
--- Pretty-printer for xmobar
-workspaceIndex workspaceId =
-    case (workspaceId `elemIndex` workspaces') of
-        Just idx -> (idx+1)
-        Nothing  -> 0 -- unreachable
-
 prettyPrinter file = defaultPP
     { ppCurrent = colorBracket hl
     , ppHidden = colorBracket bg
@@ -174,7 +168,6 @@ config' logfile = E.ewmh defaultConfig
     } `additionalKeys` keybindings `removeKeys` restartCombo
     where restartCombo = [(mod1Mask, xK_q)]
 
--- xmobar configuration
 main :: IO ()
 main = do
     let pipe = "/tmp/.xmonad.log"
