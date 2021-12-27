@@ -20,7 +20,7 @@ Plug 'google/vim-searchindex'
 Plug 'hashivim/vim-terraform'
 Plug 'mxw/vim-jsx'
 Plug 'pangloss/vim-javascript'
-Plug 'psf/black'
+Plug 'psf/black', {'tag': '21.12b0'}
 Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
