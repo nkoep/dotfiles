@@ -12,6 +12,12 @@ numlockx on
 # Kill polybar just in case (gets started by xmonad).
 pkill polybar
 
+# Launch udiskie for automatic mounts.
+udiskie --smart-tray &
+
+# Launch bluetooth tray.
+blueman-applet &
+
 # Restart netctl.
 sudo systemctl restart netctl-auto@wlp58s0 &
 
