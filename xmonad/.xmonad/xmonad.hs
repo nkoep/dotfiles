@@ -139,7 +139,7 @@ keybindings =
 
 startupHook' = do
     setDefaultCursor xC_left_ptr
-    safeSpawn "xbacklight" ["-set", "90%"]
+    safeSpawn "xbacklight" ["-set", "100%"]
     spawn "feh --bg-fill ~/.wallpaper.jpg"
 
 config' logfile = E.ewmh defaultConfig
