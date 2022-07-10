@@ -14,8 +14,8 @@ import XMonad.Actions.WindowBringer (gotoMenuArgs)
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.EwmhDesktops as E
-import XMonad.Layout.Fullscreen as LF
+import XMonad.Hooks.EwmhDesktops
+import XMonad.Layout.Fullscreen
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.NoBorders (smartBorders)
@@ -87,7 +87,7 @@ layouts = tiled ||| half ||| full
 -- Float dialog windows
 floatHooks = isDialog --> doCenterFloat
 
-prettyPrinter file = defaultPP
+prettyPrinter file = def
     { ppCurrent = colorBracket hl
     , ppHidden = colorBracket bg
     , ppSep = hl " - "
@@ -142,7 +142,7 @@ startupHook' = do
     safeSpawn "xbacklight" ["-set", "100%"]
     spawn "feh --bg-fill ~/.wallpaper.jpg"
 
-config' logfile = E.ewmh defaultConfig
+config' logfile = (ewmhFullscreen . ewmh . docks) def
     { normalBorderColor = colorFg
     , focusedBorderColor = focusBorderColor
     , terminal = terminal'
@@ -155,10 +155,7 @@ config' logfile = E.ewmh defaultConfig
     , manageHook
         =   manageDocks
         <+> floatHooks
-        <+> LF.fullscreenManageHook
-    , handleEventHook
-        =   docksEventHook
-        <+> E.fullscreenEventHook
+        <+> fullscreenManageHook
     , workspaces = workspaces'
     , borderWidth = borderWidth'
     , logHook = dynamicLogWithPP $ prettyPrinter logfile
