@@ -19,6 +19,8 @@ Plug 'fisadev/vim-isort'
 Plug 'google/vim-searchindex'
 Plug 'hashivim/vim-terraform'
 Plug 'mxw/vim-jsx'
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'pangloss/vim-javascript'
 Plug 'psf/black', {'rev': '22.3.0'}
 Plug 'tomtom/tcomment_vim'
@@ -147,3 +149,5 @@ let g:svelte_preprocessors = ["sass"]
 
 " Configure black.
 let g:black_linelength = 79
+
+lua require("config")
