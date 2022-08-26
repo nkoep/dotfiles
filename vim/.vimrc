@@ -43,7 +43,7 @@ augroup END
 
 " Add keywords TODO and FIXME to the highlight group.
 autocmd! WinEnter,VimEnter *
-  :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX', -1)
+  :silent! call matchadd('Todo', 'TODO\|FIXME\|XXX|HACK', -1)
 
 " Associate .cls and .sty files with latex.
 augroup filetypedetect
