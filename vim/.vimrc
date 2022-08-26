@@ -6,7 +6,6 @@ set noswapfile
 call plug#begin('~/.vim/plugged')
 Plug 'Integralist/vim-mypy'
 Plug 'NLKNguyen/papercolor-theme'
-Plug 'Shougo/deoplete.nvim'
 Plug 'cespare/vim-toml'
 Plug 'ervandew/supertab'
 Plug 'evanleck/vim-svelte'
@@ -22,7 +21,15 @@ Plug 'tomtom/tcomment_vim'
 Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-Plug 'zchee/deoplete-jedi'
+" {{{ neovim-cmp }}}
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/nvim-cmp'
+" vsnip for neovim-cmp
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 call plug#end()
 
 " {{{ General settings }}}
@@ -131,13 +138,11 @@ set secure
 if has("nvim") && has("python3")
   let g:deoplete#enable_at_startup = 1
 endif
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" Reverse completion menu tab cycle direction
+let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Enable jsx syntax highlighting for regular .js files.
 let g:jsx_ext_required = 0
-
-" Reverse completion menu tab cycle direction
-let g:SuperTabDefaultCompletionType = "<c-n>"
 
 " Add svelte preprocessor highlight support for SASS
 let g:svelte_preprocessors = ["sass"]
