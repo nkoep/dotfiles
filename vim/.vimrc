@@ -3,16 +3,11 @@
 set nocompatible
 set noswapfile
 
-" Set up vim-plug. Install it via:
-"   curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
-"     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 call plug#begin('~/.vim/plugged')
 Plug 'Integralist/vim-mypy'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'Shougo/deoplete.nvim'
 Plug 'cespare/vim-toml'
-Plug 'chr4/nginx.vim'
-Plug 'ctrlpvim/ctrlp.vim'
 Plug 'ervandew/supertab'
 Plug 'evanleck/vim-svelte'
 Plug 'fisadev/vim-isort'
@@ -149,5 +144,9 @@ let g:svelte_preprocessors = ["sass"]
 
 " Configure black.
 let g:black_linelength = 79
+
+" Configure fzf
+nmap <C-p> :FZF<CR>
+let g:fzf_layout = {'window': {'width': 0.9, 'height': 0.75, 'relative': v:true}}
 
 lua require("config")
