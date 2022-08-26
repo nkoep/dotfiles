@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for p in tree curl vim; do
+for p in tree curl nvim; do
   if ! command -v "$p" >/dev/null; then
     echo "Utility '$p' is not installed"
     exit 1
@@ -14,12 +14,11 @@ if [ ! -d ~/.oh-my-zsh ]; then
 fi
 
 # Install vim-plug for vim.
-if [ ! -e ~/.vim/autoload/plug.vim ]; then
-  curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+PLUG_FILE="~/.local/share/nvim/site/autoload/plug.vim"
+if [ ! -e $PLUG_FILE ]; then
+  curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 fi
 
 # Symlink files for neovim.
 mkdir -p ~/.config
-ln -sf ~/.vim ~/.config/nvim
-ln -sf ~/.vimrc ~/.config/nvim/init.vim
