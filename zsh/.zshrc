@@ -23,6 +23,7 @@ esac
 alias autofs="sudo automount -fv"
 alias bat="acpi"
 alias booterrors="sudo journalctl -b -p err"
+alias cast="mkchromecast --encoder-backend ffmpeg --codec mp3 --sample-rate 44100"
 alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
 alias clip="xclip -selection clipboard"
 alias dmesg="sudo dmesg -T"
