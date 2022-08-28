@@ -12,6 +12,7 @@ Plug 'evanleck/vim-svelte'
 Plug 'fisadev/vim-isort'
 Plug 'google/vim-searchindex'
 Plug 'hashivim/vim-terraform'
+Plug 'jamessan/vim-gnupg'
 Plug 'mxw/vim-jsx'
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}

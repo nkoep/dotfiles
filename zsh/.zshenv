@@ -39,3 +39,4 @@ export PYTHONSTARTUP="$HOME/.pystartup.py"
 export TEXMFHOME="$HOME/.texmf"
 export VIDEO_FORMAT="PAL"
 export MKL_THREADING_LAYER=GNU
+export GPG_TTY=`tty`
