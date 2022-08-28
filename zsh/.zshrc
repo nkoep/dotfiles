@@ -115,3 +115,19 @@ mkpasswd() {
     echo -n $(openssl rand -base64 16)
   fi
 }
+
+gpg-encrypt() {
+  if [ $# -eq 1 ]; then
+    gpg -r $USER -e -o "$1.gpg" "$1"
+  else
+    gpg -r $USER -e -o "$2" "$1"
+  fi
+}
+
+gpg-decrypt() {
+  if [ $# -ne 2 ]; then
+    echo "Use: $0 <input> <output>"
+  else
+    gpg -d -o "$2" "$1"
+  fi
+}
