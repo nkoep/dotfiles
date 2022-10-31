@@ -1,5 +1,6 @@
 local o = vim.o
 local g = vim.g
+local a = vim.api
 
 -- General settings
 o.swapfile = false
@@ -18,13 +19,15 @@ o.gdefault = true
 o.cmdheight = 2
 o.number = true
 o.colorcolumn = "80"
+o.fillchars = "vert: "
 
 -- Theme
 o.background = "light"  -- Needs to be set first.
-vim.api.nvim_exec([[
+a.nvim_exec([[
   colorscheme PaperColor
-  hi ColorColumn ctermbg=blue
+  hi ColorColumn ctermbg=14
   hi Search cterm=NONE ctermfg=black ctermbg=yellow
+  hi VertSplit cterm=NONE ctermfg=NONE ctermbg=NONE
 ]], false)
 
 -- Identation and tabs
