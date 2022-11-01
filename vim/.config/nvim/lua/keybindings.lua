@@ -1,10 +1,9 @@
-function map(mode, lhs, rhs)
-  vim.keymap.set(mode, lhs, rhs, {silent = true})
+function map(mode, lhs, rhs, silent)
+  if silent == nil then
+    silent = true
+  end
+  vim.keymap.set(mode, lhs, rhs, {silent = silent})
 end
-
--- Enable vim magic regex.
-map("n", "/", "/\\v")
-map("v", "/", "/\\v")
 
 -- Map tab to jump between enclosing parens.
 map("", "<tab>", "%")
@@ -16,7 +15,7 @@ map("", "<leader><space>", ":noh<cr>")
 map("n", "<C-p>", ":FZF<cr>")
 
 -- nvim-tree
-map("n", "<C-o>", ":NvimTreeToggle<cr>")
+map("n", "<C-n>", ":NvimTreeToggle<cr>")
 
 -- TODO: Migrate to vim.lsp.buf.format().
 -- Run black and isort.

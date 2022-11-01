@@ -1,6 +1,5 @@
 call plug#begin('~/.vim/plugged')
   Plug 'NLKNguyen/papercolor-theme'
-  Plug 'ervandew/supertab'
   Plug 'evanleck/vim-svelte'
   Plug 'fisadev/vim-isort'
   Plug 'hashivim/vim-terraform'
@@ -13,15 +12,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-lualine/lualine.nvim'
   Plug 'nvim-tree/nvim-tree.lua'
   Plug 'kyazdani42/nvim-web-devicons'
-  " {{{ neovim-cmp }}}
+
+  " nvim-cmp
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/cmp-nvim-lsp'
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/nvim-cmp'
-  " vsnip for neovim-cmp
-  Plug 'hrsh7th/cmp-vsnip'
-  Plug 'hrsh7th/vim-vsnip'
+
+  " luasnip
+  Plug 'L3MON4D3/LuaSnip'
+  Plug 'saadparwaiz1/cmp_luasnip'
+  Plug 'rafamadriz/friendly-snippets'
 call plug#end()
 
 lua require("config")

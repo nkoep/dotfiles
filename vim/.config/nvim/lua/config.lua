@@ -58,7 +58,7 @@ g.tex_fast = ""
 -- Python
 -- TODO: Check if pyenv is available. If so, run it to create an nvim pyenv
 --       venv, and set this variable to said venv.
-g.python3_host_prog = "/usr/bin/python"
+g.python3_host_prog = "/usr/bin/python3"
 
 -- Add svelte preprocessor highlight support for SASS
 g.svelte_preprocessors = {"sass"}
