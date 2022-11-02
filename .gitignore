@@ -1,5 +1,7 @@
 *netrwhist
-vim/.vim
+
+vim/.vim/*
+!vim/.vim/lua
 
 # Created by https://www.gitignore.io/api/haskell
 

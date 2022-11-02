@@ -13,3 +13,6 @@
 	amend = commit --amend -c HEAD
 	rev = rev-parse --short
 	ds = diff --staged
+	ph = push origin HEAD
+[include]
+  path = ~/.work/gitconfig

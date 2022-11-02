@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -exu
+
+URL="$1"
+COOKIE="$2"
+OUTPUT="$3"
+
+youtube-dl \
+  --referer "https://zoom.us/" \
+  --add-header "Cookie: $COOKIE" \
+  -o "$OUTPUT" \
+  "$URL"

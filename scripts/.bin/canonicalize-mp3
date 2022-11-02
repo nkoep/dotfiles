@@ -208,7 +208,7 @@ def gather_facts(path):
     except AttributeError:
         date = None
     year = extract_year(date)
-    genre = strip_extra_whitespace(values.get("genre"))
+    genre = strip_extra_whitespace(values.get("genre", ""))
 
     return Track(path=path, disc=disc, track=track, artist=artist,
                  album_artist=album_artist, title=title, album=album,
