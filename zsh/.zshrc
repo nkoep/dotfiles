@@ -5,7 +5,16 @@ setopt extendedglob
 unsetopt AUTO_CD
 
 # Select zsh plugins.
-plugins=(colored-man-pages cp git systemd z ssh-agent)
+plugins=(
+  colored-man-pages
+  cp
+  git
+  gpg-agent
+  python
+  ssh-agent
+  systemd
+  z
+)
 zstyle :omz:plugins:ssh-agent identities id_ed25519
 
 source $ZSH/oh-my-zsh.sh
