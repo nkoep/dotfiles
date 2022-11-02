@@ -133,3 +133,7 @@ gpg-decrypt() {
     gpg -d -o "$2" "$1"
   fi
 }
+
+if [ -e ~/.work/zshrc ]; then
+  source ~/.work/zshrc
+fi
