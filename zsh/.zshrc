@@ -5,41 +5,38 @@ setopt extendedglob
 unsetopt AUTO_CD
 
 # Select zsh plugins.
-plugins=(colored-man-pages cp git systemd z ssh-agent)
+plugins=(
+  colored-man-pages
+  cp
+  git
+  gpg-agent
+  python
+  ssh-agent
+  systemd
+  z
+)
 zstyle :omz:plugins:ssh-agent identities id_ed25519
 
 source $ZSH/oh-my-zsh.sh
-
-# terminfo
-if [[ -e /usr/share/terminfo/x/xterm-256color ]]; then
-  export TERM="xterm-256color"
-fi
-
-case $(uname -a) in
-  *Microsoft*) unsetopt BG_NICE ;;
-esac
 
 # Aliases
 alias autofs="sudo automount -fv"
 alias bat="acpi"
 alias booterrors="sudo journalctl -b -p err"
-alias cast="mkchromecast --encoder-backend ffmpeg --codec mp3 --sample-rate 44100"
-alias clang++11="clang++ -stdlib=libc++ -std=c++11 -lc++ -lc++abi"
 alias clip="xclip -selection clipboard"
 alias dmesg="sudo dmesg -T"
 alias encoding="file -b --mime-encoding"
 alias grep="grep -E --color=always"
 alias jpg2pdf="convert -compress JPEG -quality 50"
 alias l="ls -lF"
-alias lo="libreoffice"
 alias la="ls -lAF"
 alias languagetool="GDK_SCALE=2 languagetool"
 alias less="less -R"
 alias lm="l -ctr"
+alias lo="libreoffice"
 alias ls="ls -h --color=always --group-directories-first"
 alias mpv="mpv --x11-netwm=yes"
 alias ocaml="rlwrap ocaml"
-alias octmod="stat -c %a"
 alias pcc="paccache -d -k2 -vvv"
 alias pdf="evince"
 alias pmpl="pacman -Qqe"
@@ -56,11 +53,7 @@ alias pmsyu="sudo pacman -Syu"
 alias pmu="sudo pacman -U"
 alias revparse="git rev-parse --short"
 alias texmake="latexmk -pdf -pvc -interaction=nonstopmode"
-alias valgrind="valgrind --leak-check=full"
-alias vi="vim"
-if [ "$(command -v nvim)" != "" ]; then
-  alias vim="nvim"
-fi
+alias vim="nvim"
 alias which="command -v"
 alias xrc="xmonad --recompile"
 alias yearn="journalctl"  # Do you ever yearn?
