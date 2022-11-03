@@ -43,6 +43,7 @@ o.guicursor = "a:block"
 g.SuperTabDefaultCompletionType = "<c-n>"
 
 -- FZF
+o.rtp = o.rtp .. "," .. "/usr/local/opt/fzf"
 g.fzf_layout = {
   window = {
     width = 0.9,
