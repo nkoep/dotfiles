@@ -9,8 +9,11 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
   vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-  vim.keymap.set("n", "<space>f", function()
-    vim.lsp.buf.format {async = false}
+  vim.keymap.set("n", "mf", function()
+    vim.lsp.buf.format {
+      async = false,
+      timeout_ms = 2500
+    }
   end, bufopts)
   vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, bufopts)
   vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, bufopts)

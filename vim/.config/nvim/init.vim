@@ -4,14 +4,14 @@ call plug#begin('~/.vim/plugged')
   Plug 'fisadev/vim-isort'
   Plug 'hashivim/vim-terraform'
   Plug 'jamessan/vim-gnupg'
+  Plug 'kyazdani42/nvim-web-devicons'
   Plug 'neovim/nvim-lspconfig'
-  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-  Plug 'psf/black', {'rev': '22.3.0'}
   Plug 'numToStr/Comment.nvim'
-  Plug 'tpope/vim-fugitive'
   Plug 'nvim-lualine/lualine.nvim'
   Plug 'nvim-tree/nvim-tree.lua'
-  Plug 'kyazdani42/nvim-web-devicons'
+  Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+  Plug 'psf/black', {'rev': '22.3.0'}
+  Plug 'tpope/vim-fugitive'
 
   " nvim-cmp
   Plug 'hrsh7th/cmp-buffer'
@@ -22,16 +22,21 @@ call plug#begin('~/.vim/plugged')
 
   " luasnip
   Plug 'L3MON4D3/LuaSnip'
-  Plug 'saadparwaiz1/cmp_luasnip'
   Plug 'rafamadriz/friendly-snippets'
+  Plug 'saadparwaiz1/cmp_luasnip'
+
+  " null-ls
+  Plug 'jose-elias-alvarez/null-ls.nvim'
+  Plug 'nvim-lua/plenary.nvim'
 call plug#end()
 
+lua require("autocmd")
 lua require("config")
 lua require("keybindings")
-lua require("autocmd")
 lua require("plugins.comment")
 lua require("plugins.completion")
 lua require("plugins.lsp")
 lua require("plugins.lualine")
+lua require("plugins.null-ls")
 lua require("plugins.nvim-tree")
 lua require("plugins.treesitter")
