@@ -15,11 +15,6 @@ export MKL_THREADING_LAYER=GNU
 export TEXMFHOME="$HOME/.texmf"
 export VISUAL="nvim"
 
-# Source pyenv.
-export PYENV_ROOT="$HOME/.pyenv"
-eval "$(pyenv init -)"
-eval "$(pyenv virtualenv-init -)"
-
 if [ -e ~/.work/zshenv ]; then
   source ~/.work/zshenv
 fi

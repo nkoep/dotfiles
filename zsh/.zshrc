@@ -19,6 +19,11 @@ zstyle :omz:plugins:ssh-agent identities id_ed25519
 
 source $ZSH/oh-my-zsh.sh
 
+# Source pyenv.
+export PYENV_ROOT="$HOME/.pyenv"
+eval "$(pyenv init -)"
+eval "$(pyenv virtualenv-init -)"
+
 # Aliases
 alias autofs="sudo automount -fv"
 alias bat="acpi"
