@@ -28,12 +28,24 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, bufopts)
 end
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
-local lspconfig = require"lspconfig"
+function before_init(initialize_params, config)
+  if initialize_params.clientInfo.name == "pyright" then
+    local python_bin
+    if vim.env.VIRTUAL_ENV then
+       python_bin = path.join(vim.env.VIRTUAL_ENV, "bin", "python")
+    else
+      python_bin = exepath("python") or "python"
+    end
+    config.settings.python.pythonPath = python_bin
+  end
+end
+
+local capabilities = cmp_lsp.default_capabilities()
 local servers = {"pyright"}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     capabilities = capabilities,
     on_attach = on_attach,
+    before_init = before_init,
   }
 end
