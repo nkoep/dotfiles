@@ -1,3 +1,10 @@
+local lspconfig, ok = prequire"lspconfig"
+if not ok then
+  return
+end
+local cmp_lsp = require"cmp_nvim_lsp"
+local path = require("lspconfig/util").path
+
 local on_attach = function(client, bufnr)
   local bufopts = {noremap=true, silent=true, buffer=bufnr}
 

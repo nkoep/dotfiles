@@ -1,4 +1,7 @@
-local null_ls = require"null-ls"
+local null_ls, ok = prequire"null-ls"
+if not ok then
+  return
+end
 
 null_ls.setup {
   sources = {

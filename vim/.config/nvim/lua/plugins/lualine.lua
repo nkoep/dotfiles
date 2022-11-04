@@ -1,3 +1,8 @@
+local lualine, ok = prequire"lualine"
+if not ok then
+  return
+end
+
 vim.o.shortmess = vim.o.shortmess .. "S"
 
 local function search_count()
@@ -12,7 +17,7 @@ local function search_count()
   return ""
 end
 
-require"lualine".setup {
+lualine.setup {
   options = {
     theme = "dracula"
   },

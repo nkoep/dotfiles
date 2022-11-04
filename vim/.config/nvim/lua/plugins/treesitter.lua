@@ -1,4 +1,9 @@
-require"nvim-treesitter.configs".setup {
+local treesitter, ok = prequire"nvim-treesitter.configs"
+if not ok then
+  return
+end
+
+treesitter.setup {
   ensure_installed = {
     "python",
     "ocaml",
@@ -6,6 +11,7 @@ require"nvim-treesitter.configs".setup {
     "html",
     "css",
     "scss",
+    "lua",
     "bash",
   },
   highlight = {

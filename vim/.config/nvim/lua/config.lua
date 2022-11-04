@@ -1,3 +1,8 @@
+function prequire(module)
+  local ok, module = pcall(require, module)
+  return module, ok
+end
+
 local o = vim.o
 local g = vim.g
 local a = vim.api

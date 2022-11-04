@@ -1,7 +1,11 @@
-vim.o.completeopt = "menu,menuone,noselect"
+local cmp, ok = prequire"cmp"
+if not ok then
+  return
+end
 
-local cmp = require"cmp"
 local luasnip = require"luasnip"
+
+vim.o.completeopt = "menu,menuone,noselect"
 
 local has_words_before = function()
   local line, col = unpack(vim.api.nvim_win_get_cursor(0))
