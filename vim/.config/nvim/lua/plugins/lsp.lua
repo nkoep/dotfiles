@@ -28,8 +28,8 @@ local on_attach = function(client, bufnr)
   vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, bufopts)
 end
 
-function before_init(initialize_params, config)
-  if initialize_params.clientInfo.name == "pyright" then
+function before_init(_, config)
+  if config.settings.python ~= nil then
     local python_bin
     if vim.env.VIRTUAL_ENV then
        python_bin = path.join(vim.env.VIRTUAL_ENV, "bin", "python")
