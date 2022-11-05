@@ -19,6 +19,7 @@ o.splitbelow = true
 o.wrap = false
 o.scrolloff = 4
 o.gdefault = true
+o.foldenable = false
 
 -- Visual settings
 o.cmdheight = 2
