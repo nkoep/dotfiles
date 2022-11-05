@@ -49,7 +49,7 @@ colorFg = "#fafafa"
 colorBg = "#262729"
 
 -- Miscellaneous settings
-terminal' = "xfce4-terminal"
+terminal' = "kitty"
 borderWidth' = 2
 workspaces' =
     [ "one"
