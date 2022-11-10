@@ -32,7 +32,7 @@ o.background = "light"  -- Needs to be set first.
 a.nvim_exec([[
   colorscheme PaperColor
   hi ColorColumn ctermbg=14
-  hi Search cterm=NONE ctermfg=black ctermbg=yellow
+  hi Search cterm=NONE ctermbg=252
   hi VertSplit cterm=NONE ctermfg=NONE ctermbg=NONE
 ]], false)
 
