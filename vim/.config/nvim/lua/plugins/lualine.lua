@@ -22,6 +22,12 @@ lualine.setup {
     theme = "dracula"
   },
   sections = {
-    lualine_b = {{search_count, type = "lua_expr"}},
-  },
+    lualine_c = {
+      "filename",
+      {
+        search_count,
+        type = "lua_expr"
+      }
+    }
+  }
 }
