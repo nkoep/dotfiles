@@ -11,9 +11,6 @@ map("", "<tab>", "%")
 -- Use leader space to clear search results.
 map("", "<leader><space>", ":noh<cr>")
 
--- FZF
-map("n", "<C-p>", ":FZF<cr>")
-
 -- nvim-tree
 map("n", "<C-n>", ":NvimTreeToggle<cr>")
 

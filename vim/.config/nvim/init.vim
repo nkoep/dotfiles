@@ -1,4 +1,7 @@
 call plug#begin('~/.vim/plugged')
+  " Common
+  Plug 'nvim-lua/plenary.nvim'
+
   Plug 'NLKNguyen/papercolor-theme'
   Plug 'evanleck/vim-svelte'
   Plug 'fisadev/vim-isort'
@@ -8,6 +11,8 @@ call plug#begin('~/.vim/plugged')
   Plug 'neovim/nvim-lspconfig'
   Plug 'numToStr/Comment.nvim'
   Plug 'nvim-lualine/lualine.nvim'
+  Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
+  Plug 'nvim-telescope/telescope.nvim'
   Plug 'nvim-tree/nvim-tree.lua'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'psf/black', {'rev': '22.3.0'}
@@ -27,11 +32,11 @@ call plug#begin('~/.vim/plugged')
 
   " null-ls
   Plug 'jose-elias-alvarez/null-ls.nvim'
-  Plug 'nvim-lua/plenary.nvim'
 call plug#end()
 
-lua require("autocmd")
 lua require("config")
+
+lua require("autocmd")
 lua require("keybindings")
 lua require("plugins.comment")
 lua require("plugins.completion")
@@ -39,4 +44,5 @@ lua require("plugins.lsp")
 lua require("plugins.lualine")
 lua require("plugins.null-ls")
 lua require("plugins.nvim-tree")
+lua require("plugins.telescope")
 lua require("plugins.treesitter")
