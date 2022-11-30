@@ -62,7 +62,7 @@ alias vim="nvim"
 alias which="command -v"
 alias xrc="xmonad --recompile"
 alias yearn="journalctl"  # Do you ever yearn?
-alias ytdl="yt-dlp -f 'bestvideo[ext=mp4]+bestaudio[ext=m4a]/best[ext=mp4]/best'"
+alias ytdl="yt-dlp -S vcodec:h264"
 
 # Functions
 findext() {
