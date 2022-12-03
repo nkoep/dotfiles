@@ -11,9 +11,6 @@ map("", "<tab>", "%")
 -- Use leader space to clear search results.
 map("", "<leader><space>", ":noh<cr>")
 
--- nvim-tree
-map("n", "<C-n>", ":NvimTreeToggle<cr>")
-
 -- TODO: Migrate to vim.lsp.buf.format().
 -- Run black and isort.
 map("n", "mk", ":Isort<cr>:Black<cr>")

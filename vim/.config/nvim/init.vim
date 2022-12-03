@@ -13,7 +13,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-lualine/lualine.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
   Plug 'nvim-telescope/telescope.nvim'
-  Plug 'nvim-tree/nvim-tree.lua'
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'psf/black', {'rev': '22.3.0'}
   Plug 'tpope/vim-fugitive'
@@ -43,6 +42,5 @@ lua require("plugins.completion")
 lua require("plugins.lsp")
 lua require("plugins.lualine")
 lua require("plugins.null-ls")
-lua require("plugins.nvim-tree")
 lua require("plugins.telescope")
 lua require("plugins.treesitter")
