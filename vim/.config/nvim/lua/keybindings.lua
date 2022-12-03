@@ -14,3 +14,5 @@ map("", "<leader><space>", ":noh<cr>")
 -- TODO: Migrate to vim.lsp.buf.format().
 -- Run black and isort.
 map("n", "mk", ":Isort<cr>:Black<cr>")
+
+map("n", "<C-b>", ":Git blame<cr>")
