@@ -16,6 +16,7 @@ call plug#begin('~/.vim/plugged')
   Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
   Plug 'psf/black', {'rev': '22.3.0'}
   Plug 'tpope/vim-fugitive'
+  Plug 'tpope/vim-rhubarb'
 
   " nvim-cmp
   Plug 'hrsh7th/cmp-buffer'

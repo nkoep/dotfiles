@@ -16,3 +16,4 @@ map("", "<leader><space>", ":noh<cr>")
 map("n", "mk", ":Isort<cr>:Black<cr>")
 
 map("n", "<C-b>", ":Git blame<cr>")
+map("", "<C-h>", ":GBrowse<cr>")
