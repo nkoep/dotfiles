@@ -1,11 +1,9 @@
 #!/bin/sh
 
-for p in tree curl nvim; do
-  if ! command -v "$p" >/dev/null; then
-    echo "Utility '$p' is not installed"
-    exit 1
-  fi
-done
+if ! command -v curl >/dev/null; then
+  echo "curl is not installed"
+  exit 1
+fi
 
 # Grab oh-my-zsh.
 if [ ! -d ~/.oh-my-zsh ]; then
