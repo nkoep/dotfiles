@@ -1,0 +1,13 @@
+[core]
+	nopager = false
+	exportkeys = false
+	cliptimeout = 45
+	parsing = true
+	notifications = false
+	autoimport = true
+	autoclip = true
+	showsafecontent = false
+[mounts]
+	path = /home/nik/.password-store
+[age]
+	usekeychain = false
