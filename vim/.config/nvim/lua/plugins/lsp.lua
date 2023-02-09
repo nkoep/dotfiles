@@ -41,7 +41,7 @@ function before_init(_, config)
 end
 
 local capabilities = cmp_lsp.default_capabilities()
-local servers = {"pyright"}
+local servers = {"pyright", "eslint"}
 for _, lsp in ipairs(servers) do
   lspconfig[lsp].setup {
     capabilities = capabilities,

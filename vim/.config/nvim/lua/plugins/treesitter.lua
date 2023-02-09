@@ -5,14 +5,15 @@ end
 
 treesitter.setup {
   ensure_installed = {
-    "python",
-    "ocaml",
-    "javascript",
-    "html",
-    "css",
-    "scss",
-    "lua",
     "bash",
+    "css",
+    "html",
+    "javascript",
+    "svelte",
+    "lua",
+    "python",
+    "scss",
+    "tsx",
   },
   highlight = {
     enable = true
