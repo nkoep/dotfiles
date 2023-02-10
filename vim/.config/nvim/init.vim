@@ -8,7 +8,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'hashivim/vim-terraform'
   Plug 'jamessan/vim-gnupg'
   Plug 'kyazdani42/nvim-web-devicons'
-  Plug 'neovim/nvim-lspconfig'
   Plug 'numToStr/Comment.nvim'
   Plug 'nvim-lualine/lualine.nvim'
   Plug 'nvim-telescope/telescope-fzf-native.nvim', {'do': 'make'}
@@ -18,10 +17,18 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-fugitive'
   Plug 'tpope/vim-rhubarb'
 
+  " LSP
+  Plug 'neovim/nvim-lspconfig'
+  Plug 'williamboman/mason.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'onsails/lspkind.nvim'
+
   " nvim-cmp
   Plug 'hrsh7th/cmp-buffer'
   Plug 'hrsh7th/cmp-cmdline'
   Plug 'hrsh7th/cmp-nvim-lsp'
+  Plug 'hrsh7th/cmp-nvim-lua'
+  Plug 'hrsh7th/cmp-nvim-lsp-signature-help'
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/nvim-cmp'
 
