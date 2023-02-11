@@ -45,7 +45,9 @@ vim.diagnostic.config({
     virtual_text = false,
 })
 
-local on_attach = function(_, bufnr)
+local M = {}
+
+M.on_attach = function(_, bufnr)
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
   vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
@@ -101,7 +103,7 @@ mason_lspconfig.setup({
 
 local options = {
     capabilities = capabilities,
-    on_attach = on_attach,
+    on_attach = M.on_attach,
     before_init = before_init,
     handlers = handlers,
 }
@@ -123,3 +125,5 @@ mason_lspconfig.setup_handlers({
       lspconfig.sumneko_lua.setup(vim.tbl_extend("force", options, lua_options))
     end,
 })
+
+return M
