@@ -18,20 +18,23 @@ require("mason-tool-installer").setup({
   },
 })
 
+local diagnostics = null_ls.builtins.diagnostics
+local formatting = null_ls.builtins.formatting
+
 null_ls.setup({
   on_attach = require("plugins.lsp").on_attach,
   sources = {
     -- Diagnostics
-    null_ls.builtins.diagnostics.flake8,
-    null_ls.builtins.diagnostics.markdownlint,
+    diagnostics.flake8,
+    diagnostics.markdownlint,
     -- Formatting
-    null_ls.builtins.formatting.black,
-    null_ls.builtins.formatting.isort,
-    null_ls.builtins.formatting.prettier,
-    null_ls.builtins.formatting.shfmt.with({
+    formatting.black,
+    formatting.isort,
+    formatting.prettier,
+    formatting.shfmt.with({
       extra_args = { "-i", "2", "-sr", "ci", "-s" },
     }),
-    null_ls.builtins.formatting.stylua.with({
+    formatting.stylua.with({
       extra_args = {
         "--column-width",
         "79",
@@ -41,6 +44,6 @@ null_ls.setup({
         "2",
       },
     }),
-    null_ls.builtins.formatting.yamlfmt,
+    formatting.yamlfmt,
   },
 })

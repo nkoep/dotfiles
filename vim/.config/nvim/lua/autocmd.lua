@@ -10,7 +10,7 @@ a.nvim_create_autocmd("BufWritePre", {
 a.nvim_create_autocmd("BufWritePre", {
   pattern = "<buffer>",
   callback = function()
-    vim.lsp.buf.formatting_sync(nil, 2500)
+    vim.lsp.buf.format({ async = false, timeout_ms = 2500 })
   end,
 })
 

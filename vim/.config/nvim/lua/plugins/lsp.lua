@@ -6,43 +6,43 @@ local cmp_lsp = require("cmp_nvim_lsp")
 local path = require("lspconfig/util").path
 
 local signs = {
-    { name = "DiagnosticSignError", text = "" },
-    { name = "DiagnosticSignWarn",  text = "" },
-    { name = "DiagnosticSignHint",  text = "" },
-    { name = "DiagnosticSignInfo",  text = "" },
+  { name = "DiagnosticSignError", text = "" },
+  { name = "DiagnosticSignWarn", text = "" },
+  { name = "DiagnosticSignHint", text = "" },
+  { name = "DiagnosticSignInfo", text = "" },
 }
 for _, sign in pairs(signs) do
   vim.fn.sign_define(
-      sign.name,
-      { text = sign.text, texthl = sign.name, numhl = "" }
+    sign.name,
+    { text = sign.text, texthl = sign.name, numhl = "" }
   )
 end
 
 local border = "rounded"
 
 local handlers = {
-    ["textDocument/hover"] = vim.lsp.with(
-        vim.lsp.handlers.hover,
-        { border = border, focusable = false }
-    ),
-    ["textDocument/signatureHelp"] = vim.lsp.with(
-        vim.lsp.handlers.signature_help,
-        { border = border }
-    ),
+  ["textDocument/hover"] = vim.lsp.with(
+    vim.lsp.handlers.hover,
+    { border = border, focusable = false }
+  ),
+  ["textDocument/signatureHelp"] = vim.lsp.with(
+    vim.lsp.handlers.signature_help,
+    { border = border }
+  ),
 }
 
 vim.diagnostic.config({
-    float = {
-        border = border,
-        focusable = false,
-        header = "",
-        prefix = "",
-        source = "always",
-        style = "minimal",
-    },
-    severity_sort = true,
-    update_in_insert = true,
-    virtual_text = false,
+  float = {
+    border = border,
+    focusable = false,
+    header = "",
+    prefix = "",
+    source = "always",
+    style = "minimal",
+  },
+  severity_sort = true,
+  update_in_insert = true,
+  virtual_text = false,
 })
 
 local M = {}
@@ -60,7 +60,7 @@ M.on_attach = function(_, bufnr)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
   vim.keymap.set("n", "mk", function()
     local start_time = os.clock()
-    vim.lsp.buf.formatting_sync(nil, 2500)
+    vim.lsp.buf.format({ async = false, timeout_ms = 2500 })
     local duration = os.clock() - start_time
     print(string.format("Formatting took %.2f seconds", duration))
   end, bufopts)
@@ -85,12 +85,12 @@ end
 local capabilities = cmp_lsp.default_capabilities()
 
 local servers = {
-    "bashls",
-    "pyright",
-    "sumneko_lua",
-    "svelte",
-    "tsserver",
-    "yamlls",
+  "bashls",
+  "pyright",
+  "sumneko_lua",
+  "svelte",
+  "tsserver",
+  "yamlls",
 }
 
 require("mason").setup()
@@ -98,32 +98,32 @@ require("mason").setup()
 local mason_lspconfig = require("mason-lspconfig")
 
 mason_lspconfig.setup({
-    ensure_installed = servers,
+  ensure_installed = servers,
 })
 
 local options = {
-    capabilities = capabilities,
-    on_attach = M.on_attach,
-    before_init = before_init,
-    handlers = handlers,
+  capabilities = capabilities,
+  on_attach = M.on_attach,
+  before_init = before_init,
+  handlers = handlers,
 }
 
 mason_lspconfig.setup_handlers({
-    function(client)
-      lspconfig[client].setup(options)
-    end,
-    ["sumneko_lua"] = function()
-      local lua_options = {
-          settings = {
-              Lua = {
-                  diagnostics = {
-                      globals = { "vim" },
-                  },
-              },
+  function(client)
+    lspconfig[client].setup(options)
+  end,
+  ["sumneko_lua"] = function()
+    local lua_options = {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
           },
-      }
-      lspconfig.sumneko_lua.setup(vim.tbl_extend("force", options, lua_options))
-    end,
+        },
+      },
+    }
+    lspconfig.sumneko_lua.setup(vim.tbl_extend("force", options, lua_options))
+  end,
 })
 
 return M
