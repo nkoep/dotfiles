@@ -58,10 +58,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
   vim.keymap.set("n", "mk", function()
     local start_time = os.clock()
-    vim.lsp.buf.format({
-        async = false,
-        timeout_ms = 5000,
-    })
+    vim.lsp.buf.formatting_sync(nil, 2500)
     local duration = os.clock() - start_time
     print(string.format("Formatting took %.2f seconds", duration))
   end, bufopts)

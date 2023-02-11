@@ -1,22 +1,30 @@
 local a = vim.api
 
 -- Strip trailing whitespace on save.
-a.nvim_create_autocmd({"BufWritePre"}, {
-  pattern = {"*"},
+a.nvim_create_autocmd("BufWritePre", {
+  pattern = "*",
   command = [[%s/\s\+$//e]],
 })
 
--- Associate files with tex.
-a.nvim_create_autocmd({"BufRead", "BufNewFile"}, {
-  pattern = {"*.tex", "*.cls", "*.sty", "*.tikz"},
+-- Run formatter on save.
+a.nvim_create_autocmd("BufWritePre", {
+  pattern = "<buffer>",
   callback = function()
-    vim.o.filetype = "tex"
-  end
+    vim.lsp.buf.formatting_sync(nil, 2500)
+  end,
 })
 
-a.nvim_create_autocmd({"WinEnter", "VimEnter"}, {
-  pattern = {"*"},
+-- Associate files with tex.
+a.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = { "*.tex", "*.cls", "*.sty", "*.tikz" },
+  callback = function()
+    vim.o.filetype = "tex"
+  end,
+})
+
+a.nvim_create_autocmd({ "WinEnter", "VimEnter" }, {
+  pattern = "*",
   callback = function()
     vim.fn.matchadd("Todo", "TODO\\|FIXME\\|XXX\\|HACK", -1)
-  end
+  end,
 })
