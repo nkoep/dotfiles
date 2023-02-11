@@ -1,5 +1,5 @@
-function prequire(module)
-  local ok, module = pcall(require, module)
+function prequire(name)
+  local ok, module = pcall(require, name)
   return module, ok
 end
 
@@ -54,6 +54,3 @@ g.tex_fast = ""
 
 -- Python
 g.python3_host_prog = "~/.pyenv/versions/neovim/bin/python"
-
--- Add svelte preprocessor highlight support for SASS
-g.svelte_preprocessors = {"sass"}
