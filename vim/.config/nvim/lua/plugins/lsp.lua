@@ -45,29 +45,30 @@ vim.diagnostic.config({
   virtual_text = false,
 })
 
+local km = vim.keymap
 local M = {}
 
 M.on_attach = function(_, bufnr)
   local bufopts = { noremap = true, silent = true, buffer = bufnr }
 
-  vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-  vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-  vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-  vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set("n", "<Space>rn", vim.lsp.buf.rename, bufopts)
-  vim.keymap.set("n", "<Space>ca", vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-  vim.keymap.set("n", "mk", function()
+  km.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+  km.set("n", "gd", vim.lsp.buf.definition, bufopts)
+  km.set("n", "K", vim.lsp.buf.hover, bufopts)
+  km.set("n", "gi", vim.lsp.buf.implementation, bufopts)
+  km.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+  km.set("n", "<Space>rn", vim.lsp.buf.rename, bufopts)
+  km.set("n", "<Space>ca", vim.lsp.buf.code_action, bufopts)
+  km.set("n", "gr", vim.lsp.buf.references, bufopts)
+  km.set("n", "mk", function()
     local start_time = os.clock()
     vim.lsp.buf.format({ async = false, timeout_ms = 2500 })
     local duration = os.clock() - start_time
     print(string.format("Formatting took %.2f seconds", duration))
   end, bufopts)
-  vim.keymap.set("n", "<Space>e", vim.diagnostic.open_float, bufopts)
-  vim.keymap.set("n", "<Space>p", vim.diagnostic.goto_prev, bufopts)
-  vim.keymap.set("n", "<Space>n", vim.diagnostic.goto_next, bufopts)
-  vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, bufopts)
+  km.set("n", "<Space>e", vim.diagnostic.open_float, bufopts)
+  km.set("n", "<Space>p", vim.diagnostic.goto_prev, bufopts)
+  km.set("n", "<Space>n", vim.diagnostic.goto_next, bufopts)
+  km.set("n", "<space>q", vim.diagnostic.setloclist, bufopts)
 end
 
 local function before_init(_, config)
