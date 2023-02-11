@@ -33,11 +33,6 @@ call plug#begin('~/.vim/plugged')
   Plug 'hrsh7th/cmp-path'
   Plug 'hrsh7th/nvim-cmp'
 
-  " luasnip
-  Plug 'L3MON4D3/LuaSnip'
-  Plug 'rafamadriz/friendly-snippets'
-  Plug 'saadparwaiz1/cmp_luasnip'
-
   " null-ls
   Plug 'jose-elias-alvarez/null-ls.nvim'
 call plug#end()
