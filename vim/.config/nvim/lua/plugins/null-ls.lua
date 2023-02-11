@@ -3,16 +3,31 @@ if not ok then
   return
 end
 
+require("mason-tool-installer").setup({
+  ensure_installed = {
+    -- Diagnostics
+    "flake8",
+    -- Formatting
+    "black",
+    "isort",
+    "prettier",
+    "shfmt",
+    "stylua",
+    "yamlfmt",
+  },
+})
+
 null_ls.setup({
   sources = {
+    -- Diagnostics
     null_ls.builtins.diagnostics.flake8,
+    -- Formatting
     null_ls.builtins.formatting.black,
     null_ls.builtins.formatting.isort,
-    null_ls.builtins.formatting.prettier.with({
-      extra_args = { "--print-width", "79" },
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.shfmt.with({
+      extra_args = { "-i", "2", "-sr", "ci", "-s" },
     }),
-    null_ls.builtins.formatting.shfmt,
-    null_ls.builtins.formatting.sqlfluff,
     null_ls.builtins.formatting.stylua.with({
       extra_args = {
         "--column-width",

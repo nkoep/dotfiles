@@ -59,7 +59,7 @@ local on_attach = function(_, bufnr)
   vim.keymap.set("n", "mf", function()
     vim.lsp.buf.format({
       async = false,
-      timeout_ms = 2500,
+      timeout_ms = 5000,
     })
   end, bufopts)
   vim.keymap.set("n", "<Space>e", vim.diagnostic.open_float, bufopts)
@@ -82,7 +82,13 @@ end
 
 local capabilities = cmp_lsp.default_capabilities()
 
-local servers = { "pyright", "eslint", "sumneko_lua", "bashls" }
+local servers = {
+  "bashls",
+  "pyright",
+  "sumneko_lua",
+  "tsserver",
+  "yamlls",
+}
 
 require("mason").setup()
 

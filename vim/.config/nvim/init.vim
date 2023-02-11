@@ -18,10 +18,11 @@ call plug#begin('~/.vim/plugged')
   Plug 'tpope/vim-rhubarb'
 
   " LSP
+  Plug 'WhoIsSethDaniel/mason-tool-installer.nvim'
   Plug 'neovim/nvim-lspconfig'
-  Plug 'williamboman/mason.nvim'
-  Plug 'williamboman/mason-lspconfig.nvim'
   Plug 'onsails/lspkind.nvim'
+  Plug 'williamboman/mason-lspconfig.nvim'
+  Plug 'williamboman/mason.nvim'
 
   " nvim-cmp
   Plug 'hrsh7th/cmp-buffer'
