@@ -6,14 +6,6 @@ a.nvim_create_autocmd("BufWritePre", {
   command = [[%s/\s\+$//e]],
 })
 
--- Run formatter on save.
-a.nvim_create_autocmd("BufWritePre", {
-  pattern = "<buffer>",
-  callback = function()
-    vim.lsp.buf.format({ async = false, timeout_ms = 2500 })
-  end,
-})
-
 -- Associate files with tex.
 a.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = { "*.tex", "*.cls", "*.sty", "*.tikz" },
