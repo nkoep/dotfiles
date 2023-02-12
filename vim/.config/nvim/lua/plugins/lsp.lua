@@ -120,6 +120,7 @@ mason_lspconfig.setup_handlers({
           diagnostics = {
             globals = { "vim" },
           },
+          format = { enable = false },
         },
       },
     }
