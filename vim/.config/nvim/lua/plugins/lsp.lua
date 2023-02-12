@@ -87,8 +87,8 @@ local capabilities = cmp_lsp.default_capabilities()
 
 local servers = {
   "bashls",
+  "lua_ls",
   "pyright",
-  "sumneko_lua",
   "svelte",
   "tsserver",
   "yamlls",
@@ -113,7 +113,7 @@ mason_lspconfig.setup_handlers({
   function(client)
     lspconfig[client].setup(options)
   end,
-  ["sumneko_lua"] = function()
+  ["lua_ls"] = function()
     local lua_options = {
       settings = {
         Lua = {
@@ -124,7 +124,7 @@ mason_lspconfig.setup_handlers({
         },
       },
     }
-    lspconfig.sumneko_lua.setup(vim.tbl_extend("force", options, lua_options))
+    lspconfig.lua_ls.setup(vim.tbl_extend("force", options, lua_options))
   end,
 })
 
