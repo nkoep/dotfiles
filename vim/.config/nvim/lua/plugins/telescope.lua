@@ -23,4 +23,7 @@ telescope.setup({
 telescope.load_extension("fzf")
 
 map("n", "<C-p>", builtin.find_files)
+map("n", "<C-S-p>", function()
+  builtin.find_files({ hidden = true })
+end)
 map("n", "<C-g>", builtin.live_grep)
