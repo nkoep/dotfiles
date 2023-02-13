@@ -51,9 +51,16 @@ return packer.startup(function(use)
   use("nvim-telescope/telescope.nvim")
   use("tpope/vim-fugitive")
   use("tpope/vim-rhubarb")
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && yarn install" })
+  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm i" })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
-  use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+  use({
+    "nvim-treesitter/nvim-treesitter",
+    run = function()
+      local ts_update =
+        require("nvim-treesitter.install").update({ with_sync = true })
+      ts_update()
+    end,
+  })
 
   -- LSP
   use("WhoIsSethDaniel/mason-tool-installer.nvim")
