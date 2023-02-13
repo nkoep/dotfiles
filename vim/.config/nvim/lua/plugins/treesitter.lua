@@ -1,21 +1,23 @@
-local treesitter, ok = prequire"nvim-treesitter.configs"
+local treesitter, ok = prequire("nvim-treesitter.configs")
 if not ok then
   return
 end
 
-treesitter.setup {
+treesitter.setup({
   ensure_installed = {
     "bash",
     "css",
+    "help",
     "html",
     "javascript",
-    "svelte",
     "lua",
     "python",
     "scss",
+    "svelte",
     "tsx",
+    "vim",
   },
   highlight = {
-    enable = true
-  }
-}
+    enable = true,
+  },
+})
