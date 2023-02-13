@@ -43,9 +43,12 @@ return packer.startup(function(use)
   use("wbthomason/packer.nvim")
   use("nvim-lua/plenary.nvim")
 
+  -- Visual
   use("NLKNguyen/papercolor-theme")
-  use("jamessan/vim-gnupg")
   use("kyazdani42/nvim-web-devicons")
+  use({ "catppuccin/nvim", as = "catppuccin" })
+
+  use("jamessan/vim-gnupg")
   use("numToStr/Comment.nvim")
   use("nvim-lualine/lualine.nvim")
   use("nvim-telescope/telescope.nvim")
