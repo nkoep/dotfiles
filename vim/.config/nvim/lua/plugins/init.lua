@@ -4,6 +4,7 @@ local ensure_packer = function()
   local install_path = (
     fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
   )
+
   if fn.empty(fn.glob(install_path)) > 0 then
     fn.system({
       "git",
@@ -17,15 +18,9 @@ local ensure_packer = function()
     vim.notify("Installed packer")
     return true
   end
+
   return false
 end
-
-vim.cmd([[
-  augroup packer_user_config
-    autocmd!
-    autocmd BufWritePost plugins/init.lua source <afile> | PackerSync
-  augroup end
-]])
 
 local packer_bootstrap = ensure_packer()
 

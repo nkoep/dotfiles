@@ -20,3 +20,22 @@ a.nvim_create_autocmd({ "WinEnter", "VimEnter" }, {
     vim.fn.matchadd("Todo", "TODO\\|FIXME\\|XXX\\|HACK", -1)
   end,
 })
+
+local plugin_config =
+  vim.fn.resolve(vim.fn.expand("~") .. "/.config/nvim/lua/plugins/init.lua")
+local group = a.nvim_create_augroup("install_packages", {})
+a.nvim_create_autocmd("BufWritePost", {
+  group = group,
+  pattern = plugin_config,
+  callback = function()
+    vim.api.nvim_exec(
+      [[
+        source <afile>
+        PackerClean
+        PackerInstall
+        PackerCompile
+      ]],
+      false
+    )
+  end,
+})

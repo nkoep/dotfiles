@@ -17,10 +17,10 @@ else
   if ok then
     vim.api.nvim_exec(
       [[
-    hi ColorColumn ctermbg=14
-    hi Search cterm=NONE ctermbg=250
-    hi VertSplit cterm=NONE ctermfg=NONE ctermbg=NONE
-  ]],
+        hi ColorColumn ctermbg=14
+        hi Search cterm=NONE ctermbg=250
+        hi VertSplit cterm=NONE ctermfg=NONE ctermbg=NONE
+      ]],
       false
     )
   else
