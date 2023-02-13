@@ -10,18 +10,15 @@ local ensure_packer = function()
       "clone",
       "--depth",
       "1",
-
       "https://github.com/wbthomason/packer.nvim",
       install_path,
     })
     vim.cmd([[packadd packer.nvim]])
-    print("Installed packer")
+    vim.notify("Installed packer")
     return true
   end
   return false
 end
-
-local packer_bootstrap = ensure_packer()
 
 vim.cmd([[
   augroup packer_user_config
@@ -30,10 +27,9 @@ vim.cmd([[
   augroup end
 ]])
 
-local packer, ok = prequire("packer")
-if not ok then
-  return
-end
+local packer_bootstrap = ensure_packer()
+
+local packer = require("packer")
 
 packer.init({
   display = {
@@ -44,6 +40,7 @@ packer.init({
 })
 
 return packer.startup(function(use)
+  use("wbthomason/packer.nvim")
   use("nvim-lua/plenary.nvim")
 
   use("NLKNguyen/papercolor-theme")
