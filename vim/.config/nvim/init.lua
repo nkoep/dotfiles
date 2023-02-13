@@ -12,8 +12,9 @@ end
 
 require("plugins")
 
-require("config")
 require("autocmd")
+require("colorscheme")
+require("config")
 require("keybindings")
 
 require("plugins.comment")
