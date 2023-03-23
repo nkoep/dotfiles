@@ -25,7 +25,7 @@ sudo systemctl restart netctl-auto@wlp58s0 &
 xset s off
 xset -dpms
 
-case $HOSTNAME in
+case $HOST in
   monolith)
     export X_DPI=180
     export X_BAR_HEIGHT=40
@@ -37,7 +37,7 @@ case $HOSTNAME in
   *)
     export X_DPI=96
     export X_BAR_HEIGHT=30
-  ;;
+    ;;
 esac
 
 xrdb -DX_DPI=$X_DPI -merge ~/.Xresources

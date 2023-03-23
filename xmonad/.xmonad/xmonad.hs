@@ -9,14 +9,13 @@ import qualified Graphics.X11.Xlib (Rectangle(..))
 import Codec.Binary.UTF8.String (decodeString)
 
 import XMonad
-import XMonad.Actions.CycleWS
+import XMonad.Actions.CycleWS (nextWS, prevWS, shiftToPrev, shiftToNext)
 import XMonad.Actions.WindowBringer (gotoMenuArgs)
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers
-import XMonad.Hooks.EwmhDesktops
-import XMonad.Layout.Fullscreen
-import XMonad.Layout.LayoutModifier
+import XMonad.Hooks.ManageDocks  -- TODO
+import XMonad.Hooks.ManageHelpers (isDialog, doCenterFloat)
+import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
+import XMonad.Layout.Fullscreen (fullscreenEventHook, fullscreenManageHook)
+import XMonad.Layout.LayoutModifier  -- TODO
 import XMonad.Layout.Gaps (gaps)
 import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
@@ -24,23 +23,6 @@ import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.EZConfig (additionalKeys, removeKeys)
 import XMonad.Util.Font (fi)
 import XMonad.Util.Run (safeSpawn, safeSpawnProg)
-
--- Add support for fullscreen videos in Firefox.
-addNETSupported :: Atom -> X ()
-addNETSupported x   = withDisplay $ \dpy -> do
-    r               <- asks theRoot
-    a_NET_SUPPORTED <- getAtom "_NET_SUPPORTED"
-    a               <- getAtom "ATOM"
-    liftIO $ do
-       sup <- (join . maybeToList) <$> getWindowProperty32 dpy a_NET_SUPPORTED r
-       when (fromIntegral x `notElem` sup) $
-         changeProperty32 dpy r a_NET_SUPPORTED a propModeAppend [fromIntegral x]
-
-addEWMHFullscreen :: X ()
-addEWMHFullscreen   = do
-    wms <- getAtom "_NET_WM_STATE"
-    wfs <- getAtom "_NET_WM_STATE_FULLSCREEN"
-    mapM_ addNETSupported [wms, wfs]
 
 -- Color definitions
 colorHighlight = "#a51f1c"
@@ -87,18 +69,6 @@ layouts = tiled ||| half ||| full
 -- Float dialog windows
 floatHooks = isDialog --> doCenterFloat
 
-prettyPrinter file = def
-    { ppCurrent = colorBracket hl
-    , ppHidden = colorBracket bg
-    , ppSep = hl " - "
-    , ppTitle = shorten 60
-    , ppOutput = \s -> appendFile file . decodeString $ (s ++ "\n")
-    }
-    where polybarColor c = wrap ("%{F" ++ c ++ "}") "%{F-}"
-          hl = polybarColor colorHighlight
-          bg = polybarColor colorBg
-          colorBracket c = wrap (c "[") (c "]")
-
 -- dmenu customizations (requires the `dmenu-xft-height` AUR package)
 dmenuOptions =
     [ "-b"
@@ -118,7 +88,6 @@ dmenuOptions =
 -- Keybindings
 keybindings =
     [ ((alt, xK_p), safeSpawn "dmenu_run" dmenuOptions)
-    , ((alt, xK_n), safeSpawnProg "nautilus")
     , ((alt, xK_f), gotoMenuArgs dmenuOptions)
     , ((alt, xK_F5), safeSpawnProg "slock")
     , ((shiftAlt, xK_h), prevWS)
@@ -142,7 +111,7 @@ startupHook' = do
     safeSpawn "xbacklight" ["-set", "100%"]
     spawn "feh --bg-fill ~/.wallpaper.jpg"
 
-config' logfile = (ewmhFullscreen . ewmh . docks) def
+config' = (ewmhFullscreen . ewmh . docks) def
     { normalBorderColor = colorFg
     , focusedBorderColor = focusBorderColor
     , terminal = terminal'
@@ -158,8 +127,7 @@ config' logfile = (ewmhFullscreen . ewmh . docks) def
         <+> fullscreenManageHook
     , workspaces = workspaces'
     , borderWidth = borderWidth'
-    , logHook = dynamicLogWithPP $ prettyPrinter logfile
-    , startupHook = startupHook' >> addEWMHFullscreen
+    , startupHook = startupHook'
     , focusFollowsMouse = False
     , clickJustFocuses = False
     } `additionalKeys` keybindings `removeKeys` restartCombo
@@ -167,9 +135,5 @@ config' logfile = (ewmhFullscreen . ewmh . docks) def
 
 main :: IO ()
 main = do
-    let pipe = "/tmp/.xmonad.log"
-    fileExists <- doesFileExist pipe
-    when fileExists $ removeFile pipe
-    safeSpawn "mkfifo" [pipe]
-    safeSpawn "polybar" ["bla"]
-    xmonad $ config' pipe
+    safeSpawn "polybar-xmonad" []
+    xmonad $ config'
