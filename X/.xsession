@@ -25,7 +25,15 @@ sudo systemctl restart netctl-auto@wlp58s0 &
 xset s off
 xset -dpms
 
-case $HOST in
+# Set wallpaper.
+feh --bg-fill ~/.wallpaper.jpg
+
+# Export theme colors.
+export X_THEME_BG="#282A2E"
+export X_THEME_FG="#C5C8C6"
+export X_THEME_PRIMARY="#F0C674"
+
+case "$HOSTNAME" in
   monolith)
     export X_DPI=180
     ;;
