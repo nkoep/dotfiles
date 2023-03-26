@@ -1,10 +1,10 @@
-"pgrep -fa ncmpcpp | grep 'osmc$' && mpc -h osmc toggle || mpc toggle"
+"mpc toggle"
   Mod2 + F7
 
-"pgrep -fa ncmpcpp | grep 'osmc$' && mpc -h osmc prev || mpc prev"
+"mpc prev"
   Mod2 + F9
 
-"pgrep -fa ncmpcpp | grep 'osmc$' && mpc -h osmc next || mpc next"
+"mpc next"
   Mod2 + F10
 
 "pactl set-sink-volume @DEFAULT_SINK@ +5%"
@@ -12,3 +12,18 @@
 
 "pactl set-sink-volume @DEFAULT_SINK@ -5%"
   Mod2 + F12
+
+"xbacklight + 5%"
+  Alt + Up
+
+"xbacklight - 5%"
+  Alt + Down
+
+"slock"
+  Alt + F5
+
+"xkill"
+  Alt + Shift + x
+
+"dmenu-polybar"
+  Alt + p
