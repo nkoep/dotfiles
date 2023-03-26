@@ -28,11 +28,9 @@ xset -dpms
 case $HOST in
   monolith)
     export X_DPI=180
-    export X_BAR_HEIGHT=40
     ;;
   *)
     export X_DPI=96
-    export X_BAR_HEIGHT=30
     ;;
 esac
 
