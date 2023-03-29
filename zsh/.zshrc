@@ -21,6 +21,7 @@ source $ZSH/oh-my-zsh.sh
 
 # Source pyenv.
 export PYENV_ROOT="$HOME/.pyenv"
+path+=("$PYENV_ROOT/bin")
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 
