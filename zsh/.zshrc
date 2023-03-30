@@ -15,7 +15,14 @@ plugins=(
   systemd
   z
 )
-zstyle :omz:plugins:ssh-agent identities id_ed25519
+
+typeset -U identities
+for identity in id_rsa id_ed25519; do
+  if [ -f ~/.ssh/${identity} ]; then
+    identities+=($identity)
+  fi
+done
+zstyle :omz:plugins:ssh-agent identities $identities
 
 source $ZSH/oh-my-zsh.sh
 
