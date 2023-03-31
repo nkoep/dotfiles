@@ -63,7 +63,9 @@ M.on_attach = function(_, bufnr)
     local start_time = os.clock()
     vim.lsp.buf.format({ async = false, timeout_ms = 2500 })
     local duration = os.clock() - start_time
-    vim.notify(string.format("Formatting took %.2f seconds", duration))
+    vim.notify(
+      string.format("Formatting took %.2f milliseconds", duration * 1000)
+    )
   end, bufopts)
   km.set("n", "<Space>e", vim.diagnostic.open_float, bufopts)
   km.set("n", "<Space>p", vim.diagnostic.goto_prev, bufopts)
