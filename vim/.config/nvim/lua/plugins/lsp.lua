@@ -94,6 +94,7 @@ local servers = {
   "svelte",
   "tsserver",
   "yamlls",
+  "zls",
 }
 
 require("mason").setup()
