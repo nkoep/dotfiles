@@ -36,7 +36,6 @@ fi
 
 # Aliases
 alias autofs="sudo automount -fv"
-alias bat="acpi"
 alias booterrors="sudo journalctl -b -p err"
 alias clip="xclip -selection clipboard"
 alias dmesg="sudo dmesg -T"
