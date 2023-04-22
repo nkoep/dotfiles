@@ -141,6 +141,19 @@ gpg-decrypt() {
   fi
 }
 
+send-ses-email() {
+  from="$1"
+  to="$2"
+  subject="$3"
+  body="$4"
+  aws ses \
+    send-email \
+    --region eu-west-1 \
+    --from "$from" \
+    --to "$to" \
+    --message "Subject={Data=\"$subject\",Charset=\"UTF-8\"},Body={Html={Data=\"$body\",Charset=\"UTF-8\"}}"
+}
+
 if [ -e ~/.work/zshrc ]; then
   source ~/.work/zshrc
 fi
