@@ -16,3 +16,5 @@
 	ph = push origin HEAD
 [include]
   path = ~/.work/gitconfig
+[init]
+	defaultBranch = main
