@@ -6,4 +6,13 @@ set -o nounset
 battery1=$(cat /sys/class/power_supply/BAT0/capacity)
 battery2=$(cat /sys/class/power_supply/BAT1/capacity)
 
-printf "%2d%% %2d%%" "$battery1" "$battery2"
+status1=$(cat /sys/class/power_supply/BAT0/status)
+status2=$(cat /sys/class/power_supply/BAT1/status)
+
+if [ "$status1" = "Charging" ] || [ "$status2" = "Charging" ]; then
+  status=" (charging)"
+else
+  status=""
+fi
+
+printf "%2d%% %2d%%${status}" "$battery1" "$battery2"
