@@ -14,16 +14,16 @@
   Mod2 + F12
 
 "xbacklight + 5%"
-  Alt + Up
+  Mod1 + Up
 
 "xbacklight - 5%"
-  Alt + Down
+  Mod1 + Down
 
 "slock"
-  Alt + F5
+  Mod1 + F5
 
 "xkill"
-  Alt + Shift + x
+  Mod1 + Shift + x
 
 "dmenu-polybar"
-  Alt + p
+  Mod1 + p
