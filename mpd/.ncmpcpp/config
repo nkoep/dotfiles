@@ -1,6 +1,6 @@
 mpd_host = localhost
 mpd_port = 6600
-mpd_music_dir = ~/syncthing/music
+mpd_music_dir = ~/music
 
 allow_for_physical_item_deletion = yes
 ask_before_clearing_playlists = no
