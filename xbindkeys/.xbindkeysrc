@@ -14,16 +14,16 @@
   Mod2 + F12
 
 "xbacklight + 5%"
-  Mod1 + Up
+  Alt + Up
 
 "xbacklight - 5%"
-  Mod1 + Down
+  Alt + Down
 
 "slock"
-  Mod1 + F5
+  Alt + F5
 
 "xkill"
-  Mod1 + Shift + x
+  Alt + Shift + x
 
-"dmenu-polybar"
-  Mod1 + p
+"/home/nik/.bin/dmenu-polybar"
+  Alt + p
