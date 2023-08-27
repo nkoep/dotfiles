@@ -1,13 +1,12 @@
 #!/bin/sh
 
-set -o errexit
 set -o nounset
 
-battery1=$(cat /sys/class/power_supply/BAT0/capacity)
-battery2=$(cat /sys/class/power_supply/BAT1/capacity)
+battery1=$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)
+battery2=$(cat /sys/class/power_supply/BAT1/capacity 2>/dev/null)
 
-status1=$(cat /sys/class/power_supply/BAT0/status)
-status2=$(cat /sys/class/power_supply/BAT1/status)
+status1=$(cat /sys/class/power_supply/BAT0/status 2>/dev/null)
+status2=$(cat /sys/class/power_supply/BAT1/status 2>/dev/null)
 
 if [ "$status1" = "Charging" ] || [ "$status2" = "Charging" ]; then
   status=" (charging)"
