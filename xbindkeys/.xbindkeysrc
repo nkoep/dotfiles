@@ -24,6 +24,3 @@
 
 "xkill"
   Alt + Shift + x
-
-"/home/nik/.bin/dmenu-polybar"
-  Alt + Shift + p

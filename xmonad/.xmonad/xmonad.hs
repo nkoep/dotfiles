@@ -12,7 +12,7 @@ import XMonad.Layout.NoBorders (smartBorders)
 import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Layout.Spacing (spacing)
 import XMonad.Util.Cursor (setDefaultCursor)
-import XMonad.Util.EZConfig (removeKeys)
+import XMonad.Util.EZConfig (additionalKeys, removeKeys)
 import XMonad.Util.Run (safeSpawn)
 
 -- Layouts
@@ -43,8 +43,11 @@ config' borderColor focusColor = (ewmhFullscreen . ewmh . docks) def
     }
     `removeKeys` [ (mod1Mask, xK_q)  -- Restart xmonad
                  , (mod1Mask .|. shiftMask, xK_q)  -- Quit xmonad
-                 , (mod1Mask .|. shiftMask, xK_p)  -- dmenu
+                 , (mod1Mask .|. shiftMask, xK_p)  -- gmrun
+                 , (mod1Mask, xK_p)  -- dmenu
                  ]
+    `additionalKeys` [ ((mod1Mask, xK_p), safeSpawn "/home/nik/.bin/dmenu-polybar" [])
+                     ]
 
 main :: IO ()
 main = do
