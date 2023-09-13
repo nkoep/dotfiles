@@ -89,6 +89,7 @@ local capabilities = cmp_lsp.default_capabilities()
 
 local servers = {
   "bashls",
+  "hls",
   "lua_ls",
   "pyright",
   "svelte",
