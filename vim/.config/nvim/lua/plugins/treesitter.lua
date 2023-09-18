@@ -14,6 +14,7 @@ treesitter.setup({
     "python",
     "scss",
     "svelte",
+    "terraform",
     "tsx",
     "vim",
     "zig",

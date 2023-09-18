@@ -44,6 +44,7 @@ null_ls.setup({
         "2",
       },
     }),
+    formatting.terraform_fmt,
     formatting.yamlfmt,
     formatting.zigfmt,
   },
