@@ -15,9 +15,9 @@
 	ds = diff --staged
 	ph = push origin HEAD
 	puh = push upstream HEAD
-  rb = for-each-ref --sort=committerdate refs/heads/
+	rb = for-each-ref --sort=committerdate refs/heads/
 	as = annex sync --content
 [include]
-  path = ~/.work/gitconfig
+	path = ~/.work/gitconfig
 [init]
 	defaultBranch = main
