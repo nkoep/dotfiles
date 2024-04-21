@@ -1,6 +1,7 @@
-local colorscheme = "catppuccin"
-local theme = "frappe"
 -- local colorscheme = "PaperColor"
+
+local colorscheme = "catppuccin"
+local theme = "latte"  -- alternative: frappe
 
 if colorscheme == "catppuccin" then
   local catppuccin, ok = prequire(colorscheme)
