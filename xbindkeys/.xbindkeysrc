@@ -24,3 +24,9 @@
 
 "xkill"
   Alt + Shift + x
+
+"maim -s | xclip -selection clipboard -t image/png"
+  Shift + Control + 3
+
+"maim | xclip -selection clipboard -t image/png"
+  Shift + Control + 4
