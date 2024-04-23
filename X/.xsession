@@ -28,6 +28,9 @@ xset -dpms
 # Set wallpaper.
 feh --bg-fill ~/.wallpaper.jpg
 
+# Pixel-perfect trackpad scrolling.
+export MOZ_USE_XINPUT2=1
+
 # Export theme colors.
 export X_THEME_BG="#282A2E"
 export X_THEME_FG="#C5C8C6"
