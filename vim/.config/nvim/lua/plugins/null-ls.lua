@@ -32,7 +32,7 @@ null_ls.setup({
     formatting.isort,
     formatting.prettier,
     formatting.shfmt.with({
-      extra_args = { "-i", "2", "-sr", "ci", "-s" },
+      extra_args = { "-i", "2", "-sr", "-ci", "-s" },
     }),
     formatting.stylua.with({
       extra_args = {
