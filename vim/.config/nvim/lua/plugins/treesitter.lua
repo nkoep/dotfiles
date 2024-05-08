@@ -16,7 +16,6 @@ treesitter.setup({
     "svelte",
     "tsx",
     "vim",
-    "zig",
   },
   highlight = {
     enable = true,

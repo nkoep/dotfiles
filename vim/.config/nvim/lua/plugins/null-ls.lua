@@ -45,6 +45,5 @@ null_ls.setup({
       },
     }),
     formatting.yamlfmt,
-    formatting.zigfmt,
   },
 })
