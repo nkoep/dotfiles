@@ -61,7 +61,7 @@ return packer.startup(function(use)
 
   -- LSP
   use("WhoIsSethDaniel/mason-tool-installer.nvim")
-  use("jose-elias-alvarez/null-ls.nvim")
+  use("nvimtools/none-ls.nvim")
   use("neovim/nvim-lspconfig")
   use("onsails/lspkind.nvim")
   use("williamboman/mason-lspconfig.nvim")

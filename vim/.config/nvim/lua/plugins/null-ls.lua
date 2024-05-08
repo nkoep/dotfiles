@@ -6,7 +6,6 @@ end
 require("mason-tool-installer").setup({
   ensure_installed = {
     -- Diagnostics
-    "flake8",
     "markdownlint",
     -- Formatting
     "black",
@@ -24,9 +23,10 @@ local formatting = null_ls.builtins.formatting
 null_ls.setup({
   on_attach = require("plugins.lsp").on_attach,
   sources = {
+    -- TODO: Investigate https://github.com/mfussenegger/nvim-lint.
     -- Diagnostics
-    diagnostics.flake8,
     diagnostics.markdownlint,
+    -- TODO: Investigate https://github.com/stevearc/conform.nvim.
     -- Formatting
     formatting.black,
     formatting.isort,
