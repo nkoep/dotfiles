@@ -75,11 +75,14 @@ end
 
 local function before_init(_, config)
   if config.settings.python ~= nil then
-    local python_bin
+    local python_bin = vim.fn.exepath("python") or "python"
     if vim.env.VIRTUAL_ENV then
       python_bin = path.join(vim.env.VIRTUAL_ENV, "bin", "python")
     else
-      python_bin = exepath("python") or "python"
+      local result = vim.fn.systemlist("poetry env info --path")
+      if result[1] ~= "" then
+        python_bin = path.join(result[1], "bin", "python")
+      end
     end
     config.settings.python.pythonPath = python_bin
   end

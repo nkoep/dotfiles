@@ -1,5 +1,5 @@
 local colorscheme = "catppuccin"
-local theme = "frappe"
+-- local theme = "frappe"
 local theme = "latte"
 
 local catppuccin, ok = prequire(colorscheme)
