@@ -91,6 +91,7 @@ local servers = {
   "bashls",
   "lua_ls",
   "pyright",
+  "ruff_lsp",
   "svelte",
   "tsserver",
   "yamlls",

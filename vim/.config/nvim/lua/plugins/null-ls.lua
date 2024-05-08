@@ -30,7 +30,7 @@ null_ls.setup({
     -- Formatting
     formatting.black,
     formatting.isort,
-    formatting.prettier,
+    formatting.prettier.with({ extra_filetypes = { "svelte" } }),
     formatting.shfmt.with({
       extra_args = { "-i", "2", "-sr", "-ci", "-s" },
     }),
