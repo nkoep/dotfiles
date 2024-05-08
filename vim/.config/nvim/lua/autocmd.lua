@@ -14,6 +14,7 @@ a.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
+-- Highlight labels.
 a.nvim_create_autocmd({ "WinEnter", "VimEnter" }, {
   pattern = "*",
   callback = function()
@@ -37,5 +38,19 @@ a.nvim_create_autocmd("BufWritePost", {
       ]],
       false
     )
+  end,
+})
+
+-- Highlight occurrences of variable under cursor.
+a.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
+  pattern = "<buffer>",
+  callback = function()
+    vim.lsp.buf.document_highlight()
+  end,
+})
+a.nvim_create_autocmd({ "CursorMoved" }, {
+  pattern = "<buffer>",
+  callback = function()
+    vim.lsp.buf.clear_references()
   end,
 })
