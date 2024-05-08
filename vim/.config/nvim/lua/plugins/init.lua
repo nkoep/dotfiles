@@ -39,7 +39,6 @@ return packer.startup(function(use)
   use("nvim-lua/plenary.nvim")
 
   -- Visual
-  use("NLKNguyen/papercolor-theme")
   use("kyazdani42/nvim-web-devicons")
   use({ "catppuccin/nvim", as = "catppuccin" })
 
