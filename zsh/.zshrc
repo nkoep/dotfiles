@@ -51,7 +51,6 @@ alias lo="libreoffice"
 alias ls="ls -h --color=always --group-directories-first"
 alias mpv="mpv --x11-netwm=yes"
 alias ocaml="rlwrap ocaml"
-alias pcc="paccache -d -k2 -vvv"
 alias pdf="evince"
 alias pmpl="pacman -Qqe"
 alias pmqi="pacman -Qi"
@@ -153,6 +152,29 @@ send-ses-email() {
     --from "$from" \
     --to "$to" \
     --message "Subject={Data=\"$subject\",Charset=\"UTF-8\"},Body={Html={Data=\"$body\",Charset=\"UTF-8\"}}"
+}
+
+clean-caches() {
+  echo "Cleaning pacman cache:"
+  paccache -dk1
+  echo "(Installed packages)"
+  paccache -duk0
+  echo "(Uninstalled packages)"
+  if read -q "choice?Proceed? Y/n"; then
+    paccache -rk1; paccache -ruk0;
+  fi
+
+  echo "Cleaning pacaur cache:"
+  pacaur --aur-cleanall
+
+  echo "Cleaning pip cache:"
+  pip cache purge
+
+  echo "Cleaning pipenv cache:"
+  pipenv --clear
+
+  echo "Cleaning yarn cache:"
+  yarn cache clean
 }
 
 if [ -e ~/.work/zshrc ]; then
