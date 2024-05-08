@@ -19,6 +19,7 @@ require("keybindings")
 
 require("plugins.cmp")
 require("plugins.comment")
+require("plugins.illuminate")
 require("plugins.lsp")
 require("plugins.lualine")
 require("plugins.null-ls")

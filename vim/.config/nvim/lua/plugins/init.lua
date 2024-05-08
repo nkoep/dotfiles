@@ -42,6 +42,8 @@ return packer.startup(function(use)
   use("kyazdani42/nvim-web-devicons")
   use({ "catppuccin/nvim", as = "catppuccin" })
 
+  -- Functional
+  use("RRethy/vim-illuminate")
   use("jamessan/vim-gnupg")
   use("numToStr/Comment.nvim")
   use("nvim-lualine/lualine.nvim")
