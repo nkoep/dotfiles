@@ -14,6 +14,7 @@ a.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   end,
 })
 
+-- Highlight labels.
 a.nvim_create_autocmd({ "WinEnter", "VimEnter" }, {
   pattern = "*",
   callback = function()

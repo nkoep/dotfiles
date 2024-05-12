@@ -17,7 +17,6 @@ treesitter.setup({
     "terraform",
     "tsx",
     "vim",
-    "zig",
   },
   highlight = {
     enable = true,

@@ -6,7 +6,6 @@ end
 require("mason-tool-installer").setup({
   ensure_installed = {
     -- Diagnostics
-    "flake8",
     "markdownlint",
     -- Formatting
     "black",
@@ -24,15 +23,16 @@ local formatting = null_ls.builtins.formatting
 null_ls.setup({
   on_attach = require("plugins.lsp").on_attach,
   sources = {
+    -- TODO: Investigate https://github.com/mfussenegger/nvim-lint.
     -- Diagnostics
-    diagnostics.flake8,
     diagnostics.markdownlint,
+    -- TODO: Investigate https://github.com/stevearc/conform.nvim.
     -- Formatting
     formatting.black,
     formatting.isort,
-    formatting.prettier,
+    formatting.prettier.with({ extra_filetypes = { "svelte" } }),
     formatting.shfmt.with({
-      extra_args = { "-i", "2", "-sr", "ci", "-s" },
+      extra_args = { "-i", "2", "-sr", "-ci", "-s" },
     }),
     formatting.stylua.with({
       extra_args = {
@@ -46,6 +46,5 @@ null_ls.setup({
     }),
     formatting.terraform_fmt,
     formatting.yamlfmt,
-    formatting.zigfmt,
   },
 })
