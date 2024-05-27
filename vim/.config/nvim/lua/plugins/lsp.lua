@@ -95,14 +95,35 @@ M.on_attach = function(client, bufnr)
 end
 
 local function before_init(_, config)
+  local function env_venv()
+    if vim.env.VIRTUAL_ENV then
+      return vim.env.VIRTUAL_ENV
+    end
+  end
+
+  local function rye_venv()
+    local result = vim.fn.systemlist(
+      "rye show | grep --color=never 'venv' | awk '{print $2}'"
+    )
+    if result[1] ~= "" then
+      return result[1]
+    end
+  end
+
+  local function poetry_venv()
+    local result = vim.fn.systemlist("poetry env info --path")
+    if result[1] ~= "" then
+      return result[1]
+    end
+  end
+
   if config.settings.python ~= nil then
     local python_bin = vim.fn.exepath("python") or "python"
-    if vim.env.VIRTUAL_ENV then
-      python_bin = path.join(vim.env.VIRTUAL_ENV, "bin", "python")
-    else
-      local result = vim.fn.systemlist("poetry env info --path")
-      if result[1] ~= "" then
-        python_bin = path.join(result[1], "bin", "python")
+    for _, venv_source in ipairs({ env_venv, rye_venv, poetry_venv }) do
+      local venv = venv_source()
+      if venv ~= nil then
+        python_bin = path.join(venv, "bin", "python")
+        break
       end
     end
     config.settings.python.pythonPath = python_bin

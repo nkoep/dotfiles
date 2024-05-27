@@ -15,6 +15,7 @@ treesitter.setup({
     "scss",
     "svelte",
     "terraform",
+    "typescript",
     "tsx",
     "vim",
   },

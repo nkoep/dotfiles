@@ -16,7 +16,7 @@ pkill polybar
 udiskie --smart-tray &
 
 # Launch bluetooth tray.
-blueman-applet &
+blueberry-tray
 
 # Restart netctl.
 sudo systemctl restart netctl-auto@wlp58s0 &
