@@ -13,6 +13,7 @@ require("mason-tool-installer").setup({
     "prettier",
     "shfmt",
     "stylua",
+    "sqlfluff",
     "yamlfmt",
   },
 })
@@ -26,6 +27,7 @@ null_ls.setup({
     -- TODO: Investigate https://github.com/mfussenegger/nvim-lint.
     -- Diagnostics
     diagnostics.markdownlint,
+    diagnostics.sqlfluff.with({ extra_args = { "--dialect", "bigquery" } }),
     -- TODO: Investigate https://github.com/stevearc/conform.nvim.
     -- Formatting
     formatting.black,
@@ -44,6 +46,7 @@ null_ls.setup({
         "2",
       },
     }),
+    formatting.sqlfluff.with({ extra_args = { "--dialect", "bigquery" } }),
     formatting.terraform_fmt,
     formatting.yamlfmt,
   },

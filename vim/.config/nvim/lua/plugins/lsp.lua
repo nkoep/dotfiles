@@ -118,6 +118,7 @@ local servers = {
   "pyright",
   "ruff_lsp",
   "svelte",
+  "sqlls",
   "tsserver",
   "yamlls",
 }
