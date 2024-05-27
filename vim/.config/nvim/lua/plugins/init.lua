@@ -43,6 +43,7 @@ return packer.startup(function(use)
   use({ "catppuccin/nvim", as = "catppuccin" })
 
   -- Functional
+  use("elihunter173/dirbuf.nvim")
   use("jamessan/vim-gnupg")
   use("numToStr/Comment.nvim")
   use("nvim-lualine/lualine.nvim")
