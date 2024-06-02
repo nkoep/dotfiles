@@ -71,7 +71,8 @@ alias vim="nvim"
 alias which="command -v"
 alias xrc="xmonad --recompile"
 alias yearn="journalctl"  # Do you ever yearn?
-alias ytdl="yt-dlp -S 'res:1080,vcodec:h264,acodec:m4a'"
+alias ytdl="yt-dlp -S \"res:1080,vcodec:h264,acodec:m4a\""
+alias ytmpv="mpv --ytdl-raw-options'=format-sort=\"res:1080,vcodec:h264,acodec:m4a\"'"
 
 # Functions
 findext() {
