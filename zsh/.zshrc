@@ -66,6 +66,7 @@ alias pmsyu="sudo pacman -Syu"
 alias pmu="sudo pacman -U"
 alias pq="python -q"
 alias revparse="git rev-parse --short"
+alias tarit='function _tarit() { tar -czvf "$1.tar.gz" "$1"; }; _tarit'
 alias texmake="latexmk -pdf -pvc -interaction=nonstopmode"
 alias vim="nvim"
 alias which="command -v"
@@ -132,6 +133,17 @@ gpg-encrypt() {
   else
     gpg -r $USER -e -o "$2" "$1"
   fi
+}
+
+gpg-encrypt-pass() {
+  if [ $# -ne 1 ]; then
+    input="$1"
+    output="${1}.gpg"
+  else
+    input="$1"
+    output="$2"
+  fi
+  gpg --symmetric --cipher-algo AES256 -o "$output" "$input"
 }
 
 gpg-decrypt() {
