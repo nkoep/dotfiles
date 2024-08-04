@@ -24,7 +24,7 @@ for identity in id_rsa id_ed25519; do
 done
 zstyle :omz:plugins:ssh-agent identities $identities
 
-source $ZSH/oh-my-zsh.sh
+source "${ZSH}/oh-my-zsh.sh"
 
 # Source pyenv.
 export PYENV_ROOT="$HOME/.pyenv"
