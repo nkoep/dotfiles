@@ -178,6 +178,19 @@ clean-caches() {
   yarn cache clean
 }
 
+mise-venv() {
+  python_version="$1"
+  mise install "python@${python_version}"
+  cat <<EOF >.mise.toml
+[tools]
+python = "${python_version}"
+
+[env]
+_.python.venv = { path = ".venv", create = true }
+EOF
+  mise trust
+}
+
 if [ -e ~/.work/zshrc ]; then
   source ~/.work/zshrc
 fi
