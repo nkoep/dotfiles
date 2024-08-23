@@ -1,6 +1,3 @@
-# Set the oh-my-zsh installation path.
-export ZSH=$HOME/.oh-my-zsh
-
 # Define the PATH variable.
 typeset -U path
 path=(~/.bin ~/.bin_private ~/.local/bin $path)
@@ -16,6 +13,6 @@ export TERM=xterm-256color
 export TEXMFHOME="$HOME/.texmf"
 export VISUAL="nvim"
 
-if [ -e ~/.work/zshenv ]; then
+if [[ -e ~/.work/zshenv ]]; then
   source ~/.work/zshenv
 fi
