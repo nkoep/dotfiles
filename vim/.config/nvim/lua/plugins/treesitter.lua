@@ -10,6 +10,7 @@ treesitter.setup({
     "help",
     "html",
     "javascript",
+    "just",
     "lua",
     "python",
     "scss",

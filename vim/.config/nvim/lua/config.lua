@@ -1,6 +1,5 @@
 local o = vim.o
 local g = vim.g
-local a = vim.api
 
 -- General settings
 o.swapfile = false
