@@ -3,6 +3,8 @@ compinit -i
 
 zmodload -i zsh/complist
 
+WORDCHARS=''
+
 bindkey -M menuselect "^o" accept-and-infer-next-history
 
 unsetopt menu_complete
