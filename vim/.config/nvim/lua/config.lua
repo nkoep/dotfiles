@@ -37,6 +37,3 @@ g.SuperTabDefaultCompletionType = "<c-n>"
 -- LaTeX
 g.tex_no_error = 1
 g.tex_fast = ""
-
--- Python
-g.python3_host_prog = "~/.pyenv/versions/neovim/bin/python"
