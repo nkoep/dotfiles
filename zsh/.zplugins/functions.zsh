@@ -100,7 +100,10 @@ clean-caches() {
 
 mise-venv() {
   python_version="$1"
-  mise install "python@${python_version}"
+  mise install "python@${python_version}" || {
+    echo "Failed to install python version"
+    return 1
+  }
   cat <<EOF >.mise.toml
 [tools]
 python = "${python_version}"
