@@ -8,12 +8,15 @@ for p in tree stow; do
 done
 
 # Move .zshrc file that gets installed by oh-my-zsh.
-mv ~/.zshrc ~/.zshrc.bak
+zshrc="$HOME/.zshrc"
+if [ -f "$zshrc" ]; then
+  mv "$zshrc" "${zshrc}.bak"
+fi
 
 # Install configs.
 mkdir -p ~/.config
-for d in $(tree --noreport -id); do
-  if [ ! "$d" = "." ] && [ ! "$d" = "firefox" ]; then
-    stow -t ~/ "$d"
+for directory in $(tree --noreport -id); do
+  if [ ! "$directory" = "." ] && [ ! "$directory" = "firefox" ]; then
+    stow -t ~/ "$directory"
   fi
 done
