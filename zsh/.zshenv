@@ -5,7 +5,7 @@ path=(~/.bin ~/.bin_private ~/.local/bin $path)
 # Environment variables
 export BROWSER="firefox"
 export EDITOR="$VISUAL"
-export GPG_TTY=`tty`
+export GPG_TTY=$(tty)
 export LESS="-R "
 export LESSOPEN="| /usr/bin/source-highlight-esc.sh %s"
 export MKL_THREADING_LAYER=GNU
