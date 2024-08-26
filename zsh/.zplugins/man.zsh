@@ -22,9 +22,6 @@ function colored() {
   command env $environment "$@"
 }
 
-# function man {
-#   colored command man "$@"
-# }
 function man {
   colored $0 "$@"
 }
