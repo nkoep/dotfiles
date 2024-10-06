@@ -1,7 +1,15 @@
-local lspconfig, ok = prequire("lspconfig")
-if not ok then
+local lspconfig, lspconfig_ok = prequire("lspconfig")
+if not lspconfig_ok then
   return
 end
+
+local mason_lspconfig, mason_lspconfig_ok = prequire("mason-lspconfig")
+if not mason_lspconfig_ok then
+  return
+end
+
+require("plugins.mason")
+
 local cmp_lsp = require("cmp_nvim_lsp")
 local path = require("lspconfig/util").path
 
@@ -80,14 +88,6 @@ M.on_attach = function(client, bufnr)
   km.set("n", "<Space>rn", vim.lsp.buf.rename, bufopts)
   km.set("n", "<Space>ca", vim.lsp.buf.code_action, bufopts)
   km.set("n", "gr", vim.lsp.buf.references, bufopts)
-  km.set("n", "mk", function()
-    local start_time = os.clock()
-    vim.lsp.buf.format({ async = false, timeout_ms = 2500 })
-    local duration = os.clock() - start_time
-    vim.notify(
-      string.format("Formatting took %.2f milliseconds", duration * 1000)
-    )
-  end, bufopts)
   km.set("n", "<Space>e", vim.diagnostic.open_float, bufopts)
   km.set("n", "<Space>p", vim.diagnostic.goto_prev, bufopts)
   km.set("n", "<Space>n", vim.diagnostic.goto_next, bufopts)
@@ -132,23 +132,18 @@ end
 
 local capabilities = cmp_lsp.default_capabilities()
 
-local servers = {
-  "bashls",
-  "lua_ls",
-  "pyright",
-  "ruff",
-  "sqlls",
-  "svelte",
-  "tsserver",
-  "yamlls",
-}
-
-require("mason").setup()
-
-local mason_lspconfig = require("mason-lspconfig")
-
 mason_lspconfig.setup({
-  ensure_installed = servers,
+  ensure_installed = {
+    "bashls",
+    "lua_ls",
+    "pyright",
+    "ruff",
+    "sqlls",
+    "svelte",
+    "terraformls",
+    "tsserver",
+    "yamlls",
+  },
 })
 
 local options = {
@@ -161,19 +156,6 @@ local options = {
 mason_lspconfig.setup_handlers({
   function(client)
     lspconfig[client].setup(options)
-  end,
-  ["lua_ls"] = function()
-    local lua_options = {
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim" },
-          },
-          format = { enable = false },
-        },
-      },
-    }
-    lspconfig.lua_ls.setup(vim.tbl_extend("force", options, lua_options))
   end,
 })
 
