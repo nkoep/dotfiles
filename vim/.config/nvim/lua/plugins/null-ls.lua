@@ -1,4 +1,4 @@
-local null_ls, ok = prequire("null-ls")
+local null_ls, ok = Prequire("null-ls")
 if not ok then
   return
 end

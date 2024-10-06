@@ -1,4 +1,4 @@
-local telescope, ok = prequire("telescope")
+local telescope, ok = Prequire("telescope")
 if not ok then
   return
 end
@@ -22,8 +22,8 @@ telescope.setup({
 
 telescope.load_extension("fzf")
 
-map("n", "<C-p>", builtin.find_files)
-map("n", "<C-S-p>", function()
+Map("n", "<C-p>", builtin.find_files)
+Map("n", "<C-S-p>", function()
   builtin.find_files({ hidden = true })
 end)
-map("n", "<C-g>", builtin.live_grep)
+Map("n", "<C-g>", builtin.live_grep)

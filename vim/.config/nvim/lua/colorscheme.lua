@@ -1,7 +1,7 @@
 local colorscheme = "catppuccin"
 local theme = "latte"
 
-local catppuccin, ok = prequire(colorscheme)
+local catppuccin, ok = Prequire(colorscheme)
 if not ok then
   vim.notify("Colorscheme " .. colorscheme .. " not found")
   return

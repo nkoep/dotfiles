@@ -1,8 +1,8 @@
 -- Map tab to jump between enclosing parens.
-map("", "<Tab>", "%")
+Map("", "<Tab>", "%")
 
 -- Use leader space to clear search results.
-map("", "<Leader><Space>", ":noh<CR>")
+Map("", "<Leader><Space>", ":noh<CR>")
 
-map("n", "<C-b>", ":Git blame<CR>")
-map("", "<C-h>", ":GBrowse<CR>")
+Map("n", "<C-b>", ":Git blame<CR>")
+Map("", "<C-h>", ":GBrowse<CR>")

@@ -1,4 +1,4 @@
-local lualine, ok = prequire("lualine")
+local lualine, ok = Prequire("lualine")
 if not ok then
   return
 end

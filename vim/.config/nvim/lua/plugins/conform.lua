@@ -1,4 +1,4 @@
-local conform, ok = prequire("conform")
+local conform, ok = Prequire("conform")
 if not ok then
   return
 end

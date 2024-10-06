@@ -1,9 +1,9 @@
-local lspconfig, lspconfig_ok = prequire("lspconfig")
+local lspconfig, lspconfig_ok = Prequire("lspconfig")
 if not lspconfig_ok then
   return
 end
 
-local mason_lspconfig, mason_lspconfig_ok = prequire("mason-lspconfig")
+local mason_lspconfig, mason_lspconfig_ok = Prequire("mason-lspconfig")
 if not mason_lspconfig_ok then
   return
 end

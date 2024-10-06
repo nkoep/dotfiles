@@ -1,4 +1,4 @@
-local cmp, ok = prequire("cmp")
+local cmp, ok = Prequire("cmp")
 if not ok then
   return
 end
