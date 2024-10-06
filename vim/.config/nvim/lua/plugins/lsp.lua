@@ -157,6 +157,18 @@ mason_lspconfig.setup_handlers({
   function(client)
     lspconfig[client].setup(options)
   end,
+  ["lua_ls"] = function()
+    local lua_options = {
+      settings = {
+        Lua = {
+          diagnostics = {
+            globals = { "vim" },
+          },
+        },
+      },
+    }
+    lspconfig.lua_ls.setup(vim.tbl_extend("force", options, lua_options))
+  end,
 })
 
 return M
