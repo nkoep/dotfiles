@@ -50,7 +50,6 @@ return packer.startup(function(use)
   use("nvim-telescope/telescope.nvim")
   use("tpope/vim-fugitive")
   use("tpope/vim-rhubarb")
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm i" })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use({
     "nvim-treesitter/nvim-treesitter",
