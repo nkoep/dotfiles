@@ -15,6 +15,7 @@ mason_tool_installer.setup({
   ensure_installed = {
     "markdownlint",
     "prettierd",
+    "selene",
     "shfmt",
     "sqlfluff",
     "stylua",

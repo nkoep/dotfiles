@@ -60,7 +60,7 @@ return packer.startup(function(use)
     end,
   })
 
-  -- LSP
+  -- LSPs, linters, formatters
   use("WhoIsSethDaniel/mason-tool-installer.nvim")
   use("neovim/nvim-lspconfig")
   use("nvimtools/none-ls.nvim")
