@@ -1,9 +1,12 @@
-local cmp, ok = Prequire("cmp")
-if not ok then
+local cmp, cmp_ok = Prequire("cmp")
+if not cmp_ok then
   return
 end
 
-local lspkind = require("lspkind")
+local lspkind, lspkind_ok = Prequire("lspkind")
+if not lspkind_ok then
+  return
+end
 
 vim.o.completeopt = "menu,menuone,noselect"
 
