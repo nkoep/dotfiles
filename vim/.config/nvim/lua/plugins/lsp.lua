@@ -8,9 +8,13 @@ if not mason_lspconfig_ok then
   return
 end
 
+local cmp_lsp, cmp_lsp_ok = Prequire("cmp_nvim_lsp")
+if not cmp_lsp_ok then
+  return
+end
+
 require("plugins.mason")
 
-local cmp_lsp = require("cmp_nvim_lsp")
 local path = require("lspconfig/util").path
 
 local signs = {
