@@ -13,7 +13,18 @@ conform.setup({
   formatters_by_ft = {
     javascript = { "prettierd" },
     lua = { "stylua" },
-    python = { "ruff_organize_imports", "ruff_format" },
+    python = function(buffer)
+      -- Ruff is always available since we install the LSP via mason. For older
+      -- projects that install isort and black locally, prefer those.
+      if
+        conform.get_formatter_info("isort", buffer).available
+        and conform.get_formatter_info("black", buffer).available
+      then
+        return { "isort", "black" }
+      else
+        return { "ruff_organize_imports", "ruff_format" }
+      end
+    end,
     sh = { "shfmt" },
     sql = { "sqlfluff" },
     svelte = { "prettierd" },
@@ -39,14 +50,12 @@ conform.setup({
   },
 })
 
-vim.keymap.set({"n", "v"}, "mk", function()
+vim.keymap.set({ "n", "v" }, "mk", function()
   local start_time = os.clock()
   if not conform.format({ async = false, timeout_ms = 2500 }) then
     vim.notify("No formatter configured")
     return
   end
   local duration_ms = 1000 * (os.clock() - start_time)
-  vim.notify(
-    string.format("Formatting took %.2f milliseconds", duration_ms)
-  )
+  vim.notify(string.format("Formatting took %.2f milliseconds", duration_ms))
 end)
