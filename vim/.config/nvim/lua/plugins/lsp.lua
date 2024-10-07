@@ -57,45 +57,45 @@ vim.diagnostic.config({
   virtual_text = false,
 })
 
-local km = vim.keymap
 local M = {}
 
-M.on_attach = function(client, bufnr)
-  -- Highlight occurrences of variable under cursor if LSP available.
+M.on_attach = function(client, buffer)
+  -- Highlight occurrences of variable under cursor if LSP is available.
   if client.server_capabilities.documentHighlightProvider then
     vim.api.nvim_create_augroup("lsp_document_highlight", { clear = true })
     vim.api.nvim_clear_autocmds({
-      buffer = bufnr,
+      buffer = buffer,
       group = "lsp_document_highlight",
     })
     vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
       callback = vim.lsp.buf.document_highlight,
-      buffer = bufnr,
+      buffer = buffer,
       group = "lsp_document_highlight",
       desc = "Document Highlight",
     })
     vim.api.nvim_create_autocmd("CursorMoved", {
       callback = vim.lsp.buf.clear_references,
-      buffer = bufnr,
+      buffer = buffer,
       group = "lsp_document_highlight",
       desc = "Clear All the References",
     })
   end
 
-  local bufopts = { noremap = true, silent = true, buffer = bufnr }
-
-  km.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-  km.set("n", "gd", vim.lsp.buf.definition, bufopts)
-  km.set("n", "K", vim.lsp.buf.hover, bufopts)
-  km.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-  km.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
-  km.set("n", "<Space>rn", vim.lsp.buf.rename, bufopts)
-  km.set("n", "<Space>ca", vim.lsp.buf.code_action, bufopts)
-  km.set("n", "gr", vim.lsp.buf.references, bufopts)
-  km.set("n", "<Space>e", vim.diagnostic.open_float, bufopts)
-  km.set("n", "<Space>p", vim.diagnostic.goto_prev, bufopts)
-  km.set("n", "<Space>n", vim.diagnostic.goto_next, bufopts)
-  km.set("n", "<space>q", vim.diagnostic.setloclist, bufopts)
+  -- Keybindings.
+  local km = vim.keymap
+  local buffer_options = { noremap = true, silent = true, buffer = buffer }
+  km.set("n", "gD", vim.lsp.buf.declaration, buffer_options)
+  km.set("n", "gd", vim.lsp.buf.definition, buffer_options)
+  km.set("n", "K", vim.lsp.buf.hover, buffer_options)
+  km.set("n", "gi", vim.lsp.buf.implementation, buffer_options)
+  km.set("n", "H", vim.lsp.buf.signature_help, buffer_options)
+  km.set("n", "<Space>rn", vim.lsp.buf.rename, buffer_options)
+  km.set("n", "<Space>ca", vim.lsp.buf.code_action, buffer_options)
+  km.set("n", "gr", vim.lsp.buf.references, buffer_options)
+  km.set("n", "<Space>e", vim.diagnostic.open_float, buffer_options)
+  km.set("n", "<Space>p", vim.diagnostic.goto_prev, buffer_options)
+  km.set("n", "<Space>n", vim.diagnostic.goto_next, buffer_options)
+  km.set("n", "<space>q", vim.diagnostic.setloclist, buffer_options)
 end
 
 local function before_init(_, config)

@@ -11,5 +11,6 @@ null_ls.setup({
     -- TODO: Replace with https://github.com/mfussenegger/nvim-lint.
     diagnostics.markdownlint,
     diagnostics.sqlfluff.with({ extra_args = { "--dialect", "bigquery" } }),
+    diagnostics.yamllint,
   },
 })
