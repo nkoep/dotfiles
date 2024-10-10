@@ -100,16 +100,17 @@ clean-caches() {
 
 mise-venv() {
   python_version="$1"
+  venv_path=".venv_py${python_version}"
   mise install "python@${python_version}" || {
     echo "Failed to install python version"
     return 1
   }
   cat <<EOF >.mise.toml
 [tools]
-python = "${python_version}"
+python = "$python_version"
 
 [env]
-_.python.venv = { path = ".venv", create = true }
+_.python.venv = { path = "$venv_path", create = true }
 EOF
   mise trust
 }
