@@ -1,9 +1,9 @@
-function prequire(name)
+function Prequire(name)
   local ok, module = pcall(require, name)
   return module, ok
 end
 
-function map(mode, lhs, rhs, silent)
+function Map(mode, lhs, rhs, silent)
   if silent == nil then
     silent = true
   end
@@ -21,6 +21,7 @@ require("keybindings")
 
 require("plugins.cmp")
 require("plugins.comment")
+require("plugins.conform")
 require("plugins.lsp")
 require("plugins.lualine")
 require("plugins.null-ls")

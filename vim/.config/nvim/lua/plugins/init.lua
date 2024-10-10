@@ -50,7 +50,6 @@ return packer.startup(function(use)
   use("nvim-telescope/telescope.nvim")
   use("tpope/vim-fugitive")
   use("tpope/vim-rhubarb")
-  use({ "iamcco/markdown-preview.nvim", run = "cd app && npm i" })
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use({
     "nvim-treesitter/nvim-treesitter",
@@ -61,11 +60,12 @@ return packer.startup(function(use)
     end,
   })
 
-  -- LSP
+  -- LSPs, linters, formatters
   use("WhoIsSethDaniel/mason-tool-installer.nvim")
-  use("nvimtools/none-ls.nvim")
   use("neovim/nvim-lspconfig")
+  use("nvimtools/none-ls.nvim")
   use("onsails/lspkind.nvim")
+  use("stevearc/conform.nvim")
   use("williamboman/mason-lspconfig.nvim")
   use("williamboman/mason.nvim")
 

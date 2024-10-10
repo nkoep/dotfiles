@@ -1,14 +1,17 @@
-local cmp, ok = prequire("cmp")
-if not ok then
+local cmp, cmp_ok = Prequire("cmp")
+if not cmp_ok then
   return
 end
 
-local lspkind = require("lspkind")
+local lspkind, lspkind_ok = Prequire("lspkind")
+if not lspkind_ok then
+  return
+end
 
 vim.o.completeopt = "menu,menuone,noselect"
 
 local has_words_before = function()
-  local line, column = unpack(vim.api.nvim_win_get_cursor(0))
+  local line, column = table.unpack(vim.api.nvim_win_get_cursor(0))
   return column ~= 0
     and vim.api
         .nvim_buf_get_lines(0, line - 1, line, true)[1]

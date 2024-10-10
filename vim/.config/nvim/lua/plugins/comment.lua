@@ -1,4 +1,4 @@
-local comment, ok = prequire"Comment"
+local comment, ok = Prequire("Comment")
 
 if ok then
   comment.setup()
