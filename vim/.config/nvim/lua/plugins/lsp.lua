@@ -145,7 +145,7 @@ mason_lspconfig.setup({
     "sqlls",
     "svelte",
     "terraformls",
-    "tsserver",
+    "ts_ls",
     "yamlls",
   },
 })
