@@ -12,6 +12,7 @@ conform.setup({
   },
   formatters_by_ft = {
     javascript = { "prettierd" },
+    json = { "jq" },
     lua = { "stylua" },
     python = function(buffer)
       -- Ruff is always available since we install the LSP via mason. For older

@@ -13,6 +13,7 @@ mason.setup()
 
 mason_tool_installer.setup({
   ensure_installed = {
+    "jq",
     "markdownlint",
     "prettierd",
     "selene",
