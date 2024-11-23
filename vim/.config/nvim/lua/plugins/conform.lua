@@ -53,7 +53,7 @@ conform.setup({
 
 vim.keymap.set({ "n", "v" }, "mk", function()
   local start_time = os.clock()
-  if not conform.format({ async = false, timeout_ms = 2500 }) then
+  if not conform.format({ async = false, timeout_ms = 5000 }) then
     vim.notify("No formatter configured")
     return
   end
