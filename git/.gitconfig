@@ -4,19 +4,19 @@
 [core]
 	excludesfile = ~/.gitexcludes
 [alias]
-	st = status
-	st2 = status -sb
-	co = checkout
+	am = commit --amend -c HEAD
+	as = annex sync --content
 	br = branch
-	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-	taglist = log --tags --simplify-by-decoration --pretty=\"format:%ai %d\"
-	amend = commit --amend -c HEAD
-	rev = rev-parse --short
+	co = checkout
 	ds = diff --staged
+	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 	ph = push origin HEAD
 	puh = push upstream HEAD
+	rev = rev-parse --short
+	st = status
+  c = commit -s
+  d = diff
   rb = for-each-ref --sort=committerdate refs/heads/
-	as = annex sync --content
 [include]
   path = ~/.work/gitconfig
 [init]
