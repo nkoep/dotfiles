@@ -15,6 +15,12 @@ function venv() {
   fi
 }
 
+function maybe_hostname() {
+  if [[ -z "$DISPLAY" ]]; then
+    echo "[%{$fg_bold[blue]%}$(hostname)%{$reset_color%}] "
+  fi
+}
+
 local return_value="%(?:%{$fg_bold[green]%}»:%{$fg_bold[red]%}»%s)"
-PROMPT='%~ $(branch_name)${return_value}%{$reset_color%} '
+PROMPT='$(maybe_hostname)%~ $(branch_name)${return_value}%{$reset_color%} '
 export RPROMPT='$(venv)'
