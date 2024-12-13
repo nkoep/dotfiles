@@ -4,7 +4,7 @@
 [core]
 	excludesfile = ~/.gitexcludes
 [alias]
-	am = commit --amend -c HEAD
+	amend = commit --amend -c HEAD
 	as = annex sync --content
 	br = branch
 	co = checkout
