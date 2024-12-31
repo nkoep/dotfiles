@@ -16,7 +16,7 @@ function venv() {
 }
 
 function maybe_hostname() {
-  if [[ -z "$DISPLAY" ]]; then
+  if [[ -z "$DISPLAY" && "$(uname -s)" != "Darwin" ]]; then
     echo "[%{$fg_bold[blue]%}$(hostname)%{$reset_color%}] "
   fi
 }
