@@ -33,6 +33,7 @@ conform.setup({
     typescript = { "prettierd" },
     typescriptreact = { "prettierd" },
     yaml = { "yamlfmt" },
+    zsh = { "shfmt" },
   },
   formatters = {
     shfmt = { prepend_args = { "-i", "2", "-ci", "-s" } },
