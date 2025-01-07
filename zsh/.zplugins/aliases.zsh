@@ -31,6 +31,7 @@ alias pmsy="sudo pacman -Sy"
 alias pmsyu="sudo pacman -Syu"
 alias pmu="sudo pacman -U"
 alias pq="python -q"
+alias pytree="tree -A -I __pycache__ -I '*.pyc' -P '*.py'"
 alias tarit='function _tarit() { tar -czvf "$1.tar.gz" "$1"; }; _tarit'
 alias texmake="latexmk -pdf -pvc -interaction=nonstopmode"
 alias vim="nvim"
