@@ -1,23 +1,41 @@
 [user]
-	name = Niklas Koep
-	email = niklas.koep@gmail.com
+  name = Niklas Koep
+  email = niklas.koep@gmail.com
 [core]
-	excludesfile = ~/.gitexcludes
+  excludesfile = ~/.gitexcludes
+  fsmonitor = true
+  untrackedCache = true
 [alias]
-	amend = commit --amend -c HEAD
-	as = annex sync --content
-	br = branch
-	co = checkout
-	ds = diff --staged
-	lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
-	ph = push origin HEAD
-	puh = push upstream HEAD
-	rev = rev-parse --short
-	st = status
+  amend = commit --amend -c HEAD
+  as = annex sync --content
+  br = branch
+  co = checkout
+  ds = diff --staged
+  lg = log --pretty=format:'%Cred%h%Creset -%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+  ph = push origin HEAD
+  puh = push upstream HEAD
+  rev = rev-parse --short
+  st = status
   c = commit -s
   d = diff
-  rb = for-each-ref --sort=committerdate refs/heads/
 [include]
   path = ~/.work/gitconfig
 [init]
-	defaultBranch = main
+  defaultBranch = main
+[branch]
+  sort = -committerdate
+[tag]
+  sort = version:refname
+[diff]
+  algorithm = histogram
+  colorMoved = plain
+  mnemonicPrefix = true
+  renames = true
+[push]
+  autoSetupRemote = true
+[commit]
+  verbose = true
+[merge]
+  conflictstyle = zdiff3
+[pull]
+  rebase = true
