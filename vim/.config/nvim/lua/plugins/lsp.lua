@@ -142,6 +142,7 @@ mason_lspconfig.setup({
     "lua_ls",
     "pyright",
     "ruff",
+    "rust_analyzer",
     "sqlls",
     "svelte",
     "terraformls",

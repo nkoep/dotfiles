@@ -26,6 +26,7 @@ conform.setup({
         return { "ruff_organize_imports", "ruff_format" }
       end
     end,
+    rust = { lsp_format = "prefer" },
     sh = { "shfmt" },
     sql = { "sqlfluff" },
     svelte = { "prettierd" },
