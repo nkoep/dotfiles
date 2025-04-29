@@ -99,6 +99,10 @@ function activate_or_create_venv() {
 }
 
 function auto_activate_venv() {
+  if [[ -n $VIRTUAL_ENV && ! -d $VIRTUAL_ENV ]]; then
+    deactivate_venv
+  fi
+
   if is_cached_dir_valid && [[ -n $VIRTUAL_ENV ]]; then
     return
   fi
