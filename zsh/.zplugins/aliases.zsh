@@ -34,6 +34,7 @@ alias pq="python -q"
 alias pytree="tree -A -I __pycache__ -I '*.pyc' -P '*.py'"
 alias tarit='function _tarit() { tar -czvf "$1.tar.gz" "$1"; }; _tarit'
 alias texmake="latexmk -pdf -pvc -interaction=nonstopmode"
+alias uvpy="uv run --with fsspec,s3fs,pandas python -ic 'import pandas as pd'"
 alias vim="nvim"
 alias weather="curl -s wttr.in/Charlottenburg | grep -v 'Follow'"
 alias which="command -v"
