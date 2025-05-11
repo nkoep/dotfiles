@@ -16,7 +16,6 @@ mason_tool_installer.setup({
     "jq",
     "markdownlint",
     "prettierd",
-    "selene",
     "shfmt",
     "sqlfluff",
     "stylua",

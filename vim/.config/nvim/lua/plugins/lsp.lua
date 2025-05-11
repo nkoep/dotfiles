@@ -1,4 +1,4 @@
-local lspconfig, lspconfig_ok = Prequire("lspconfig")
+local _, lspconfig_ok = Prequire("lspconfig")
 if not lspconfig_ok then
   return
 end
@@ -15,37 +15,45 @@ end
 
 require("plugins.mason")
 
-local path = require("lspconfig/util").path
-
-local signs = {
-  { name = "DiagnosticSignError", text = "" },
-  { name = "DiagnosticSignWarn", text = "" },
-  { name = "DiagnosticSignHint", text = "" },
-  { name = "DiagnosticSignInfo", text = "" },
-}
-for _, sign in pairs(signs) do
-  vim.fn.sign_define(
-    sign.name,
-    { text = sign.text, texthl = sign.name, numhl = "" }
-  )
-end
-
-local border = "rounded"
-
-local handlers = {
-  ["textDocument/hover"] = vim.lsp.with(
-    vim.lsp.handlers.hover,
-    { border = border, focusable = false }
-  ),
-  ["textDocument/signatureHelp"] = vim.lsp.with(
-    vim.lsp.handlers.signature_help,
-    { border = border }
-  ),
+local servers = {
+  "bashls",
+  "lua_ls",
+  "basedpyright",
+  "ruff",
+  "rust_analyzer",
+  "sqlls",
+  "svelte",
+  "terraformls",
+  "ts_ls",
+  "yamlls",
 }
 
+mason_lspconfig.setup({
+  ensure_installed = servers,
+  automatic_enable = servers,
+})
+
+-- Configure global diagnostic settings
 vim.diagnostic.config({
+  -- Configure sign display
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = "",
+      [vim.diagnostic.severity.WARN] = "",
+      [vim.diagnostic.severity.HINT] = "",
+      [vim.diagnostic.severity.INFO] = "",
+    },
+    texthl = {
+      [vim.diagnostic.severity.ERROR] = "DiagnosticSignError",
+      [vim.diagnostic.severity.WARN] = "DiagnosticSignWarn",
+      [vim.diagnostic.severity.HINT] = "DiagnosticSignHint",
+      [vim.diagnostic.severity.INFO] = "DiagnosticSignInfo",
+    },
+    numhl = {},
+  },
+
   float = {
-    border = border,
+    border = "rounded",
     focusable = false,
     header = "",
     prefix = "",
@@ -57,8 +65,12 @@ vim.diagnostic.config({
   virtual_text = false,
 })
 
+-- Set border for hover and signature help
+vim.o.winborder = "rounded"
+
 local M = {}
 
+-- Define the on_attach function
 M.on_attach = function(client, buffer)
   -- Highlight occurrences of variable under cursor if LSP is available.
   if client.server_capabilities.documentHighlightProvider then
@@ -98,19 +110,13 @@ M.on_attach = function(client, buffer)
   km.set("n", "<space>q", vim.diagnostic.setloclist, buffer_options)
 end
 
+-- Python venv detection function
 local function before_init(_, config)
+  local path = require("lspconfig.util").path
+
   local function env_venv()
     if vim.env.VIRTUAL_ENV then
       return vim.env.VIRTUAL_ENV
-    end
-  end
-
-  local function rye_venv()
-    local result = vim.fn.systemlist(
-      "rye show | grep --color=never 'venv' | awk '{print $2}'"
-    )
-    if result[1] ~= "" then
-      return result[1]
     end
   end
 
@@ -121,9 +127,9 @@ local function before_init(_, config)
     end
   end
 
-  if config.settings.python ~= nil then
+  if config.settings and config.settings.python then
     local python_bin = vim.fn.exepath("python") or "python"
-    for _, venv_source in ipairs({ env_venv, rye_venv, poetry_venv }) do
+    for _, venv_source in ipairs({ env_venv, poetry_venv }) do
       local venv = venv_source()
       if venv ~= nil then
         python_bin = path.join(venv, "bin", "python")
@@ -136,44 +142,42 @@ end
 
 local capabilities = cmp_lsp.default_capabilities()
 
-mason_lspconfig.setup({
-  ensure_installed = {
-    "bashls",
-    "lua_ls",
-    "pyright",
-    "ruff",
-    "rust_analyzer",
-    "sqlls",
-    "svelte",
-    "terraformls",
-    "ts_ls",
-    "yamlls",
-  },
-})
+-- Configure servers using the new vim.lsp.config API
+for _, server in ipairs(servers) do
+  vim.lsp.config[server] = {
+    capabilities = capabilities,
+    on_attach = M.on_attach,
+    before_init = before_init,
+  }
+end
 
-local options = {
+vim.lsp.config["lua_ls"] = {
   capabilities = capabilities,
   on_attach = M.on_attach,
-  before_init = before_init,
-  handlers = handlers,
-}
-
-mason_lspconfig.setup_handlers({
-  function(client)
-    lspconfig[client].setup(options)
-  end,
-  ["lua_ls"] = function()
-    local lua_options = {
-      settings = {
-        Lua = {
-          diagnostics = {
-            globals = { "vim" },
-          },
+  settings = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
+      },
+      diagnostics = {
+        globals = {
+          "vim",
+          "Prequire",
+          "Map",
         },
       },
-    }
-    lspconfig.lua_ls.setup(vim.tbl_extend("force", options, lua_options))
-  end,
-})
+      workspace = {
+        library = {
+          vim.api.nvim_get_runtime_file("", true),
+          vim.fn.expand("~/.config/nvim"),
+        },
+        checkThirdParty = false,
+      },
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
 
 return M

@@ -10,7 +10,6 @@ null_ls.setup({
   sources = {
     -- TODO: Replace with https://github.com/mfussenegger/nvim-lint.
     diagnostics.markdownlint,
-    diagnostics.selene,
     diagnostics.sqlfluff.with({ extra_args = { "--dialect", "bigquery" } }),
     diagnostics.terraform_validate,
     diagnostics.yamllint,
