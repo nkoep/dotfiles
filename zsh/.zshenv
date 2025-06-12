@@ -1,8 +1,3 @@
-# Define the PATH variable.
-typeset -U path
-path=(~/.bin ~/.bin_private ~/.local/bin $path)
-
-# Environment variables
 export BROWSER="firefox"
 export EDITOR="$VISUAL"
 export GPG_TTY=$(tty)
