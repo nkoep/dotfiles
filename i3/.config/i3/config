@@ -1,0 +1,117 @@
+# Set mod key to Alt (mod1)
+set $mod Mod1
+
+# Font for window titles
+font pango:monospace 8
+
+# Terminal
+set $term ghostty
+
+# Theme colors from environment variables
+set_from_resource $fg i3wm.color7 #ffffff
+set_from_resource $primary i3wm.color1 #ffff00
+
+# Window borders
+default_border pixel 2
+default_floating_border pixel 2
+
+# Colors (normal_border, focused_border, indicator, text, background)
+client.focused          #ffff00 #ffff00 #000000 #ffff00 #ffff00
+client.focused_inactive #ffffff #ffffff #000000 #ffffff #ffffff
+client.unfocused        #ffffff #ffffff #000000 #ffffff #ffffff
+client.urgent           #ff0000 #ff0000 #ffffff #ff0000 #ff0000
+
+# Window gaps and spacing
+gaps inner 5
+gaps outer 5
+
+# Behavior settings
+focus_follows_mouse no
+mouse_warping none
+
+# Start polybar
+exec_always --no-startup-id polybar-xmonad
+
+# Floating dialog windows
+for_window [window_type="dialog"] floating enable
+for_window [window_role="dialog"] floating enable
+
+# Keybindings
+bindsym $mod+p exec /home/nik/.bin/dmenu-polybar
+
+# Window management
+bindsym $mod+Return exec $term
+bindsym $mod+Shift+q kill
+bindsym $mod+d exec --no-startup-id dmenu_run
+
+# Change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+l focus up
+bindsym $mod+semicolon focus right
+
+# Move focused window
+bindsym $mod+Shift+j move left
+bindsym $mod+Shift+k move down
+bindsym $mod+Shift+l move up
+bindsym $mod+Shift+semicolon move right
+
+# Split orientation
+bindsym $mod+h split h
+bindsym $mod+v split v
+
+# Toggle fullscreen
+bindsym $mod+f fullscreen toggle
+
+# Layout modes (equivalent to xmonad layouts)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout toggle split
+
+# Toggle floating
+bindsym $mod+Shift+space floating toggle
+bindsym $mod+space focus mode_toggle
+
+# Focus parent/child
+bindsym $mod+a focus parent
+
+# Workspaces
+bindsym $mod+1 workspace number 1
+bindsym $mod+2 workspace number 2
+bindsym $mod+3 workspace number 3
+bindsym $mod+4 workspace number 4
+bindsym $mod+5 workspace number 5
+bindsym $mod+6 workspace number 6
+bindsym $mod+7 workspace number 7
+bindsym $mod+8 workspace number 8
+bindsym $mod+9 workspace number 9
+bindsym $mod+0 workspace number 10
+
+# Move to workspace
+bindsym $mod+Shift+1 move container to workspace number 1
+bindsym $mod+Shift+2 move container to workspace number 2
+bindsym $mod+Shift+3 move container to workspace number 3
+bindsym $mod+Shift+4 move container to workspace number 4
+bindsym $mod+Shift+5 move container to workspace number 5
+bindsym $mod+Shift+6 move container to workspace number 6
+bindsym $mod+Shift+7 move container to workspace number 7
+bindsym $mod+Shift+8 move container to workspace number 8
+bindsym $mod+Shift+9 move container to workspace number 9
+bindsym $mod+Shift+0 move container to workspace number 10
+
+# Restart i3
+bindsym $mod+Shift+r restart
+
+# Resize mode
+mode "resize" {
+    bindsym j resize shrink width 10 px or 10 ppt
+    bindsym k resize grow height 10 px or 10 ppt
+    bindsym l resize shrink height 10 px or 10 ppt
+    bindsym semicolon resize grow width 10 px or 10 ppt
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+    bindsym $mod+r mode "default"
+}
+
+bindsym $mod+r mode "resize"
