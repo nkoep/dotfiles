@@ -18,7 +18,7 @@ require("plugins.mason")
 local servers = {
   "bashls",
   "lua_ls",
-  "basedpyright",
+  "pyright",
   "ruff",
   "rust_analyzer",
   "sqlls",
