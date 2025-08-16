@@ -30,7 +30,7 @@ focus_follows_mouse no
 mouse_warping none
 
 # Start polybar
-exec_always --no-startup-id polybar-xmonad
+exec_always --no-startup-id polybar-restart
 
 # Floating dialog windows
 for_window [window_type="dialog"] floating enable

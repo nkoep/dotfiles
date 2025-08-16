@@ -9,9 +9,6 @@ xbindkeys
 # Enable the num pad.
 numlockx on
 
-# Kill polybar just in case (gets started by xmonad).
-pkill polybar
-
 # Launch udiskie for automatic mounts.
 udiskie --smart-tray &
 

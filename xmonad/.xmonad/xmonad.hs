@@ -53,5 +53,5 @@ main :: IO ()
 main = do
     borderColor <- lookupEnv "X_THEME_FG"
     focusColor <- lookupEnv "X_THEME_PRIMARY"
-    safeSpawn "polybar-xmonad" []
+    safeSpawn "polybar-restart" []
     xmonad $ config' borderColor focusColor
