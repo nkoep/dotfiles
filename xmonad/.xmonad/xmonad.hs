@@ -40,10 +40,9 @@ config' borderColor focusColor = (ewmhFullscreen . ewmh . docks) def
     }
     `removeKeys` [ (mod1Mask, xK_q)  -- Restart xmonad
                  , (mod1Mask .|. shiftMask, xK_q)  -- Quit xmonad
-                 , (mod1Mask .|. shiftMask, xK_p)  -- gmrun
-                 , (mod1Mask, xK_p)  -- dmenu
+                 , (mod1Mask, xK_p)
                  ]
-    `additionalKeys` [ ((mod1Mask, xK_p), safeSpawn "/home/nik/.bin/dmenu-polybar" [])
+    `additionalKeys` [ ((mod1Mask, xK_p), safeSpawn "rofi" ["-show", "drun"])
                      ]
 
 main :: IO ()
