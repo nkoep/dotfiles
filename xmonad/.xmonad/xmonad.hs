@@ -2,14 +2,11 @@ import Data.Maybe (fromMaybe)
 import System.Environment (lookupEnv)
 
 import XMonad
-import XMonad.Actions.CycleWS (nextWS, prevWS)
-import XMonad.Actions.WindowBringer (gotoMenuArgs)
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
 import XMonad.Hooks.ManageDocks (avoidStruts, docks)
 import XMonad.Hooks.ManageHelpers (isDialog, doCenterFloat)
 import XMonad.Layout.Gaps (gaps, Direction2D(U, D, L, R))
 import XMonad.Layout.NoBorders (smartBorders)
-import XMonad.Layout.Renamed (renamed, Rename (Replace))
 import XMonad.Layout.Spacing (spacing)
 import XMonad.Util.Cursor (setDefaultCursor)
 import XMonad.Util.EZConfig (additionalKeys, removeKeys)
@@ -23,7 +20,7 @@ layouts = tiled ||| half ||| full
           full        = Full
 
 windowSpacing :: Int
-windowSpacing = 5
+windowSpacing = 4
 
 config' borderColor focusColor = (ewmhFullscreen . ewmh . docks) def
     { normalBorderColor = fromMaybe "white" borderColor
