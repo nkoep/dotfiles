@@ -1,0 +1,14 @@
+#!/bin/bash
+
+# Get the split orientation of the immediate parent container of the focused
+# window.
+i3-msg -t get_tree | \
+    jq -r '
+        def find_parent:
+            .. | objects |
+            select(.nodes[]? | .. | objects | select(.focused == true)) |
+            select(.type == "con" or .type == "workspace");
+
+        [find_parent] | reverse | .[0].last_split_layout
+    ' | \
+    sed 's/splith/→/; s/splitv/↓/; s/null/-/'

@@ -5,7 +5,7 @@ set $mod Mod1
 font pango:monospace 8
 
 # Terminal
-set $term ghostty
+set $term kitty
 
 # Theme colors from environment variables
 set_from_resource $fg i3wm.color7 #ffffff
@@ -14,16 +14,20 @@ set_from_resource $primary i3wm.color1 #ffff00
 # Window borders
 default_border pixel 2
 default_floating_border pixel 2
+smart_borders on
+
+# Window gaps and spacing
+gaps inner 4
+gaps outer 4
+
+# No padding around polybar
+for_window [class="Polybar"] border pixel 0
 
 # Colors (normal_border, focused_border, indicator, text, background)
 client.focused          #ffff00 #ffff00 #000000 #ffff00 #ffff00
 client.focused_inactive #ffffff #ffffff #000000 #ffffff #ffffff
 client.unfocused        #ffffff #ffffff #000000 #ffffff #ffffff
 client.urgent           #ff0000 #ff0000 #ffffff #ff0000 #ff0000
-
-# Window gaps and spacing
-gaps inner 5
-gaps outer 5
 
 # Behavior settings
 focus_follows_mouse no
@@ -37,43 +41,34 @@ for_window [window_type="dialog"] floating enable
 for_window [window_role="dialog"] floating enable
 
 # Keybindings
-bindsym $mod+p exec /home/nik/.bin/dmenu-polybar
+
+# Applications
+bindsym $mod+p exec --no-startup-id "rofi -show drun"
 
 # Window management
-bindsym $mod+Return exec $term
-bindsym $mod+Shift+q kill
-bindsym $mod+d exec --no-startup-id dmenu_run
+bindsym $mod+Shift+Return exec $term
+bindsym $mod+Shift+c kill
 
 # Change focus
-bindsym $mod+j focus left
-bindsym $mod+k focus down
-bindsym $mod+l focus up
-bindsym $mod+semicolon focus right
+bindsym $mod+h focus left
+bindsym $mod+l focus right
+bindsym $mod+k focus up
+bindsym $mod+j focus down
 
 # Move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+bindsym $mod+Shift+h move left
+bindsym $mod+Shift+l move right
+bindsym $mod+Shift+k move up
+bindsym $mod+Shift+j move down
 
 # Split orientation
-bindsym $mod+h split h
-bindsym $mod+v split v
+bindsym $mod+u split toggle
 
 # Toggle fullscreen
 bindsym $mod+f fullscreen toggle
 
-# Layout modes (equivalent to xmonad layouts)
-bindsym $mod+s layout stacking
-bindsym $mod+w layout tabbed
-bindsym $mod+e layout toggle split
-
-# Toggle floating
-bindsym $mod+Shift+space floating toggle
-bindsym $mod+space focus mode_toggle
-
-# Focus parent/child
-bindsym $mod+a focus parent
+# Cycle through layouts (xmonad's mod-Space)
+bindsym $mod+space layout toggle split
 
 # Workspaces
 bindsym $mod+1 workspace number 1
@@ -101,17 +96,4 @@ bindsym $mod+Shift+0 move container to workspace number 10
 
 # Restart i3
 bindsym $mod+Shift+r restart
-
-# Resize mode
-mode "resize" {
-    bindsym j resize shrink width 10 px or 10 ppt
-    bindsym k resize grow height 10 px or 10 ppt
-    bindsym l resize shrink height 10 px or 10 ppt
-    bindsym semicolon resize grow width 10 px or 10 ppt
-
-    bindsym Return mode "default"
-    bindsym Escape mode "default"
-    bindsym $mod+r mode "default"
-}
-
-bindsym $mod+r mode "resize"
+bindsym $mod+Shift+e exit
