@@ -1,5 +1,6 @@
 import Data.Maybe (fromMaybe)
 import System.Environment (lookupEnv)
+import System.Exit (exitSuccess)
 
 import XMonad
 import XMonad.Hooks.EwmhDesktops (ewmh, ewmhFullscreen)
@@ -43,6 +44,8 @@ config' borderColor focusColor = (ewmhFullscreen . ewmh . docks) def
                  , (mod1Mask, xK_p)
                  ]
     `additionalKeys` [ ((mod1Mask, xK_p), safeSpawn "rofi" ["-show", "drun"])
+                     , ((mod1Mask .|. shiftMask, xK_r), restart "xmonad" True)
+                     , ((mod1Mask .|. shiftMask, xK_e), io exitSuccess)
                      ]
 
 main :: IO ()
