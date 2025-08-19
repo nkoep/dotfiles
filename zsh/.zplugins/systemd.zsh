@@ -13,6 +13,7 @@ user_commands=(
 sudo_commands=(
   daemon-reload
   disable
+  edit
   enable
   restart
   start
