@@ -67,8 +67,8 @@ bindsym $mod+u split toggle
 # Toggle fullscreen
 bindsym $mod+f fullscreen toggle
 
-# Cycle through layouts (xmonad's mod-Space)
-bindsym $mod+space layout toggle split
+# Cycle through layouts
+bindsym $mod+space layout toggle splith splitv tabbed
 
 # Workspaces
 bindsym $mod+1 workspace number 1
