@@ -44,12 +44,15 @@ gpg-encrypt() {
 }
 
 gpg-encrypt-pass() {
-  if [ $# -ne 1 ]; then
+  if [ $# -eq 1 ]; then
     input="$1"
     output="${1}.gpg"
-  else
+  elif [ $# -eq 2 ]; then
     input="$1"
     output="$2"
+  else
+    echo "One or two arguments required"
+    return 1
   fi
   gpg --symmetric --cipher-algo AES256 -o "$output" "$input"
 }
