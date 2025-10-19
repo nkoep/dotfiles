@@ -4,6 +4,7 @@ if not ok then
 end
 
 treesitter.setup({
+  ignore_install = { "help" },
   ensure_installed = {
     "bash",
     "css",
