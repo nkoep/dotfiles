@@ -10,8 +10,6 @@ function Map(mode, lhs, rhs, silent)
   vim.keymap.set(mode, lhs, rhs, { silent = silent })
 end
 
-require("filetypes")
-
 require("plugins")
 
 require("autocmd")
