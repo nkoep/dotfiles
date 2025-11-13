@@ -1,15 +1,3 @@
-findext() {
-  find . -name "*.$1"
-}
-
-grepext() {
-  findext $1 | xargs grep -In $2
-}
-
-findname() {
-  find . -iname "*$@*"
-}
-
 mergesubs() {
   ffmpeg -i $1 -i $2 -c copy -metadata:s:s:0 language=eng $3
 }
@@ -44,12 +32,15 @@ gpg-encrypt() {
 }
 
 gpg-encrypt-pass() {
-  if [ $# -ne 1 ]; then
+  if [ $# -eq 1 ]; then
     input="$1"
     output="${1}.gpg"
-  else
+  elif [ $# -eq 2 ]; then
     input="$1"
     output="$2"
+  else
+    echo "One or two arguments required"
+    return 1
   fi
   gpg --symmetric --cipher-algo AES256 -o "$output" "$input"
 }
@@ -60,19 +51,6 @@ gpg-decrypt() {
   else
     gpg -d -o "$2" "$1"
   fi
-}
-
-send-ses-email() {
-  from="$1"
-  to="$2"
-  subject="$3"
-  body="$4"
-  aws ses \
-    send-email \
-    --region eu-west-1 \
-    --from "$from" \
-    --to "$to" \
-    --message "Subject={Data=\"$subject\",Charset=\"UTF-8\"},Body={Html={Data=\"$body\",Charset=\"UTF-8\"}}"
 }
 
 clean-caches() {
