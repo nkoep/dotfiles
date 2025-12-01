@@ -12,6 +12,7 @@ treesitter.setup({
     "html",
     "javascript",
     "just",
+    "jsonnet",
     "lua",
     "python",
     "scss",
