@@ -4,11 +4,9 @@ if not ok then
 end
 
 treesitter.setup({
-  ignore_install = { "help" },
   ensure_installed = {
     "bash",
     "css",
-    "help",
     "html",
     "javascript",
     "just",
@@ -18,9 +16,10 @@ treesitter.setup({
     "scss",
     "svelte",
     "terraform",
-    "typescript",
     "tsx",
+    "typescript",
     "vim",
+    "vimdoc",
   },
   highlight = {
     enable = true,
