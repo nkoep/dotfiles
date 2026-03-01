@@ -9,6 +9,8 @@ repair-pdf() {
     gs \
     -q \
     -o "$2" \
+    -dCompatibilityLevel=1.4 \
+    -dPDFSETTINGS=/ebook \
     -sDEVICE=pdfwrite \
     -dEmbedAllFonts=true \
     "$1"
