@@ -15,9 +15,6 @@ udiskie --smart-tray &
 # Launch bluetooth tray.
 blueberry-tray
 
-# Restart netctl.
-sudo systemctl restart netctl-auto@wlp58s0 &
-
 # Turn off the screensaver.
 xset s off
 xset -dpms
@@ -33,5 +30,9 @@ export X_THEME_BG="#282A2E"
 export X_THEME_FG="#C5C8C6"
 export X_THEME_PRIMARY="#F0C674"
 
-export X_DPI=180
+if [ "$(uname -n)" = "helge" ]; then
+  export X_DPI=108
+else
+  export X_DPI=180
+fi
 xrdb -DX_DPI=$X_DPI -merge ~/.Xresources
