@@ -40,5 +40,7 @@ bindkey "^r" history-incremental-search-backward
 bindkey " " magic-space
 
 if command -v fzf >/dev/null; then
-  source <(fzf --zsh)
+  if fzf --help | grep -q -- "--zsh"; then
+    source <(fzf --zsh)
+  fi
 fi
