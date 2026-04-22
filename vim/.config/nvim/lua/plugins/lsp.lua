@@ -18,7 +18,6 @@ require("plugins.mason")
 local servers = {
   "bashls",
   "lua_ls",
-  "pyrefly",
   "ruff",
   "rust_analyzer",
   "sqlls",
@@ -27,7 +26,6 @@ local servers = {
   "ts_ls",
   "ty",
   "yamlls",
-  "zuban",
 }
 
 mason_lspconfig.setup({

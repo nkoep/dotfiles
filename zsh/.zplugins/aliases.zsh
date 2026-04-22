@@ -1,3 +1,5 @@
+command -v fdfind >/dev/null && alias fd="fdfind"
+
 alias autofs="sudo automount -fv"
 alias bat="bat --paging=always"
 alias bt="bluetui"
