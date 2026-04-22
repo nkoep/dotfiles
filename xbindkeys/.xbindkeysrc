@@ -13,10 +13,10 @@
 "pactl set-sink-volume @DEFAULT_SINK@ -5%"
   Mod2 + F12
 
-"xbacklight + 5%"
+"brightnessctl set +5%"
   Alt + Up
 
-"xbacklight - 5%"
+"brightnessctl set 5%-"
   Alt + Down
 
 "slock"
