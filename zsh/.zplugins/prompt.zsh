@@ -16,8 +16,8 @@ function venv() {
 }
 
 function maybe_hostname() {
-  if [[ -z "$DISPLAY" && "$(uname -s)" != "Darwin" ]]; then
-    echo "[%{$fg_bold[blue]%}$(hostname)%{$reset_color%}] "
+  if [[ -n "$SSH_CLIENT" || -n "$SSH_TTY" ]]; then
+    echo "[%{$fg_bold[blue]%}$HOST%{$reset_color%}] "
   fi
 }
 
