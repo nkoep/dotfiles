@@ -32,7 +32,9 @@ export X_THEME_PRIMARY="#F0C674"
 
 if [ "$(uname -n)" = "helge" ]; then
   export X_DPI=108
+  export BATTERY=0
 else
   export X_DPI=180
+  export BATTERY=1
 fi
 xrdb -DX_DPI=$X_DPI -merge ~/.Xresources
