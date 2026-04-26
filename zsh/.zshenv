@@ -1,11 +1,13 @@
+local editor="nvim"
+
 export BROWSER="firefox"
-export EDITOR="$VISUAL"
+export EDITOR="$editor"
 export GPG_TTY=$(tty)
 export LESS="-R "
 export MKL_THREADING_LAYER=GNU
 export TERM=xterm-256color
 export TEXMFHOME="$HOME/.texmf"
-export VISUAL="nvim"
+export VISUAL="$editor"
 
 if [[ -x /usr/bin/lesspipe ]]; then
   eval "$(lesspipe)"
