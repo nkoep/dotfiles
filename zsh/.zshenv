@@ -5,6 +5,7 @@ export EDITOR="$editor"
 export GPG_TTY=$(tty)
 export LESS="-R "
 export MKL_THREADING_LAYER=GNU
+export PI_SKIP_VERSION_CHECK=1
 export TERM=xterm-256color
 export TEXMFHOME="$HOME/.texmf"
 export VISUAL="$editor"

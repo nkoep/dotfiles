@@ -7,13 +7,13 @@ repair-pdf() {
     echo "Two arguments required"
   else
     gs \
-    -q \
-    -o "$2" \
-    -dCompatibilityLevel=1.4 \
-    -dPDFSETTINGS=/ebook \
-    -sDEVICE=pdfwrite \
-    -dEmbedAllFonts=true \
-    "$1"
+      -q \
+      -o "$2" \
+      -dCompatibilityLevel=1.4 \
+      -dPDFSETTINGS=/ebook \
+      -sDEVICE=pdfwrite \
+      -dEmbedAllFonts=true \
+      "$1"
   fi
 }
 
@@ -62,7 +62,8 @@ clean-caches() {
   paccache -duk0
   echo "(Uninstalled packages)"
   if read -q "choice?Proceed? Y/n"; then
-    paccache -rk1; paccache -ruk0;
+    paccache -rk1
+    paccache -ruk0
   fi
 
   echo "Cleaning pacaur cache:"
@@ -83,7 +84,7 @@ py() {
 }
 
 aur() {
-  if [[ -z "$1" ]]; then
+  if [[ -z $1 ]]; then
     echo "Usage: aur_install <package_name>"
     return 1
   fi
