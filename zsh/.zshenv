@@ -16,6 +16,10 @@ elif [[ -x /usr/bin/lesspipe.sh ]]; then
   eval "$(lesspipe.sh)"
 fi
 
+if [[ -e ~/.zshenv_keys ]]; then
+  source ~/.zshenv_keys
+fi
+
 if [[ -e ~/.work/zshenv ]]; then
   source ~/.work/zshenv
 fi
