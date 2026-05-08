@@ -8,11 +8,9 @@ import {
   Key,
 } from "@mariozechner/pi-tui";
 import { readFile, writeFile, mkdir, access } from "node:fs/promises";
+import { realpathSync, readFileSync } from "node:fs";
 import path from "node:path";
 import os from "node:os";
-import { createRequire } from "node:module";
-
-const require = createRequire(import.meta.url);
 
 interface Permissions {
   paths?: Record<string, string[]>;
@@ -21,6 +19,20 @@ interface Permissions {
 let stickyPermissions: Permissions = { paths: {} };
 let permissionsFile: string | null = null;
 let permissionsLoaded = false;
+
+let globalWindowFocused = true;
+let activeTui: any = null;
+
+function onStdinData(chunk: Buffer) {
+  const s = chunk.toString();
+  if (s.includes("\x1b[I")) {
+    globalWindowFocused = true;
+    if (activeTui) activeTui.requestRender();
+  } else if (s.includes("\x1b[O")) {
+    globalWindowFocused = false;
+    if (activeTui) activeTui.requestRender();
+  }
+}
 
 async function getGitRootOrDir(startDir: string): Promise<string> {
   let dir = startDir;
@@ -107,24 +119,35 @@ function getRequiredPermissions(
   input: any,
 ): { tool: string; paths: string[] } | null {
   if (toolName === "bash" && input.command) {
-    const cmd: string = input.command.trim();
-    if (/[><;&$`|]/.test(cmd)) return null;
-    const parts = cmd.split(/\s+/);
-    const baseCmd = parts[0];
-    const pathArgs = parts
-      .slice(1)
-      .filter((arg) => !arg.startsWith("-") && arg.length > 0);
-    const paths = pathArgs.length > 0 ? pathArgs : [process.cwd()];
-    return { tool: `bash(${baseCmd})`, paths };
+    return { tool: "bash", paths: [process.cwd()] };
   } else if (["write", "read", "edit"].includes(toolName) && input.path) {
     return { tool: toolName, paths: [input.path] };
+  } else if (["grep", "find", "ls"].includes(toolName)) {
+    return { tool: toolName, paths: [input.path || process.cwd()] };
   }
   return null;
 }
 
+function isPiReadAllowed(
+  toolName: string,
+  input: any,
+  req: { paths: string[] } | null,
+): boolean {
+  if (["read", "grep", "find", "ls"].includes(toolName)) {
+    if (!req) return false;
+    const isPiPath = (p: string) =>
+      path.resolve(process.cwd(), p).includes("pi-coding-agent/");
+    return req.paths.every(isPiPath);
+  }
+  return false;
+}
+
 function isStickyAllowed(toolName: string, input: any): boolean {
   const req = getRequiredPermissions(toolName, input);
-  if (!req) return false;
+
+  if (isPiReadAllowed(toolName, input, req)) return true;
+
+  if (!req || toolName === "bash") return false;
 
   for (const p of req.paths) {
     const checkPath = path.isAbsolute(p) ? p : path.resolve(process.cwd(), p);
@@ -160,15 +183,34 @@ function addStickyPermission(
 }
 
 export default function (pi: ExtensionAPI) {
+  pi.on("session_start", () => {
+    process.stdin.on("data", onStdinData);
+    process.stdout.write("\x1b[?1004h");
+  });
+
+  pi.on("session_shutdown", () => {
+    process.stdin.off("data", onStdinData);
+    process.stdout.write("\x1b[?1004l");
+  });
+
   pi.on("tool_call", async (event, ctx) => {
     if (!permissionsLoaded) {
       await loadPermissions();
       permissionsLoaded = true;
     }
 
-    const dangerousTools = ["bash", "write", "edit", "read"];
+    // We intercept all built-in filesystem and shell tools
+    const restrictedTools = [
+      "bash",
+      "write",
+      "edit",
+      "read",
+      "grep",
+      "find",
+      "ls",
+    ];
 
-    if (dangerousTools.includes(event.toolName)) {
+    if (restrictedTools.includes(event.toolName)) {
       if (event.toolName === "bash" && event.input.command) {
         const dangerousPatterns = [
           /\brm\s+(?:[^;|&]*?\s)?(?:-[a-zA-Z]*[rR][a-zA-Z]*|--recursive)/i,
@@ -198,64 +240,66 @@ export default function (pi: ExtensionAPI) {
         };
       }
 
-      let confirmationMessage = `Allow tool '${event.toolName}' with arguments: ${JSON.stringify(event.input, null, 2)}?`;
+      let confirmationMessage = `Allow '${event.toolName}' with arguments: ${JSON.stringify(event.input, null, 2)}?`;
 
       if (event.toolName === "bash") {
-        confirmationMessage = `Allow bash command: ${event.input.command}?`;
+        confirmationMessage = `Run: ${event.input.command}?`;
       } else if (event.toolName === "write") {
-        confirmationMessage = `Allow writing to file: ${event.input.path}?`;
+        confirmationMessage = `Write: ${event.input.path}?`;
       } else if (event.toolName === "read") {
-        confirmationMessage = `Allow reading from file: ${event.input.path}?`;
+        confirmationMessage = `Read: ${event.input.path}?`;
       } else if (event.toolName === "edit") {
-        confirmationMessage = `Allow editing file: ${event.input.path}?`;
+        confirmationMessage = `Edit: ${event.input.path}?`;
+      } else if (["grep", "find", "ls"].includes(event.toolName)) {
+        confirmationMessage = `${event.toolName}: ${event.input.path || process.cwd()}?`;
       }
 
       let alwaysLabel = "Always (dir)";
       let rootDir = process.cwd();
+      const isBash = event.toolName === "bash";
 
-      if (req) {
+      if (req && !isBash) {
         const workspaceRoot = await getGitRootOrDir(process.cwd());
-        let targetPath = process.cwd();
-
-        if (event.toolName !== "bash" && event.input.path) {
-          targetPath = event.input.path;
-          if (!path.isAbsolute(targetPath)) {
-            targetPath = path.resolve(process.cwd(), targetPath);
-          }
+        let targetPath = event.input.path || process.cwd();
+        if (!path.isAbsolute(targetPath)) {
+          targetPath = path.resolve(process.cwd(), targetPath);
         }
 
         if (targetPath.startsWith(workspaceRoot)) {
           rootDir = workspaceRoot;
-          try {
-            await access(path.join(rootDir, ".git"));
-            alwaysLabel = "Always (repo)";
-          } catch {
-            alwaysLabel = "Always (dir)";
-          }
+          alwaysLabel = `Always (${path.basename(rootDir)})`;
         } else {
-          rootDir =
-            event.toolName === "bash"
-              ? process.cwd()
-              : path.dirname(targetPath);
-          alwaysLabel = "Always (dir)";
+          rootDir = path.dirname(targetPath);
+          alwaysLabel = `Always (${rootDir})`;
         }
       }
 
-      const optionsItems = [{ value: "Yes", label: "Yes" }];
-      if (req) {
-        optionsItems.push({ value: "Always", label: alwaysLabel });
-      }
+      const optionsItems = [
+        {
+          value: "Yes",
+          label: req && !isBash ? "Yes [Tab for Always]" : "Yes",
+        },
+        { value: "No", label: "No" },
+      ];
+      let isAlways = false;
 
       let choice: string | null = null;
       while (true) {
         choice = await ctx.ui.custom<string | null>((tui, theme, kb, done) => {
+          activeTui = tui;
           const container = new Container();
           container.addChild(
-            new DynamicBorder((s: string) => theme.fg("accent", s)),
+            new DynamicBorder((s: string) =>
+              globalWindowFocused ? theme.fg("accent", s) : theme.fg("dim", s),
+            ),
           );
 
           container.addChild(
-            new Text(theme.fg("accent", theme.bold("Tool Confirmation")), 1, 0),
+            new Text(
+              theme.fg("accent", theme.bold("Permission Required")),
+              1,
+              0,
+            ),
           );
           container.addChild(
             new Text(theme.fg("text", confirmationMessage), 1, 1),
@@ -271,8 +315,20 @@ export default function (pi: ExtensionAPI) {
           selectList.onCancel = () => done(null);
           container.addChild(selectList);
 
+          // Force vertical padding by wrapping the empty text in a layout container if needed,
+          // or just embedding the newline into the hint string.
           container.addChild(
-            new DynamicBorder((s: string) => theme.fg("accent", s)),
+            new Text(
+              theme.fg("dim", "\n jk/↑↓ nav • ↵ select • esc cancel"),
+              1,
+              0,
+            ),
+          );
+
+          container.addChild(
+            new DynamicBorder((s: string) =>
+              globalWindowFocused ? theme.fg("accent", s) : theme.fg("dim", s),
+            ),
           );
 
           const onAbort = () => done(null);
@@ -280,11 +336,36 @@ export default function (pi: ExtensionAPI) {
           ctx.signal?.addEventListener("abort", onAbort);
 
           return {
-            render: (w) => container.render(w),
+            render: (w) => {
+              const lines = container.render(w);
+              if (!globalWindowFocused) {
+                return lines.map((line) =>
+                  theme.fg("dim", line.replace(/\x1b\[[0-9;]*m/g, "")),
+                );
+              }
+              return lines;
+            },
             invalidate: () => container.invalidate(),
             handleInput: (data: string) => {
+              if (data === "\x1b[I" || data === "\x1b[O") return;
+
               if (kb.matches(data, "app.tools.expand")) {
                 ctx.ui.setToolsExpanded(!ctx.ui.getToolsExpanded());
+                return;
+              }
+
+              if (
+                data === "\t" &&
+                req &&
+                !isBash &&
+                selectList.selectedIndex === 0
+              ) {
+                isAlways = !isAlways;
+                optionsItems[0].value = isAlways ? "Always" : "Yes";
+                optionsItems[0].label = isAlways
+                  ? `${alwaysLabel} [Tab for Yes]`
+                  : "Yes [Tab for Always]";
+                tui.requestRender();
                 return;
               }
 
@@ -305,11 +386,14 @@ export default function (pi: ExtensionAPI) {
                 tui.requestRender();
               }
             },
-            dispose: () => ctx.signal?.removeEventListener("abort", onAbort),
+            dispose: () => {
+              activeTui = null;
+              ctx.signal?.removeEventListener("abort", onAbort);
+            },
           };
         });
 
-        if (!choice) {
+        if (!choice || choice === "No") {
           ctx.abort();
           return { block: true, reason: "Blocked by user" };
         } else if (choice === "Always") {
