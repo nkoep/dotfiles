@@ -1,4 +1,13 @@
 #!/bin/sh
 
-killall polybar
-polybar
+killall -q polybar
+
+while pgrep -u $USER -x polybar >/dev/null; do sleep 1; done
+
+if [ "$(uname -n)" = "helge" ]; then
+  export BATTERY=""
+else
+  export BATTERY="battery"
+fi
+
+polybar bla &
