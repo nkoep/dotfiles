@@ -53,6 +53,7 @@ return packer.startup(function(use)
   use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
   use({
     "nvim-treesitter/nvim-treesitter",
+    branch = (vim.fn.has("nvim-0.12") == 1) and "main" or "master",
     run = function()
       local ts_update =
         require("nvim-treesitter.install").update({ with_sync = true })
