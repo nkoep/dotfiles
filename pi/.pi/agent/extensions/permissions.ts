@@ -155,7 +155,9 @@ function isStickyAllowed(toolName: string, input: any): boolean {
     for (const [prefix, tools] of Object.entries(
       stickyPermissions.paths || {},
     )) {
-      if (checkPath.startsWith(prefix) && tools.includes(req.tool)) {
+      const normalizedPrefix = prefix.endsWith(path.sep) ? prefix : prefix + path.sep;
+      const normalizedPath = checkPath.endsWith(path.sep) ? checkPath : checkPath + path.sep;
+      if (normalizedPath.startsWith(normalizedPrefix) && tools.includes(req.tool)) {
         pathAllowed = true;
         break;
       }
