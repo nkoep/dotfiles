@@ -8,7 +8,6 @@ import {
   Key,
 } from "@mariozechner/pi-tui";
 import { readFile, writeFile, mkdir, access } from "node:fs/promises";
-import { realpathSync, readFileSync } from "node:fs";
 import path from "node:path";
 import os from "node:os";
 
@@ -17,6 +16,7 @@ interface Permissions {
 }
 
 let stickyPermissions: Permissions = { paths: {} };
+let sessionPermissions: Permissions = { paths: {} };
 let permissionsFile: string | null = null;
 let permissionsLoaded = false;
 
@@ -142,7 +142,11 @@ function isPiReadAllowed(
   return false;
 }
 
-function isStickyAllowed(toolName: string, input: any): boolean {
+function isAllowedByPermissions(
+  permissions: Permissions,
+  toolName: string,
+  input: any,
+): boolean {
   const req = getRequiredPermissions(toolName, input);
 
   if (isPiReadAllowed(toolName, input, req)) return true;
@@ -152,12 +156,17 @@ function isStickyAllowed(toolName: string, input: any): boolean {
   for (const p of req.paths) {
     const checkPath = path.isAbsolute(p) ? p : path.resolve(process.cwd(), p);
     let pathAllowed = false;
-    for (const [prefix, tools] of Object.entries(
-      stickyPermissions.paths || {},
-    )) {
-      const normalizedPrefix = prefix.endsWith(path.sep) ? prefix : prefix + path.sep;
-      const normalizedPath = checkPath.endsWith(path.sep) ? checkPath : checkPath + path.sep;
-      if (normalizedPath.startsWith(normalizedPrefix) && tools.includes(req.tool)) {
+    for (const [prefix, tools] of Object.entries(permissions.paths || {})) {
+      const normalizedPrefix = prefix.endsWith(path.sep)
+        ? prefix
+        : prefix + path.sep;
+      const normalizedPath = checkPath.endsWith(path.sep)
+        ? checkPath
+        : checkPath + path.sep;
+      if (
+        normalizedPath.startsWith(normalizedPrefix) &&
+        tools.includes(req.tool)
+      ) {
         pathAllowed = true;
         break;
       }
@@ -167,7 +176,16 @@ function isStickyAllowed(toolName: string, input: any): boolean {
   return true;
 }
 
-function addStickyPermission(
+function isStickyAllowed(toolName: string, input: any): boolean {
+  return isAllowedByPermissions(stickyPermissions, toolName, input);
+}
+
+function isSessionAllowed(toolName: string, input: any): boolean {
+  return isAllowedByPermissions(sessionPermissions, toolName, input);
+}
+
+function addPermission(
+  permissions: Permissions,
   prefix: string,
   toolName: string,
   input: any,
@@ -175,13 +193,29 @@ function addStickyPermission(
   const req = getRequiredPermissions(toolName, input);
   if (!req) return;
 
-  if (!stickyPermissions.paths) stickyPermissions.paths = {};
-  if (!stickyPermissions.paths[prefix]) {
-    stickyPermissions.paths[prefix] = [];
+  if (!permissions.paths) permissions.paths = {};
+  if (!permissions.paths[prefix]) {
+    permissions.paths[prefix] = [];
   }
-  if (!stickyPermissions.paths[prefix].includes(req.tool)) {
-    stickyPermissions.paths[prefix].push(req.tool);
+  if (!permissions.paths[prefix].includes(req.tool)) {
+    permissions.paths[prefix].push(req.tool);
   }
+}
+
+function addStickyPermission(
+  prefix: string,
+  toolName: string,
+  input: any,
+): void {
+  addPermission(stickyPermissions, prefix, toolName, input);
+}
+
+function addSessionPermission(
+  prefix: string,
+  toolName: string,
+  input: any,
+): void {
+  addPermission(sessionPermissions, prefix, toolName, input);
 }
 
 export default function (pi: ExtensionAPI) {
@@ -235,6 +269,10 @@ export default function (pi: ExtensionAPI) {
         return;
       }
 
+      if (req && isSessionAllowed(event.toolName, event.input)) {
+        return;
+      }
+
       if (!ctx.hasUI) {
         return {
           block: true,
@@ -276,14 +314,33 @@ export default function (pi: ExtensionAPI) {
         }
       }
 
-      const optionsItems = [
-        {
-          value: "Yes",
-          label: req && !isBash ? "Yes [Tab for Always]" : "Yes",
-        },
-        { value: "No", label: "No" },
-      ];
-      let isAlways = false;
+      let sessionLabel = "Session (dir)";
+      if (req && !isBash) {
+        sessionLabel = `Session (${rootDir})`;
+      }
+
+      const yesOpt = { value: "", label: "" };
+      const optionsItems = [yesOpt, { value: "No", label: "No" }];
+      let tabState = 0; // 0:Yes, 1:Session, 2:Always
+
+      function updateTabLabel() {
+        if (!req || isBash) {
+          yesOpt.value = "Yes";
+          yesOpt.label = "Yes";
+          return;
+        }
+        if (tabState === 0) {
+          yesOpt.value = "Yes";
+          yesOpt.label = "Yes [Tab for Session]";
+        } else if (tabState === 1) {
+          yesOpt.value = "Session";
+          yesOpt.label = `${sessionLabel} [Tab for Always]`;
+        } else {
+          yesOpt.value = "Always";
+          yesOpt.label = `${alwaysLabel} [Tab for Yes]`;
+        }
+      }
+      updateTabLabel();
 
       let choice: string | null = null;
       while (true) {
@@ -362,11 +419,8 @@ export default function (pi: ExtensionAPI) {
                 !isBash &&
                 selectList.selectedIndex === 0
               ) {
-                isAlways = !isAlways;
-                optionsItems[0].value = isAlways ? "Always" : "Yes";
-                optionsItems[0].label = isAlways
-                  ? `${alwaysLabel} [Tab for Yes]`
-                  : "Yes [Tab for Always]";
+                tabState = (tabState + 1) % 3;
+                updateTabLabel();
                 tui.requestRender();
                 return;
               }
@@ -398,6 +452,18 @@ export default function (pi: ExtensionAPI) {
         if (!choice || choice === "No") {
           ctx.abort();
           return { block: true, reason: "Blocked by user" };
+        } else if (choice === "Session") {
+          if (req) {
+            let prefix = rootDir;
+            if (!prefix.endsWith(path.sep)) prefix += path.sep;
+
+            addSessionPermission(prefix, event.toolName, event.input);
+            ctx.ui.notify(
+              `Added session permission for '${req.tool}' (${prefix}).`,
+              "info",
+            );
+          }
+          break;
         } else if (choice === "Always") {
           if (req) {
             let prefix = rootDir;
