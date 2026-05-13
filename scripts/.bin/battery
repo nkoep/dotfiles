@@ -8,10 +8,25 @@ battery2=$(cat /sys/class/power_supply/BAT1/capacity 2>/dev/null)
 status1=$(cat /sys/class/power_supply/BAT0/status 2>/dev/null)
 status2=$(cat /sys/class/power_supply/BAT1/status 2>/dev/null)
 
+charging=0
 if [ "$status1" = "Charging" ] || [ "$status2" = "Charging" ]; then
   status=" (charging)"
+  charging=1
 else
   status=""
+fi
+
+# Notify when total battery drops to 10% or below, reset when charging or above
+# 10%.
+total=$((battery1 + battery2))
+flag=/tmp/battery-low-notified
+
+if [ "$charging" -eq 0 ] && [ "$total" -le 10 ] && [ ! -f "$flag" ]; then
+  notify-send -u critical "Battery low (${total}%)" "Plug in now."
+  touch "$flag"
+fi
+if [ "$charging" -eq 1 ] || [ "$total" -gt 10 ]; then
+  rm -f "$flag"
 fi
 
 printf "%2d%% %2d%%${status}" "$battery1" "$battery2"
