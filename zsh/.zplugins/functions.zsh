@@ -26,8 +26,8 @@ mkpasswd() {
 }
 
 gpg-encrypt() {
-  if [ $# -eq 1 ]; then
-    gpg -r $USER -e -o "$1.gpg" "$1"
+  if [ $# -ne 2 ]; then
+    echo "Use: $0 <input> <output>"
   else
     gpg -r $USER -e -o "$2" "$1"
   fi
