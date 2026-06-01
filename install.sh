@@ -17,6 +17,7 @@ fi
 mkdir -p ~/.config
 for directory in $(tree --noreport -id); do
   if [ ! "$directory" = "." ] && [ ! "$directory" = "firefox" ]; then
-    stow -t ~/ "$directory"
+    stow -D -t ~/ "$directory" 2>/dev/null
+    stow --no-folding -t ~/ "$directory"
   fi
 done
