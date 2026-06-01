@@ -110,3 +110,18 @@ aur() {
 
   rm -rf "$temp_dir"
 }
+
+md2html() {
+  if [ $# -ne 2 ]; then
+    echo "Use: $0 <input> <output>"
+  else
+    pandoc \
+      "$1" \
+      -s \
+      --toc \
+      --mathjax \
+      --syntax-highlight pygments \
+      -c https://cdn.jsdelivr.net/npm/water.css@2/out/water.css \
+      -o "$2"
+  fi
+}

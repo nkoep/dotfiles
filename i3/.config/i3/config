@@ -45,9 +45,30 @@ for_window [window_role="dialog"] floating enable
 # Applications
 bindsym $mod+p exec --no-startup-id "rofi -show drun"
 
+# Screen lock
+bindsym $mod+F5 exec "slock"
+
+# Volume
+bindsym $mod+F11 exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+bindsym $mod+F12 exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+
+# Media player
+bindsym $mod+F7 exec "playerctl play-pause"
+bindsym $mod+F9 exec "playerctl previous"
+bindsym $mod+F10 exec "playerctl next"
+
+# Brightness
+bindsym $mod+Up exec "brightnessctl set +5%"
+bindsym $mod+Down exec "brightnessctl set -5%"
+
+# Screenshots
+bindsym $mod+Control+Shift+3 exec "maim -s | xclip -selection clipboard -t image/png"
+bindsym $mod+Control+Shift+4 exec "maim | xclip -selection clipboard -t image/png"
+
 # Window management
 bindsym $mod+Shift+Return exec $term
 bindsym $mod+Shift+c kill
+bindsym $mod+Shift+x exec "xkill"
 
 # Change focus
 bindsym $mod+h focus left
