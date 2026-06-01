@@ -49,8 +49,8 @@ bindsym $mod+p exec --no-startup-id "rofi -show drun"
 bindsym $mod+F5 exec "slock"
 
 # Volume
-bindsym $mod+F11 exec "pactl set-sink-volume @DEFAULT_SINK@ +5%"
-bindsym $mod+F12 exec "pactl set-sink-volume @DEFAULT_SINK@ -5%"
+bindsym $mod+F11 exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+bindsym $mod+F12 exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
 
 # Media player
 bindsym $mod+F7 exec "playerctl play-pause"
