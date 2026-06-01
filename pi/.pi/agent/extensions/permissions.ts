@@ -19,6 +19,7 @@ let stickyPermissions: Permissions = { paths: {} };
 let sessionPermissions: Permissions = { paths: {} };
 let permissionsFile: string | null = null;
 let permissionsLoaded = false;
+let batchYesToAll = false;
 
 let globalWindowFocused = true;
 let activeTui: any = null;
@@ -229,6 +230,10 @@ export default function (pi: ExtensionAPI) {
     process.stdout.write("\x1b[?1004l");
   });
 
+  pi.on("turn_start", () => {
+    batchYesToAll = false;
+  });
+
   pi.on("tool_call", async (event, ctx) => {
     if (!permissionsLoaded) {
       await loadPermissions();
@@ -273,12 +278,31 @@ export default function (pi: ExtensionAPI) {
         return;
       }
 
+      if (req && batchYesToAll) {
+        return;
+      }
+
       if (!ctx.hasUI) {
         return {
           block: true,
           reason: "Tool call blocked: No UI available for confirmation",
         };
       }
+
+      // Count how many tool calls the LLM batched in this turn so we know
+      // whether to offer "Yes to all" (only useful when batch size > 1).
+      const branch = ctx.sessionManager.getBranch();
+      const latestAssistant = [...branch]
+        .reverse()
+        .find(
+          (e) =>
+            e.type === "message" && (e as any).message?.role === "assistant",
+        );
+      const batchSize: number =
+        (latestAssistant as any)?.message?.content?.filter(
+          (c: any) => c.type === "toolCall",
+        ).length ?? 1;
+      const isBatch = batchSize > 1;
 
       let confirmationMessage = `Allow '${event.toolName}' with arguments: ${JSON.stringify(event.input, null, 2)}?`;
 
@@ -319,32 +343,39 @@ export default function (pi: ExtensionAPI) {
         sessionLabel = `Session (${rootDir})`;
       }
 
-      const yesOpt = { value: "", label: "" };
-      const optionsItems = [yesOpt, { value: "No", label: "No" }];
-      let tabState = 0; // 0:Yes, 1:Session, 2:Always
+      const yesOpt1 = { value: "", label: "" };
+      const yesOpt2 = { value: "", label: "" };
+      const optionsItems = isBash
+        ? [yesOpt1, { value: "No", label: "No" }]
+        : [yesOpt1, yesOpt2, { value: "No", label: "No" }];
+      let tab1State = 0; // 0:Yes, 1:Yes to all
+      let tab2State = 0; // 0:Session, 1:Always
 
-      function updateTabLabel() {
-        if (!req || isBash) {
-          yesOpt.value = "Yes";
-          yesOpt.label = "Yes";
-          return;
-        }
-        if (tabState === 0) {
-          yesOpt.value = "Yes";
-          yesOpt.label = "Yes [Tab for Session]";
-        } else if (tabState === 1) {
-          yesOpt.value = "Session";
-          yesOpt.label = `${sessionLabel} [Tab for Always]`;
+      function updateTabLabels() {
+        // yesOpt1: Yes (single call) or Yes / Yes to all (batch)
+        if (!isBatch || tab1State === 0) {
+          yesOpt1.value = "Yes";
+          yesOpt1.label = isBatch ? "Yes [Tab for Yes to all]" : "Yes";
         } else {
-          yesOpt.value = "Always";
-          yesOpt.label = `${alwaysLabel} [Tab for Yes]`;
+          yesOpt1.value = "Yes to all";
+          yesOpt1.label = "Yes to all [Tab for Yes]";
+        }
+
+        // yesOpt2: Session / Always (non-bash only)
+        if (!isBash) {
+          if (tab2State === 0) {
+            yesOpt2.value = "Session";
+            yesOpt2.label = `${sessionLabel} [Tab for Always]`;
+          } else {
+            yesOpt2.value = "Always";
+            yesOpt2.label = `${alwaysLabel} [Tab for Session]`;
+          }
         }
       }
-      updateTabLabel();
+      updateTabLabels();
 
-      let choice: string | null = null;
-      while (true) {
-        choice = await ctx.ui.custom<string | null>((tui, theme, kb, done) => {
+      const choice = await ctx.ui.custom<string | null>(
+        (tui, theme, kb, done) => {
           activeTui = tui;
           const container = new Container();
           container.addChild(
@@ -417,10 +448,17 @@ export default function (pi: ExtensionAPI) {
                 data === "\t" &&
                 req &&
                 !isBash &&
-                selectList.selectedIndex === 0
+                selectList.selectedIndex === 1
               ) {
-                tabState = (tabState + 1) % 3;
-                updateTabLabel();
+                tab2State = (tab2State + 1) % 2;
+                updateTabLabels();
+                tui.requestRender();
+                return;
+              }
+
+              if (data === "\t" && isBatch && selectList.selectedIndex === 0) {
+                tab1State = (tab1State + 1) % 2;
+                updateTabLabels();
                 tui.requestRender();
                 return;
               }
@@ -447,39 +485,37 @@ export default function (pi: ExtensionAPI) {
               ctx.signal?.removeEventListener("abort", onAbort);
             },
           };
-        });
+        },
+      );
 
-        if (!choice || choice === "No") {
-          ctx.abort();
-          return { block: true, reason: "Blocked by user" };
-        } else if (choice === "Session") {
-          if (req) {
-            let prefix = rootDir;
-            if (!prefix.endsWith(path.sep)) prefix += path.sep;
+      if (!choice || choice === "No") {
+        ctx.abort();
+        return { block: true, reason: "Blocked by user" };
+      } else if (choice === "Session") {
+        if (req) {
+          let prefix = rootDir;
+          if (!prefix.endsWith(path.sep)) prefix += path.sep;
 
-            addSessionPermission(prefix, event.toolName, event.input);
-            ctx.ui.notify(
-              `Added session permission for '${req.tool}' (${prefix}).`,
-              "info",
-            );
-          }
-          break;
-        } else if (choice === "Always") {
-          if (req) {
-            let prefix = rootDir;
-            if (!prefix.endsWith(path.sep)) prefix += path.sep;
-
-            addStickyPermission(prefix, event.toolName, event.input);
-            await savePermissions();
-            ctx.ui.notify(
-              `Added permission for '${req.tool}' (${prefix}).`,
-              "info",
-            );
-          }
-          break;
-        } else {
-          break;
+          addSessionPermission(prefix, event.toolName, event.input);
+          ctx.ui.notify(
+            `Added session permission for '${req.tool}' (${prefix}).`,
+            "info",
+          );
         }
+      } else if (choice === "Always") {
+        if (req) {
+          let prefix = rootDir;
+          if (!prefix.endsWith(path.sep)) prefix += path.sep;
+
+          addStickyPermission(prefix, event.toolName, event.input);
+          await savePermissions();
+          ctx.ui.notify(
+            `Added permission for '${req.tool}' (${prefix}).`,
+            "info",
+          );
+        }
+      } else if (choice === "Yes to all") {
+        batchYesToAll = true;
       }
     }
   });
