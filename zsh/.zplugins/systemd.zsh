@@ -20,6 +20,7 @@ sudo_commands=(
   stop
 )
 power_commands=(
+  suspend
   poweroff
   reboot
 )
