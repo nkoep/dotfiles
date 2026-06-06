@@ -125,3 +125,13 @@ md2html() {
       -o "$2"
   fi
 }
+
+clip() {
+  if [[ "$(uname)" == "Darwin" ]]; then
+    tr -d '\n' | pbcopy
+  elif [ -n "$WAYLAND_DISPLAY" ]; then
+    wl-copy --trim-newline
+  else
+    tr -d '\n' | xclip -selection clipboard
+  fi
+}
