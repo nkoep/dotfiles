@@ -9,6 +9,9 @@ i3-msg -t get_tree | \
             select(.nodes[]? | .. | objects | select(.focused == true)) |
             select(.type == "con" or .type == "workspace");
 
-        [find_parent] | reverse | .[0].last_split_layout
+        [find_parent] | reverse | .[0] |
+        if .layout == "tabbed" or .layout == "stacked" then "-"
+        else .last_split_layout
+        end
     ' | \
     sed 's/splith/→/; s/splitv/↓/; s/null/-/'
