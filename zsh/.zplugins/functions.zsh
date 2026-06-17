@@ -127,11 +127,13 @@ md2html() {
 }
 
 clip() {
+  local input
+  input="$(cat | sed -E $'s/\x1b\\[[0-9;]*[a-zA-Z]//g')"
   if [[ "$(uname)" == "Darwin" ]]; then
-    tr -d '\n' | pbcopy
+    printf '%s' "$input" | pbcopy
   elif [ -n "$WAYLAND_DISPLAY" ]; then
-    wl-copy --trim-newline
+    wl-copy --trim-newline <<<"$input"
   else
-    tr -d '\n' | xclip -selection clipboard
+    printf '%s' "$input" | xclip -selection clipboard
   fi
 }
