@@ -65,50 +65,10 @@ clean-caches() {
     paccache -rk1
     paccache -ruk0
   fi
-
-  echo "Cleaning pacaur cache:"
-  pacaur --aur-cleanall
-
-  echo "Cleaning pip cache:"
-  pip cache purge
-
-  echo "Cleaning pipenv cache:"
-  pipenv --clear
-
-  echo "Cleaning yarn cache:"
-  yarn cache clean
 }
 
 py() {
   echo "$1" >.python-version
-}
-
-aur() {
-  if [[ -z $1 ]]; then
-    echo "Usage: aur_install <package_name>"
-    return 1
-  fi
-
-  package="$1"
-  temp_dir=$(mktemp -d)
-
-  cd "$temp_dir" || return 1
-
-  if ! git clone "https://aur.archlinux.org/${package}.git"; then
-    echo "Error: Failed to clone AUR repository for $package."
-    rm -rf "$temp_dir"
-    return 1
-  fi
-
-  cd "$package" || return 1
-
-  if ! makepkg -si --noconfirm; then
-    echo "Error: Failed to build and install $package."
-    rm -rf "$temp_dir"
-    return 1
-  fi
-
-  rm -rf "$temp_dir"
 }
 
 md2html() {
