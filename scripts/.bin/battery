@@ -16,17 +16,23 @@ else
   status=""
 fi
 
-# Notify when total battery drops to 10% or below, reset when charging or above
-# 10%.
-total=$((battery1 + battery2))
-flag=/tmp/battery-low-notified
+total=$((${battery1:-0} + ${battery2:-0}))
 
-if [ "$charging" -eq 0 ] && [ "$total" -le 10 ] && [ ! -f "$flag" ]; then
-  notify-send -u critical "Battery low (${total}%)" "Plug in now."
-  touch "$flag"
-fi
-if [ "$charging" -eq 1 ] || [ "$total" -gt 10 ]; then
-  rm -f "$flag"
+low_level=15
+critical_level=5
+low_flag=/tmp/battery-low-notified
+critical_flag=/tmp/battery-critical-notified
+
+if [ "$charging" -eq 1 ] || [ "$total" -gt "$low_level" ]; then
+  rm -f "$low_flag" "$critical_flag"
+elif [ "$total" -le "$critical_level" ]; then
+  # Re-notify every run while critical so it can't be missed with a single
+  # notification.
+  notify-send -u critical "Battery critical (${total}%)" "Plug in now."
+  touch "$low_flag" "$critical_flag"
+elif [ ! -f "$low_flag" ]; then
+  notify-send -u normal "Battery low (${total}%)" "Consider plugging in."
+  touch "$low_flag"
 fi
 
 printf "%2d%% %2d%%${status}" "$battery1" "$battery2"
