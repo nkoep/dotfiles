@@ -133,8 +133,9 @@ export default function (pi) {
 
             const provider = ctx.model?.provider || "unknown";
             const modelId = ctx.model?.id || "unknown";
+            const thinkingLevel = ctx.thinkingLevel || "off";
 
-            let centerStr = `${theme.fg("text", modelId)} ${theme.fg("dim", `(${provider})`)}`;
+            let centerStr = `${theme.fg("text", `${modelId} · ${thinkingLevel}`)} ${theme.fg("dim", `(${provider})`)}`;
 
             let line2Left = statsStr;
 
