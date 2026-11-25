@@ -4,6 +4,7 @@ typeset -g VENV_DIR_NAME=.venv
 typeset -g PYTHON_VERSION_FILE=.python-version
 
 typeset -g current_project_dir=""
+typeset -g plugin_activated_venv=""
 
 function find_project_dir() {
   local dir="$PWD"
@@ -43,16 +44,14 @@ function activate_venv() {
 
   if [[ -z $VIRTUAL_ENV || $VIRTUAL_ENV != "$venv_dir" ]]; then
     VIRTUAL_ENV_DISABLE_PROMPT=1 source "$activate_script"
+    plugin_activated_venv="$venv_dir"
   fi
 }
 
 function deactivate_venv() {
-  if [[ -n $VIRTUAL_ENV ]]; then
-    if ! type deactivate >/dev/null 2>&1; then
-      echo "Error: deactivate function not found"
-      return 1
-    fi
+  if [[ -n $plugin_activated_venv && $VIRTUAL_ENV == "$plugin_activated_venv" ]]; then
     deactivate
+    plugin_activated_venv=""
   fi
 }
 
