@@ -97,3 +97,21 @@ clip() {
     printf '%s' "$input" | xclip -selection clipboard
   fi
 }
+
+mpvnuc() {
+  if [ -z "$1" ]; then
+    echo "Usage: ytnuc <Video-URL>"
+    return 1
+  fi
+
+  ssh -t nuc mpv \
+    --ao=alsa \
+    --audio-device=alsa/hdmi:CARD=PCH,DEV=0 \
+    --script-opts=ytdl_hook-ytdl_path=\$HOME/.local/bin/yt-dlp \
+    --stream-lavf-o=reconnect=1,reconnect_streamed=1,reconnect_delay_max=5 \
+    --hls-bitrate=max \
+    --cache=yes \
+    --demuxer-max-bytes=100M \
+    --fs \
+    $(printf '%q' "$1")
+}
